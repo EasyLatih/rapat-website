@@ -1,12 +1,7 @@
-const RAPAT_API_URL='https://script.google.com/macros/s/AKfycbwqv_1iSUYlHx0AD2U_-HH0DxqyJyCeyORtfFgX5gEmzOIep23ziPNWFGb7iTtX4WGVfA/exec';
-
-// Ensure the hero uses the standalone career-fair asset rather than the old mockup image.
 const heroImage=document.querySelector('.hero-image img');
-if(heroImage){
-  heroImage.src='hero-career-fair.jpg';
-  heroImage.removeAttribute('style');
-}
+if(heroImage){heroImage.src='hero-career-fair.png';heroImage.removeAttribute('style');}
 
+const RAPAT_API_URL='https://script.google.com/macros/s/AKfycbwqv_1iSUYlHx0AD2U_-HH0DxqyJyCeyORtfFgX5gEmzOIep23ziPNWFGb7iTtX4WGVfA/exec';
 const form=document.getElementById('pilotForm');
 const statusBox=document.getElementById('formStatus');
 const submitButton=document.getElementById('submitButton');
