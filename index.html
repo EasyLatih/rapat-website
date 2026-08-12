@@ -1,200 +1,181 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RAPAT — Turning Career Initiatives Into Measurable Employment Outcomes</title>
-<meta name="description" content="RAPAT connects jobseekers, employers and career opportunities while helping organisations track measurable employment outcomes.">
-<style>
-:root{--bg:#f7f8fb;--card:#fff;--text:#0b1f3a;--muted:#5b6675;--line:#dfe4ea;--brand:#0032A0;--brand2:#D71920;--accent:#FFD100;--soft:#eef3ff;--shadow:0 12px 32px rgba(11,31,58,.08);--radius:22px}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#ffffff,#f4f7fb);color:var(--text);line-height:1.55}a{text-decoration:none;color:inherit}.wrap{max-width:1180px;margin:auto;padding:0 24px}
-header{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);background:rgba(248,250,252,.88);border-bottom:1px solid var(--line)}.nav{min-height:72px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:12px;font-weight:800}.mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--brand),#001f6b);display:grid;place-items:center;color:#fff;font-weight:900}.subbrand{font-size:11px;color:var(--muted);font-weight:600}.navlinks{display:flex;gap:20px;color:var(--muted);font-size:14px}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:14px;border:1px solid transparent;font-weight:700;cursor:pointer}.primary{background:var(--brand);color:#fff}.primary:hover{background:#00277d}.secondary{background:#fff;border-color:var(--line)}
-.hero{padding:88px 0 68px;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}.eyebrow{display:inline-flex;padding:8px 12px;border-radius:999px;background:var(--soft);color:var(--brand);font-weight:700;font-size:13px;margin-bottom:20px;border-left:4px solid var(--accent)}h1{font-size:clamp(42px,6vw,76px);line-height:.98;margin:0 0 20px;letter-spacing:-.045em}.lead{font-size:20px;color:var(--muted);max-width:760px;margin-bottom:28px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap}.mini{margin-top:18px;color:var(--muted);font-size:13px}
-.hero-card,.card,form{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}.story-img{width:100%;border-radius:22px;display:block;box-shadow:var(--shadow);border:1px solid var(--line)}.story-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:28px;align-items:center}.story-q{font-size:30px;line-height:1.15;margin:0 0 16px}.questions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;font-weight:700}.zoomout{font-size:22px;font-weight:800;margin-top:24px;color:var(--brand)}.hero-card{border-radius:28px;padding:28px}.metric{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}.metric:last-child{border:0}.metric strong{font-size:24px}
-section{padding:72px 0}.section-title{max-width:760px;margin-bottom:34px}.section-title h2{font-size:38px;line-height:1.05;margin:0 0 12px;letter-spacing:-.03em}.section-title p,.card p{color:var(--muted);margin:0}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.card{border-radius:var(--radius);padding:26px}.num{width:38px;height:38px;border-radius:12px;background:var(--soft);display:grid;place-items:center;color:var(--brand);font-weight:800;margin-bottom:18px;border-bottom:3px solid var(--accent)}.card h3{margin:0 0 8px}
-.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.step{padding:20px;background:#fff;border:1px solid var(--line);border-radius:18px;min-height:160px}.step small{color:var(--brand);font-weight:800}.step h4{margin:10px 0 6px}.step p{margin:0;color:var(--muted);font-size:14px}
-.band{background:linear-gradient(135deg,var(--brand),#001f6b);color:#fff;border-radius:30px;padding:38px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}.band p{margin:8px 0 0;color:rgba(255,255,255,.78)}.band .btn{background:var(--accent);color:#0b1f3a;border-color:var(--accent)}
-.pilot{display:grid;grid-template-columns:.9fr 1.1fr;gap:28px;align-items:start}form{border-radius:24px;padding:28px}label{display:block;font-weight:700;font-size:14px;margin:0 0 8px}input,textarea,select{width:100%;padding:14px 15px;border:1px solid var(--line);border-radius:12px;font:inherit;background:#fff;margin-bottom:16px}textarea{min-height:110px;resize:vertical}.note{font-size:12px;color:var(--muted);margin-top:10px}
-footer{padding:32px 0 44px;color:var(--muted);font-size:14px}.footerline{display:flex;justify-content:space-between;gap:20px;border-top:1px solid var(--line);padding-top:24px}
-@media(max-width:900px){.hero,.pilot,.band,.story-grid{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}.navlinks{display:none}}@media(max-width:560px){.wrap{padding:0 16px}.hero{padding-top:56px}.flow{grid-template-columns:1fr}h1{font-size:48px}.footerline{flex-direction:column}}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAPAT — Closing the Gap Between Talent and Opportunity</title>
+<meta name="description" content="RAPAT is an employment outcome platform for organisations that want to track what happens beyond attendance and use data to design better employment interventions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header><div class="wrap nav"><div class="brand"><div class="mark" style="position:relative">R<span style="position:absolute;right:6px;top:5px;width:7px;height:7px;border-radius:50%;background:var(--accent)"></span></div><div><div>RAPAT</div><div class="subbrand">Employment Outcome Platform</div></div></div><nav class="navlinks"><a href="#problem">Problem</a><a href="#how">How it works</a><a href="#pilot">Pilot</a></nav><a class="btn primary" href="#pilot">Request Free Pilot</a></div></header>
-<main>
-<div class="wrap hero"><div><div class="eyebrow">RAPAT — Closing the Gap Between Talent and Opportunity.</div><h1>Turning career initiatives into measurable employment outcomes.</h1><p class="lead">RAPAT is built for organisations that run, fund or support employment initiatives and need to know what happens beyond participation numbers. Connect jobseekers, employers and opportunities, track outcomes from application to placement, and use the resulting data to design more targeted employment interventions.</p><div class="hero-actions"><a class="btn primary" href="#pilot">Pilot RAPAT for Free</a><a class="btn secondary" href="#how">See How It Works</a></div><div class="mini">No system fee for selected small-scale pilot initiatives.</div></div>
-<div class="hero-card"><div style="font-size:13px;color:var(--muted);font-weight:700">WHAT RAPAT HELPS TRACK</div><div class="metric"><span>Registered jobseekers</span><strong>1</strong></div><div class="metric"><span>Completed profiles</span><strong>2</strong></div><div class="metric"><span>Applications / matching</span><strong>3</strong></div><div class="metric"><span>Interviews</span><strong>4</strong></div><div class="metric"><span>Placements</span><strong>5</strong></div></div></div>
-<section id="amir-story">
-<div class="wrap">
-  <div class="section-title">
-    <div class="eyebrow">THE PROBLEM BEYOND ATTENDANCE</div>
-    <h2>Meet Amir.</h2>
-    <p>Amir is looking for a job. He attends a career fair, registers, submits his CV and gets interviewed.</p>
+<header class="header">
+  <div class="container nav">
+    <a href="#top" class="brand" aria-label="RAPAT home">
+      <div class="logo">RA<span class="red">P</span><span class="yellow">A</span>T</div>
+      <div class="tagline">Closing the Gap Between<br>Talent and Opportunity.</div>
+    </a>
+    <nav class="nav-links">
+      <a href="#about">About RAPAT</a>
+      <a href="#how">How It Works</a>
+      <a href="#who">Who It's For</a>
+      <a href="#benefits">Key Benefits</a>
+      <a href="#pilot">Pilot Program</a>
+      <a href="#contact">Contact</a>
+      <a href="#pilot" class="nav-cta">Request Pilot Access</a>
+    </nav>
+    <button class="mobile-toggle" aria-label="Open menu" onclick="document.getElementById('mobileMenu').style.display=document.getElementById('mobileMenu').style.display==='block'?'none':'block'">☰</button>
   </div>
-  <div class="story-grid">
-    <img class="story-img" src="amir.png" alt="Illustration of a Malaysian jobseeker at a career fair">
-    <div>
-      <h3 class="story-q">But Amir doesn't get the job.</h3>
-      <p>The organiser knows Amir attended the career fair. But do we know <strong>why he wasn't hired?</strong></p>
-      <div class="questions">
-        <div class="q">Interview skills?</div>
-        <div class="q">Skills mismatch?</div>
-        <div class="q">Lack of experience?</div>
-        <div class="q">Qualification mismatch?</div>
-        <div class="q">Wrong job match?</div>
-        <div class="q">No suitable vacancy?</div>
+  <div id="mobileMenu" style="display:none;background:white;border-top:1px solid #e5eaf1;padding:10px 20px 17px;font-size:13px;font-weight:700">
+    <div style="display:grid;gap:10px"><a href="#about">About RAPAT</a><a href="#how">How It Works</a><a href="#who">Who It's For</a><a href="#benefits">Key Benefits</a><a href="#pilot">Pilot Program</a></div>
+  </div>
+</header>
+<main id="top">
+<section class="hero" id="about">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <h1>Closing the Gap<br>Between <span class="blue">Talent</span><br>and <span class="red">Opportunity.</span></h1>
+      <p class="lead">RAPAT is an employment outcome platform that helps organisations track what happens beyond events and programmes — from application to placement — and use data to drive meaningful intervention.</p>
+      <div class="outcome-note">
+        <div class="outcome-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 18V9m5 9V5m5 13v-6m5 6V3"/><path d="M3 20h18"/></svg></div>
+        <div><strong>For organisations that care about outcomes, not just attendance.</strong><span>Make better decisions. Drive real impact.</span></div>
       </div>
-      <h3 class="story-q">And more importantly, what happens to Amir next?</h3>
-      <p>If we know where Amir's journey stopped and why, we can determine what intervention he actually needs — coaching, upskilling, reskilling or a better job match.</p>
-      <div class="zoomout">Now imagine Amir is one of 1,000 jobseekers.</div>
-      <p>When we understand why hundreds of jobseekers are not progressing, organisations can move from general programmes to <strong>data-based interventions</strong>.</p>
+      <div class="hero-actions"><a class="btn btn-primary" href="#pilot">Request Pilot Access <span>→</span></a><a class="btn btn-outline" href="#how">Learn More</a></div>
+    </div>
+    <div class="hero-image"><img src="hero-career-fair.jpg" alt="Malaysian jobseeker attending a career fair"></div>
+  </div>
+  <div class="hero-swoosh"></div>
+</section>
+
+<section class="section story section-soft" id="how">
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-photo"><img src="amir-story.jpg" alt="Amir after an unsuccessful job interview"></div>
+      <div>
+        <h2>Meet Amir.</h2>
+        <p class="intro">Amir attended a career fair.<br>He registered, submitted his CV and got interviewed.</p>
+        <div class="fail">But Amir didn't get the job.</div>
+        <p class="why">Do we know why he wasn't hired?</p>
+        <div class="reason-list">
+          <div class="reason"><i>?</i> His interview skills?</div>
+          <div class="reason"><i>?</i> A skills mismatch?</div>
+          <div class="reason"><i>?</i> Lack of experience?</div>
+          <div class="reason"><i>?</i> His qualifications?</div>
+          <div class="reason"><i>?</i> Wrong job match?</div>
+          <div class="reason"><i>?</i> Or no suitable vacancy?</div>
+        </div>
+      </div>
+      <div class="next">
+        <h3>And more importantly,<br>what happens to Amir next?</h3>
+        <p>If we know where Amir's journey stopped, we can determine what intervention he actually needs.</p>
+        <div class="journey">
+          <div class="journey-item"><div class="journey-icon ji-red"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-4 2.2-6 6-6 2.2 0 3.9.7 4.9 2"/><path d="m17 16 4 4m0-4-4 4"/></svg></div><div class="journey-label">Application</div></div>
+          <div class="journey-item"><div class="journey-icon ji-yellow"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="9" r="2.5"/><path d="M2.5 20c0-4 2-6 5.5-6s5.5 2 5.5 6M14 15c3 0 5 1.5 5 5"/></svg></div><div class="journey-label">Interview</div></div>
+          <div class="journey-item"><div class="journey-icon ji-blue"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M7 4h10v16H7z"/><path d="M9 8h6M9 12h4M9 16h6"/></svg></div><div class="journey-label">Not Hired</div></div>
+          <div class="journey-item"><div class="journey-icon ji-green"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="m4 17 5-5 4 3 7-8"/><path d="M15 7h5v5"/></svg></div><div class="journey-label">What's Next?</div></div>
+        </div>
+        <div class="zoom-card">Now imagine Amir is one of <strong>1,000 jobseekers.</strong><br>When we understand why hundreds of jobseekers aren't progressing, employment programmes can move from general interventions to <strong>data-based interventions</strong>.</div>
+      </div>
     </div>
   </div>
-  <div class="band" style="margin-top:34px">
-    <div>
-      <h2 style="margin:0;font-size:32px">That's the gap RAPAT wants to close.</h2>
-      <p>Track the journey beyond attendance. Understand where people drop off. Identify why. Intervene with purpose. Measure what happens next.</p>
+</section>
+
+<section class="section" id="benefits">
+  <div class="container">
+    <div class="center gap-title"><h2>That's the gap RAPAT wants to close.</h2><p>RAPAT tracks the journey beyond attendance — helping organisations understand, act and improve.</p></div>
+    <div class="feature-grid">
+      <div class="feature-card"><div class="f-icon f1"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="19" r="2"/><path d="M8 5h6a4 4 0 0 1 4 4v1M16 19h-6a4 4 0 0 1-4-4v-1"/><path d="m16 8 2 2 2-2M8 16l-2-2-2 2"/></svg></div><h3>Track the Full Journey</h3><p>From registration to placement and beyond. See where jobseekers progress, pause or drop off.</p></div>
+      <div class="feature-card"><div class="f-icon f2"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/><path d="M10 7v6M7 10h6"/></svg></div><h3>Understand the Why</h3><p>Capture reasons, barriers and feedback to uncover the real issues behind employment outcomes.</p></div>
+      <div class="feature-card"><div class="f-icon f3"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M22 12h-3M12 22v-3M2 12h3"/></svg></div><h3>Intervene with Purpose</h3><p>Design the right interventions — training, coaching, upskilling, reskilling or better job matching.</p></div>
+      <div class="feature-card"><div class="f-icon f4"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19h16M6 16v-4m4 4V8m4 8v-6m4 6V5"/><path d="m4 10 5-4 4 2 7-5"/></svg></div><h3>Improve Outcomes</h3><p>Use data to measure impact, improve programmes and create better pathways to opportunity.</p></div>
     </div>
-    <a class="btn" href="#pilot">Pilot RAPAT</a>
+
+    <div class="impact">
+      <h2>Why It Matters</h2><small>Illustrative example of an employment initiative funnel</small>
+      <div class="impact-grid">
+        <div class="impact-item"><div class="impact-icon">◎</div><div class="impact-num">1,000</div><div class="impact-label">Jobseekers Attend</div><div class="impact-desc">a career event</div></div>
+        <div class="impact-item"><div class="impact-icon">▤</div><div class="impact-num">700</div><div class="impact-label">Applied</div><div class="impact-desc">for jobs</div></div>
+        <div class="impact-item"><div class="impact-icon">◉◉</div><div class="impact-num">300</div><div class="impact-label">Interviewed</div><div class="impact-desc">by employers</div></div>
+        <div class="impact-item"><div class="impact-icon">▣</div><div class="impact-num">80</div><div class="impact-label">Hired</div><div class="impact-desc">Great outcome!</div></div>
+        <div class="impact-item"><div class="impact-icon">?</div><div class="impact-num">920</div><div class="impact-label">Not Hired</div><div class="impact-desc">What happened to them?</div></div>
+      </div>
+      <div class="impact-banner">💡 If we know why, we can act. That's how we close the gap.</div>
+    </div>
   </div>
-</div>
-</section><section id="problem"><div class="wrap"><div class="section-title"><h2>For organisations that need to see outcomes — not just attendance.</h2><p>RAPAT is designed for government agencies, foundations, GLCs, educational institutions, NGOs and other organisations that run or fund career and employment initiatives. It helps turn programme activity into measurable outcome data that can inform the next intervention.</p></div><div class="grid3"><div class="card"><div class="num">01</div><h3>Fragmented data</h3><p>Jobseeker information, employer vacancies and follow-up outcomes often sit in separate files or systems.</p></div><div class="card"><div class="num">02</div><h3>Weak post-event visibility</h3><p>Attendance may be known, while interviews, offers, placements and unresolved skills gaps are harder to track.</p></div><div class="card"><div class="num">03</div><h3>Limited intervention insight</h3><p>Without consistent outcome data, it is harder to identify who still needs support, what barriers remain and what intervention should come next.</p></div></div></div></section>
-<section id="how"><div class="wrap"><div class="section-title"><h2>One simple journey from registration to placement.</h2><p>RAPAT is designed as a digital layer around career initiatives, not another complicated portal.</p></div><div class="flow"><div class="step"><small>STEP 1</small><h4>Register</h4><p>Jobseekers create a profile.</p></div><div class="step"><small>STEP 2</small><h4>Match</h4><p>Profiles connect with relevant vacancies and opportunities.</p></div><div class="step"><small>STEP 3</small><h4>Engage</h4><p>Employers review candidates and conduct interviews or follow-up.</p></div><div class="step"><small>STEP 4</small><h4>Track</h4><p>RAPAT records progress from application to interview and offer.</p></div><div class="step"><small>STEP 5</small><h4>Intervene</h4><p>Outcome data highlights gaps and helps partners plan more targeted follow-up interventions.</p></div></div></div></section>
-<section><div class="wrap"><div class="band"><div><h2 style="margin:0;font-size:34px">Start with one initiative, not one big system.</h2><p>We are inviting selected organisations to test whether better outcome tracking can lead to better, data-based employment interventions — starting with one small-scale initiative.</p></div><a class="btn" href="#pilot">Join the Pilot</a></div></div></section>
-<section id="pilot"><div class="wrap pilot"><div><div class="eyebrow">FREE PILOT</div><div class="section-title" style="margin-bottom:18px"><h2>Run a RAPAT pilot if your organisation wants better outcome data.</h2><p>We are inviting organisations that run, fund or support employment initiatives to test RAPAT at no system cost during the validation stage — especially partners that want to measure outcomes and use data to plan more targeted interventions.</p></div><div class="card"><h3>What the pilot can include</h3><p>Pre-event jobseeker registration, employer vacancy capture, candidate-job matching, event-day data support, post-event follow-up and a simple outcome report.</p></div></div>
-<form id="pilotForm">
-<h3 style="margin-top:0;font-size:24px">Request a Pilot Discussion</h3>
-<p style="color:var(--muted)">Tell us about your organisation and upcoming initiative.</p>
+</section>
 
-<label>Organisation Name *</label>
-<input type="text" name="organisation" required placeholder="Agency / foundation / GLC / organisation">
+<section class="audience section-soft" id="who">
+  <div class="container audience-grid">
+    <div class="audience-copy">
+      <div class="kicker">Who RAPAT is for</div>
+      <h2>Built for organisations that need to see outcomes — and act on them.</h2>
+      <p>RAPAT is designed for organisations that run, fund or support employment initiatives and want stronger visibility on what happens after participation.</p>
+      <div class="audience-list">
+        <div class="audience-item"><div class="audience-check">✓</div><div><strong>Government & Public Agencies</strong><span>Track outcomes and inform intervention design.</span></div></div>
+        <div class="audience-item"><div class="audience-check">✓</div><div><strong>Foundations & GLCs</strong><span>Measure programme impact beyond attendance.</span></div></div>
+        <div class="audience-item"><div class="audience-check">✓</div><div><strong>Education & TVET</strong><span>Understand graduate and participant pathways.</span></div></div>
+        <div class="audience-item"><div class="audience-check">✓</div><div><strong>NGOs & Employment Partners</strong><span>Target support to the people who need it most.</span></div></div>
+      </div>
+    </div>
+    <div class="data-panel">
+      <div class="panel-top"><h3>Outcome Intelligence</h3><span class="badge">Data-based intervention</span></div>
+      <div class="metric-row"><div class="metric-card"><b>72%</b><span>Application activity</span></div><div class="metric-card"><b>30%</b><span>Interview conversion</span></div><div class="metric-card"><b>8%</b><span>Placement outcome</span></div></div>
+      <div class="bar-item"><div class="bar-head"><span>Interview readiness gap</span><span>72%</span></div><div class="bar"><span class="bar1"></span></div></div>
+      <div class="bar-item"><div class="bar-head"><span>Skills mismatch</span><span>54%</span></div><div class="bar"><span class="bar2"></span></div></div>
+      <div class="bar-item"><div class="bar-head"><span>Experience gap</span><span>41%</span></div><div class="bar"><span class="bar3"></span></div></div>
+      <div class="bar-item"><div class="bar-head"><span>Job matching issue</span><span>26%</span></div><div class="bar"><span class="bar4"></span></div></div>
+      <div style="font-size:10.5px;color:#8b96a8;margin-top:14px">Illustrative dashboard only. Actual measures will be configured based on pilot programme design.</div>
+    </div>
+  </div>
+</section>
 
-<label>Organisation Type *</label>
-<select name="organisationType" required>
-  <option value="">Select organisation type</option>
-  <option>Government Agency</option>
-  <option>Foundation</option>
-  <option>GLC / State-Owned Company</option>
-  <option>Local Authority</option>
-  <option>Educational / TVET Institution</option>
-  <option>NGO</option>
-  <option>Private Sector</option>
-  <option>Others</option>
-</select>
-
-<label>Contact Person *</label>
-<input type="text" name="contactPerson" required placeholder="Full name">
-
-<label>Position / Designation *</label>
-<input type="text" name="position" required placeholder="Your role">
-
-<label>Email Address *</label>
-<input type="email" name="email" required placeholder="name@organisation.com">
-
-<label>Phone Number *</label>
-<input type="tel" name="phone" required placeholder="e.g. 0123456789">
-
-<label>Does your organisation currently organise career or employment-related programmes? *</label>
-<select name="careerProgramme" required>
-  <option value="">Select</option>
-  <option>Yes</option>
-  <option>No</option>
-  <option>Planning to</option>
-</select>
-
-<label>Do you have an upcoming career programme/event that could potentially be used for the RAPAT pilot? *</label>
-<select name="upcomingEvent" required>
-  <option value="">Select</option>
-  <option>Yes</option>
-  <option>Not confirmed yet</option>
-  <option>No</option>
-</select>
-
-<label>Estimated number of jobseekers / participants</label>
-<select name="estimatedParticipants">
-  <option value="">Select</option>
-  <option>Below 100</option>
-  <option>100–300</option>
-  <option>301–500</option>
-  <option>501–1,000</option>
-  <option>More than 1,000</option>
-  <option>Not sure yet</option>
-</select>
-
-<label>Tell us briefly about the programme or employment challenge you would like RAPAT to support.</label>
-<textarea name="challenge" placeholder="Brief description"></textarea>
-
-<label>Would you be open to a short discussion/demo about the RAPAT pilot? *</label>
-<select name="openToDiscussion" required>
-  <option value="">Select</option>
-  <option>Yes</option>
-  <option>Maybe, I need more information</option>
-  <option>Not at this stage</option>
-</select>
-
-<button id="submitButton" class="btn primary" style="width:100%" type="submit">Request Pilot Discussion</button>
-
-<div id="formMessage" style="display:none;margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:700"></div>
-<div class="note">Your information will only be used for RAPAT pilot discussion and validation.</div>
-</form>
-</div></section></main>
-<footer><div class="wrap footerline"><div><strong>RAPAT</strong> — Closing the Gap Between Talent and Opportunity.</div><div>rapat.my</div></div></footer>
-
-<script>
-const RAPAT_API_URL = 'https://script.google.com/macros/s/AKfycbwqv_1iSUYlHx0AD2U_-HH0DxqyJyCeyORtfFgX5gEmzOIep23ziPNWFGb7iTtX4WGVfA/exec';
-
-const form = document.getElementById('pilotForm');
-const submitButton = document.getElementById('submitButton');
-const formMessage = document.getElementById('formMessage');
-
-form.addEventListener('submit', async function (event) {
-  event.preventDefault();
-
-  submitButton.disabled = true;
-  submitButton.textContent = 'Submitting...';
-  formMessage.style.display = 'none';
-
-  const formData = new FormData(form);
-  const data = {
-    organisation: formData.get('organisation'),
-    organisationType: formData.get('organisationType'),
-    contactPerson: formData.get('contactPerson'),
-    position: formData.get('position'),
-    email: formData.get('email'),
-    phone: formData.get('phone'),
-    careerProgramme: formData.get('careerProgramme'),
-    upcomingEvent: formData.get('upcomingEvent'),
-    estimatedParticipants: formData.get('estimatedParticipants'),
-    challenge: formData.get('challenge'),
-    openToDiscussion: formData.get('openToDiscussion')
-  };
-
-  try {
-    await fetch(RAPAT_API_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
-      },
-      body: JSON.stringify(data)
-    });
-
-    formMessage.style.display = 'block';
-    formMessage.style.background = '#edf7f2';
-    formMessage.style.color = '#1d6f52';
-    formMessage.textContent = 'Thank you. Your interest has been submitted successfully. We will contact you to discuss the RAPAT pilot.';
-    form.reset();
-  } catch (error) {
-    formMessage.style.display = 'block';
-    formMessage.style.background = '#fff0f0';
-    formMessage.style.color = '#9c2f2f';
-    formMessage.textContent = 'Something went wrong. Please try again.';
-  } finally {
-    submitButton.disabled = false;
-    submitButton.textContent = 'Request Pilot Discussion';
-  }
-});
-</script>
-
-</body></html>
+<section class="pilot" id="pilot">
+  <div class="container pilot-inner">
+    <div class="pilot-head"><div class="kicker">Pilot Programme</div><h2>RAPAT is currently inviting organisations<br>to be our <span>pilot partners.</span></h2><p>If your organisation runs, funds or supports employment initiatives and wants to drive real outcomes through data, we would love to hear from you.</p></div>
+    <div class="pilot-layout">
+      <div class="pilot-info">
+        <h3>What a RAPAT pilot can test</h3>
+        <div class="pilot-point"><i>1</i><div><b>Jobseeker registration & profile capture</b><span>Build a structured view of participants from the start.</span></div></div>
+        <div class="pilot-point"><i>2</i><div><b>Vacancy and opportunity matching</b><span>Connect jobseekers to relevant employer opportunities.</span></div></div>
+        <div class="pilot-point"><i>3</i><div><b>Outcome and drop-off tracking</b><span>See where the journey stops — and capture why.</span></div></div>
+        <div class="pilot-point"><i>4</i><div><b>Data-based intervention insight</b><span>Use evidence to decide what support or programme should come next.</span></div></div>
+        <div style="margin-top:18px;padding:13px 15px;background:#fff8e5;border-radius:10px;border-left:4px solid var(--yellow);font-size:12px;color:#46556d"><strong style="color:#203555">Validation-stage offer:</strong> selected pilot partners may test RAPAT at no system cost.</div>
+      </div>
+      <div class="form-card" id="contact">
+        <h3>Request Pilot Access</h3><p class="form-sub">Tell us about your organisation and the employment initiative you want to improve.</p>
+        <form id="pilotForm">
+          <div class="form-grid">
+            <div class="field"><label>Organisation Name *</label><input name="organisation" required placeholder="Organisation"></div>
+            <div class="field"><label>Organisation Type *</label><select name="organisationType" required><option value="">Select</option><option>Government Agency</option><option>Foundation</option><option>GLC / State-Owned Company</option><option>Local Authority</option><option>Educational / TVET Institution</option><option>NGO</option><option>Private Sector</option><option>Others</option></select></div>
+            <div class="field"><label>Contact Person *</label><input name="contactPerson" required placeholder="Full name"></div>
+            <div class="field"><label>Position / Designation *</label><input name="position" required placeholder="Your role"></div>
+            <div class="field"><label>Email *</label><input type="email" name="email" required placeholder="name@organisation.com"></div>
+            <div class="field"><label>Phone *</label><input name="phone" required placeholder="0123456789"></div>
+            <div class="field"><label>Do you run employment programmes? *</label><select name="careerProgramme" required><option value="">Select</option><option>Yes</option><option>No</option><option>Planning to</option></select></div>
+            <div class="field"><label>Upcoming programme / event? *</label><select name="upcomingEvent" required><option value="">Select</option><option>Yes</option><option>Not confirmed yet</option><option>No</option></select></div>
+            <div class="field full"><label>Estimated participants</label><select name="estimatedParticipants"><option value="">Select</option><option>Below 100</option><option>100–300</option><option>301–500</option><option>501–1,000</option><option>More than 1,000</option><option>Not sure yet</option></select></div>
+            <div class="field full"><label>What outcome or employment challenge do you want to understand better?</label><textarea name="challenge" placeholder="Tell us briefly about the programme, current challenge or outcome you want to track."></textarea></div>
+            <div class="field full"><label>Open to a short pilot discussion? *</label><select name="openToDiscussion" required><option value="">Select</option><option>Yes</option><option>Maybe, I need more information</option><option>Not at this stage</option></select></div>
+          </div>
+          <button class="btn btn-red" id="submitButton" type="submit">Request Pilot Access</button>
+          <div id="formStatus" class="status"></div>
+          <div class="form-note">Your information will only be used for RAPAT pilot discussion and validation.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="footer">
+  <div class="container footer-grid">
+    <div><div class="logo">RA<span class="red">P</span><span class="yellow">A</span>T</div><div class="tagline">Closing the Gap Between<br>Talent and Opportunity.</div></div>
+    <div><h4>Quick Links</h4><div class="footer-links"><a href="#about">About RAPAT</a><a href="#benefits">Key Benefits</a><a href="#how">How It Works</a><a href="#pilot">Pilot Program</a><a href="#who">Who It's For</a><a href="#contact">Contact</a></div></div>
+    <div><h4>Connect With Us</h4><div class="social"><a href="#" aria-label="LinkedIn">in</a><a href="mailto:hello@rapat.my" aria-label="Email">✉</a><a href="https://rapat.my" aria-label="Website">◎</a></div></div>
+  </div>
+  <div class="container footer-bottom"><div>© 2026 RAPAT. All rights reserved.</div><div><span>Privacy Policy</span><span>Terms of Use</span></div></div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
