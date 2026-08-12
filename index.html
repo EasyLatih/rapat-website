@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RAPAT — Turning Career Initiatives Into Measurable Employment Outcomes</title>
+  <meta name="description" content="RAPAT helps agencies connect jobseekers, employers and career opportunities while tracking measurable employment outcomes." />
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --text:#132238;
+      --muted:#5b6b7d;
+      --line:#dce3ea;
+      --brand:#163b66;
+      --brand2:#2b6ba6;
+      --soft:#eaf2f9;
+      --success:#1d6f52;
+      --shadow:0 12px 32px rgba(15,35,55,.08);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:linear-gradient(180deg,#f8fafc 0%,#eef3f8 100%);
+      color:var(--text);
+      line-height:1.55;
+    }
+    a{text-decoration:none;color:inherit}
+    .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+    header{
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:blur(10px);
+      background:rgba(248,250,252,.86);
+      border-bottom:1px solid rgba(220,227,234,.85);
+    }
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;
+      min-height:72px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.02em;
+    }
+    .mark{
+      width:42px;height:42px;border-radius:14px;
+      background:linear-gradient(135deg,var(--brand),var(--brand2));
+      display:grid;place-items:center;color:white;font-weight:900;
+      box-shadow:var(--shadow);
+    }
+    .navlinks{display:flex;gap:20px;color:var(--muted);font-size:14px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      min-height:48px;padding:0 20px;border-radius:14px;border:1px solid transparent;
+      font-weight:700;cursor:pointer;transition:.2s ease;
+    }
+    .btn.primary{background:var(--brand);color:white}
+    .btn.primary:hover{transform:translateY(-1px);background:#0f3157}
+    .btn.secondary{background:white;border-color:var(--line);color:var(--text)}
+    .hero{
+      padding:88px 0 68px;
+      display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex;padding:8px 12px;border-radius:999px;
+      background:var(--soft);color:var(--brand);font-weight:700;font-size:13px;
+      margin-bottom:20px;
+    }
+    h1{font-size:clamp(42px,6vw,76px);line-height:.98;margin:0 0 20px;letter-spacing:-.045em}
+    .lead{font-size:20px;color:var(--muted);max-width:760px;margin-bottom:28px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+    .mini{margin-top:18px;color:var(--muted);font-size:13px}
+    .hero-card{
+      background:var(--card);border:1px solid var(--line);border-radius:28px;
+      padding:28px;box-shadow:var(--shadow);
+    }
+    .metric{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:16px 0;border-bottom:1px solid var(--line)
+    }
+    .metric:last-child{border-bottom:none}
+    .metric strong{font-size:24px}
+    section{padding:72px 0}
+    .section-title{max-width:760px;margin-bottom:34px}
+    .section-title h2{font-size:38px;line-height:1.05;margin:0 0 12px;letter-spacing:-.03em}
+    .section-title p{margin:0;color:var(--muted);font-size:17px}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .card{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+      padding:26px;box-shadow:0 8px 24px rgba(15,35,55,.04)
+    }
+    .card .num{
+      width:38px;height:38px;border-radius:12px;background:var(--soft);
+      display:grid;place-items:center;color:var(--brand);font-weight:800;margin-bottom:18px;
+    }
+    .card h3{margin:0 0 8px;font-size:20px}
+    .card p{margin:0;color:var(--muted)}
+    .band{
+      background:linear-gradient(135deg,var(--brand),#204d7c);
+      color:white;border-radius:30px;padding:38px;
+      display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;
+    }
+    .band p{margin:8px 0 0;color:rgba(255,255,255,.78)}
+    .band .btn{background:white;color:var(--brand)}
+    .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+    .flow .step{
+      padding:20px;background:white;border:1px solid var(--line);border-radius:18px;
+      min-height:160px;
+    }
+    .flow small{color:var(--brand);font-weight:800}
+    .flow h4{margin:10px 0 6px;font-size:17px}
+    .flow p{margin:0;color:var(--muted);font-size:14px}
+    .pilot{
+      display:grid;grid-template-columns:.9fr 1.1fr;gap:28px;align-items:start;
+    }
+    form{
+      background:white;border:1px solid var(--line);border-radius:24px;padding:28px;
+      box-shadow:var(--shadow);
+    }
+    label{display:block;font-weight:700;font-size:14px;margin:0 0 8px}
+    input,textarea,select{
+      width:100%;padding:14px 15px;border:1px solid var(--line);border-radius:12px;
+      font:inherit;background:white;outline:none;margin-bottom:16px;
+    }
+    input:focus,textarea:focus,select:focus{border-color:var(--brand2);box-shadow:0 0 0 3px rgba(43,107,166,.1)}
+    textarea{min-height:110px;resize:vertical}
+    .note{font-size:12px;color:var(--muted);margin-top:10px}
+    footer{padding:32px 0 44px;color:var(--muted);font-size:14px}
+    .footerline{display:flex;justify-content:space-between;gap:20px;border-top:1px solid var(--line);padding-top:24px}
+    @media (max-width: 900px){
+      .hero,.pilot,.band{grid-template-columns:1fr}
+      .grid3{grid-template-columns:1fr}
+      .flow{grid-template-columns:1fr 1fr}
+      .navlinks{display:none}
+    }
+    @media (max-width: 560px){
+      .wrap{padding:0 16px}
+      .hero{padding-top:56px}
+      .flow{grid-template-columns:1fr}
+      h1{font-size:48px}
+      .band{padding:28px}
+      .footerline{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <div class="mark">R</div>
+      <div>
+        <div>RAPAT</div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600">Pahang Employment Outcome Platform</div>
+      </div>
+    </div>
+    <nav class="navlinks">
+      <a href="#problem">Problem</a>
+      <a href="#how">How it works</a>
+      <a href="#pilot">Pilot</a>
+    </nav>
+    <a class="btn primary" href="#pilot">Request Free Pilot</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div>
+      <div class="eyebrow">Pilot-ready employment infrastructure for Pahang</div>
+      <h1>Turning career initiatives into measurable employment outcomes.</h1>
+      <p class="lead">
+        RAPAT connects jobseekers, employers and career opportunities in one platform — while helping agencies track what happens after the event: applications, interviews, placements and skills gaps.
+      </p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#pilot">Pilot RAPAT for Free</a>
+        <a class="btn secondary" href="#how">See How It Works</a>
+      </div>
+      <div class="mini">No system fee for selected small-scale pilot events.</div>
+    </div>
+
+    <div class="hero-card">
+      <div style="font-size:13px;color:var(--muted);font-weight:700;margin-bottom:8px">WHAT RAPAT HELPS TRACK</div>
+      <div class="metric"><span>Registered jobseekers</span><strong>1</strong></div>
+      <div class="metric"><span>Completed profiles</span><strong>2</strong></div>
+      <div class="metric"><span>Applications / matching</span><strong>3</strong></div>
+      <div class="metric"><span>Interviews</span><strong>4</strong></div>
+      <div class="metric"><span>Placements</span><strong>5</strong></div>
+    </div>
+  </div>
+
+  <section id="problem">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>Career events should create more than attendance numbers.</h2>
+        <p>Many initiatives succeed in attracting participants, but agencies often struggle to see the full journey from registration to actual employment outcome.</p>
+      </div>
+      <div class="grid3">
+        <div class="card">
+          <div class="num">01</div>
+          <h3>Fragmented data</h3>
+          <p>Jobseeker information, employer vacancies and follow-up outcomes often sit in separate files or systems.</p>
+        </div>
+        <div class="card">
+          <div class="num">02</div>
+          <h3>Weak post-event visibility</h3>
+          <p>Attendance may be known, but interviews, offers, placements and unresolved skills gaps can be harder to track.</p>
+        </div>
+        <div class="card">
+          <div class="num">03</div>
+          <h3>Harder to prove ROI</h3>
+          <p>Without consistent outcome data, it is difficult to show which initiatives generate the strongest employment impact.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>One simple journey from registration to placement.</h2>
+        <p>RAPAT is designed as the digital layer around career initiatives, not as another complicated portal.</p>
+      </div>
+      <div class="flow">
+        <div class="step"><small>STEP 1</small><h4>Register</h4><p>Jobseekers create a profile before or during the event.</p></div>
+        <div class="step"><small>STEP 2</small><h4>Match</h4><p>Profiles are connected with relevant vacancies and opportunities.</p></div>
+        <div class="step"><small>STEP 3</small><h4>Engage</h4><p>Employers review candidates and conduct interviews or follow-up.</p></div>
+        <div class="step"><small>STEP 4</small><h4>Track</h4><p>RAPAT records the movement from application to interview and offer.</p></div>
+        <div class="step"><small>STEP 5</small><h4>Report</h4><p>Agencies receive a clearer picture of employment outcomes and gaps.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="band">
+        <div>
+          <h2 style="margin:0;font-size:34px">Start with one event, not one big system.</h2>
+          <p>We are inviting selected Pahang agencies to test RAPAT on a small-scale career initiative before any wider implementation decision.</p>
+        </div>
+        <a class="btn" href="#pilot">Join the Pilot</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="pilot">
+    <div class="wrap pilot">
+      <div>
+        <div class="eyebrow">FREE PILOT</div>
+        <div class="section-title" style="margin-bottom:18px">
+          <h2>Pilot RAPAT at your next career event.</h2>
+          <p>For selected pilot partners, RAPAT can support jobseeker registration, basic matching and outcome tracking at no system cost.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:12px">What the pilot can include</h3>
+          <p>
+            Pre-event jobseeker registration, employer vacancy capture, candidate-job matching, event-day data support, post-event follow-up, and a simple outcome report.
+          </p>
+        </div>
+      </div>
+
+      <form onsubmit="event.preventDefault(); document.getElementById('thanks').style.display='block'; this.reset();">
+        <h3 style="margin-top:0;font-size:24px">Request a Pilot Discussion</h3>
+        <p style="color:var(--muted);margin-top:-4px">Tell us about your organisation and upcoming initiative.</p>
+
+        <label>Organisation</label>
+        <input required placeholder="e.g. State agency / foundation / GLC" />
+
+        <label>Name</label>
+        <input required placeholder="Your name" />
+
+        <label>Position</label>
+        <input required placeholder="Your role" />
+
+        <label>Email / Phone</label>
+        <input required placeholder="Contact details" />
+
+        <label>Upcoming career programme or event</label>
+        <textarea placeholder="Tell us briefly about the event, target group and expected timing."></textarea>
+
+        <button class="btn primary" style="width:100%" type="submit">I’m Interested in a Free Pilot</button>
+        <div id="thanks" style="display:none;margin-top:14px;padding:12px 14px;border-radius:12px;background:#edf7f2;color:var(--success);font-weight:700">
+          Thank you. Your interest has been captured for pilot discussion.
+        </div>
+        <div class="note">Prototype form only. Connect this form to Google Sheets / Apps Script before public launch.</div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footerline">
+    <div><strong>RAPAT</strong> — Turning career initiatives into measurable employment outcomes.</div>
+    <div>rapat.my</div>
+  </div>
+</footer>
+</body>
+</html>
