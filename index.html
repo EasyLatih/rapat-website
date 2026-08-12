@@ -257,31 +257,138 @@
         </div>
       </div>
 
-      <form onsubmit="event.preventDefault(); document.getElementById('thanks').style.display='block'; this.reset();">
-        <h3 style="margin-top:0;font-size:24px">Request a Pilot Discussion</h3>
-        <p style="color:var(--muted);margin-top:-4px">Tell us about your organisation and upcoming initiative.</p>
+<form id="pilotForm">
+  <h3 style="margin-top:0;font-size:24px">Request a Pilot Discussion</h3>
+  <p style="color:var(--muted);margin-top:-4px">
+    Tell us about your organisation and upcoming initiative.
+  </p>
 
-        <label>Organisation</label>
-        <input required placeholder="e.g. State agency / foundation / GLC" />
+  <label>Organisation Name *</label>
+  <input
+    type="text"
+    name="organisation"
+    required
+    placeholder="e.g. Yayasan / Agency / GLC"
+  />
 
-        <label>Name</label>
-        <input required placeholder="Your name" />
+  <label>Organisation Type *</label>
+  <select name="organisationType" required>
+    <option value="">Select organisation type</option>
+    <option>State Government Agency</option>
+    <option>Foundation</option>
+    <option>GLC / State-Owned Company</option>
+    <option>Local Authority</option>
+    <option>Educational / TVET Institution</option>
+    <option>NGO</option>
+    <option>Private Sector</option>
+    <option>Others</option>
+  </select>
 
-        <label>Position</label>
-        <input required placeholder="Your role" />
+  <label>Contact Person *</label>
+  <input
+    type="text"
+    name="contactPerson"
+    required
+    placeholder="Full name"
+  />
 
-        <label>Email / Phone</label>
-        <input required placeholder="Contact details" />
+  <label>Position / Designation *</label>
+  <input
+    type="text"
+    name="position"
+    required
+    placeholder="Your role"
+  />
 
-        <label>Upcoming career programme or event</label>
-        <textarea placeholder="Tell us briefly about the event, target group and expected timing."></textarea>
+  <label>Email Address *</label>
+  <input
+    type="email"
+    name="email"
+    required
+    placeholder="name@organisation.com"
+  />
 
-        <button class="btn primary" style="width:100%" type="submit">I’m Interested in a Free Pilot</button>
-        <div id="thanks" style="display:none;margin-top:14px;padding:12px 14px;border-radius:12px;background:#edf7f2;color:var(--success);font-weight:700">
-          Thank you. Your interest has been captured for pilot discussion.
-        </div>
-        <div class="note">Prototype form only. Connect this form to Google Sheets / Apps Script before public launch.</div>
-      </form>
+  <label>Phone Number *</label>
+  <input
+    type="tel"
+    name="phone"
+    required
+    placeholder="e.g. 0123456789"
+  />
+
+  <label>
+    Does your organisation currently organise career or employment-related programmes? *
+  </label>
+  <select name="careerProgramme" required>
+    <option value="">Select</option>
+    <option>Yes</option>
+    <option>No</option>
+    <option>Planning to</option>
+  </select>
+
+  <label>
+    Do you have an upcoming career programme/event that could potentially be used for the RAPAT pilot? *
+  </label>
+  <select name="upcomingEvent" required>
+    <option value="">Select</option>
+    <option>Yes</option>
+    <option>Not confirmed yet</option>
+    <option>No</option>
+  </select>
+
+  <label>Estimated number of jobseekers / participants</label>
+  <select name="estimatedParticipants">
+    <option value="">Select</option>
+    <option>Below 100</option>
+    <option>100–300</option>
+    <option>301–500</option>
+    <option>501–1,000</option>
+    <option>More than 1,000</option>
+    <option>Not sure yet</option>
+  </select>
+
+  <label>
+    Tell us briefly about the programme or employment challenge you would like RAPAT to support.
+  </label>
+  <textarea
+    name="challenge"
+    placeholder="Brief description"
+  ></textarea>
+
+  <label>
+    Would you be open to a short discussion/demo about the RAPAT pilot? *
+  </label>
+  <select name="openToDiscussion" required>
+    <option value="">Select</option>
+    <option>Yes</option>
+    <option>Maybe, I need more information</option>
+    <option>Not at this stage</option>
+  </select>
+
+  <button
+    id="submitButton"
+    class="btn primary"
+    style="width:100%"
+    type="submit"
+  >
+    Request Pilot Discussion
+  </button>
+
+  <div
+    id="formMessage"
+    style="
+      display:none;
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:12px;
+      font-weight:700;
+    "
+  ></div>
+
+  <div class="note">
+    Your information will only be used for RAPAT pilot discussion and validation.
+  </div>
+</form>
     </div>
   </section>
 </main>
@@ -292,5 +399,66 @@
     <div>rapat.my</div>
   </div>
 </footer>
+  <script>
+  const RAPAT_API_URL = 'https://script.google.com/macros/s/AKfycbwqv_1iSUYlHx0AD2U_-HH0DxqyJyCeyORtfFgX5gEmzOIep23ziPNWFGb7iTtX4WGVfA/exec';
+
+  const form = document.getElementById('pilotForm');
+  const submitButton = document.getElementById('submitButton');
+  const formMessage = document.getElementById('formMessage');
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Submitting...';
+
+    formMessage.style.display = 'none';
+
+    const formData = new FormData(form);
+
+    const data = {
+      organisation: formData.get('organisation'),
+      organisationType: formData.get('organisationType'),
+      contactPerson: formData.get('contactPerson'),
+      position: formData.get('position'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      careerProgramme: formData.get('careerProgramme'),
+      upcomingEvent: formData.get('upcomingEvent'),
+      estimatedParticipants: formData.get('estimatedParticipants'),
+      challenge: formData.get('challenge'),
+      openToDiscussion: formData.get('openToDiscussion')
+    };
+
+    try {
+      await fetch(RAPAT_API_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(data)
+      });
+
+      formMessage.style.display = 'block';
+      formMessage.style.background = '#edf7f2';
+      formMessage.style.color = '#1d6f52';
+      formMessage.innerHTML =
+        'Thank you. Your interest has been submitted successfully. We will contact you to discuss the RAPAT pilot.';
+
+      form.reset();
+
+    } catch (error) {
+      formMessage.style.display = 'block';
+      formMessage.style.background = '#fff0f0';
+      formMessage.style.color = '#9c2f2f';
+      formMessage.innerHTML =
+        'Something went wrong. Please try again or contact the RAPAT team directly.';
+    }
+
+    submitButton.disabled = false;
+    submitButton.textContent = 'Request Pilot Discussion';
+  });
+</script>
 </body>
 </html>
