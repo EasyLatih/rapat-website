@@ -1,0 +1,1 @@
+console.log('RAPAT QA fixes loaded');
