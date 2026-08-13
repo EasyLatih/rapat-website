@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RAPAT Events</title>
+<meta name="description" content="Browse upcoming and past RAPAT career events.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+body{background:#f6f8fb}.events-page{padding:42px 0 70px}.events-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:28px}.events-head h1{margin:6px 0 8px;font-size:42px}.events-head p{margin:0;color:#657187;max-width:690px}.events-group{margin-top:32px}.events-group h2{font-size:22px;margin:0 0 14px}.event-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.event-card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;overflow:hidden;box-shadow:0 8px 30px rgba(24,39,75,.06);display:flex;flex-direction:column}.event-cover{height:145px;background:linear-gradient(135deg,#edf3ff,#f8fafc);overflow:hidden;display:flex;align-items:center;justify-content:center}.event-cover img{width:100%;height:100%;object-fit:cover}.event-cover .brandmark{font-size:32px;font-weight:800;letter-spacing:-2px;color:#172033}.event-body{padding:18px;display:flex;flex-direction:column;gap:12px;flex:1}.event-meta{display:flex;flex-wrap:wrap;gap:7px}.event-pill{font-size:11px;font-weight:700;background:#f2f5f9;border-radius:999px;padding:6px 9px;color:#526174}.event-card h3{font-size:18px;margin:0;line-height:1.35;color:#182235}.event-org{font-size:12px;color:#778499}.event-actions{margin-top:auto;padding-top:4px}.event-actions a{width:100%;justify-content:center}.status-now{background:#e8f7ee;color:#178447}.past-card{opacity:.88}.empty-events{background:#fff;border:1px dashed #ccd6e3;border-radius:16px;padding:30px;text-align:center;color:#718096}.loading-events{padding:30px;text-align:center;color:#718096}.back-home{text-decoration:none;font-weight:700;font-size:13px;color:#334155}.section-note{font-size:12px;color:#8290a4;margin-top:-5px}@media(max-width:900px){.event-grid{grid-template-columns:1fr 1fr}.events-head{align-items:flex-start;flex-direction:column}.events-head h1{font-size:34px}}@media(max-width:600px){.event-grid{grid-template-columns:1fr}.events-page{padding-top:26px}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="container nav">
+    <a href="index.html" class="brand" aria-label="RAPAT home"><div class="logo">RA<span class="red">P</span><span class="yellow">A</span>T</div><div class="tagline">Closing the Gap Between<br>Talent and Opportunity.</div></a>
+    <a class="back-home" href="index.html">← Main Website</a>
+  </div>
+</header>
+<main class="events-page">
+  <div class="container">
+    <div class="events-head"><div><div class="kicker">RAPAT Events</div><h1>Find an Event</h1><p>Browse published career events using RAPAT. Upcoming events are automatically arranged by the nearest start date.</p></div></div>
+    <div id="eventLoading" class="loading-events">Loading events…</div>
+    <section id="upcomingSection" class="events-group" style="display:none"><h2>Upcoming Events</h2><div class="section-note">Nearest event appears first.</div><div id="upcomingEvents" class="event-grid" style="margin-top:14px"></div></section>
+    <section id="pastSection" class="events-group" style="display:none"><h2>Past Events</h2><div class="section-note">Most recent past event appears first.</div><div id="pastEvents" class="event-grid" style="margin-top:14px"></div></section>
+  </div>
+</main>
+<script>
+const EVENTS_API='https://afyqxqvflchgwbtmoogd.supabase.co/functions/v1/rapat-public-events';
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function localDay(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function dateRange(start,end){if(!start)return 'Date TBC';end=end||start;const a=new Date(start+'T00:00:00'),b=new Date(end+'T00:00:00');if(start===end)return a.toLocaleDateString('en-MY',{day:'numeric',month:'short',year:'numeric'});if(a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth())return `${a.getDate()}–${b.getDate()} ${b.toLocaleDateString('en-MY',{month:'short',year:'numeric'})}`;if(a.getFullYear()===b.getFullYear())return `${a.toLocaleDateString('en-MY',{day:'numeric',month:'short'})}–${b.toLocaleDateString('en-MY',{day:'numeric',month:'short',year:'numeric'})}`;return `${a.toLocaleDateString('en-MY',{day:'numeric',month:'short',year:'numeric'})}–${b.toLocaleDateString('en-MY',{day:'numeric',month:'short',year:'numeric'})}`}
+function card(e,past=false){const start=e.start_date||e.event_date||'',end=e.end_date||start;const today=localDay(),ongoing=start&&end&&start<=today&&end>=today;return `<article class="event-card ${past?'past-card':''}"><div class="event-cover">${e.banner_url?`<img src="${esc(e.banner_url)}" alt="${esc(e.name)} banner">`:'<div class="brandmark">RAPAT</div>'}</div><div class="event-body"><div class="event-meta"><span class="event-pill">📅 ${esc(dateRange(start,end))}</span>${e.event_state?`<span class="event-pill">🗺️ ${esc(e.event_state)}</span>`:''}${ongoing?'<span class="event-pill status-now">Happening Now</span>':''}</div><h3>${esc(e.name)}</h3><div class="event-org">${e.venue?'📍 '+esc(e.venue):'Venue TBC'}</div><div class="event-actions"><a class="btn btn-primary" href="events-live.html?event=${encodeURIComponent(e.slug)}">View Event <span>→</span></a></div></div></article>`}
+async function loadEvents(){try{const r=await fetch(EVENTS_API);const j=await r.json();if(!r.ok||!j.ok)throw Error(j.error||'Unable to load events');const today=localDay();const rows=(j.events||[]).map(e=>({...e,start_date:e.start_date||e.event_date||'',end_date:e.end_date||e.start_date||e.event_date||''}));const upcoming=rows.filter(e=>!e.end_date||e.end_date>=today).sort((a,b)=>(a.start_date||'9999-12-31').localeCompare(b.start_date||'9999-12-31'));const past=rows.filter(e=>e.end_date&&e.end_date<today).sort((a,b)=>(b.start_date||'').localeCompare(a.start_date||''));document.getElementById('eventLoading').style.display='none';document.getElementById('upcomingSection').style.display='block';document.getElementById('upcomingEvents').innerHTML=upcoming.length?upcoming.map(e=>card(e)).join(''):'<div class="empty-events">No upcoming events published yet.</div>';if(past.length){document.getElementById('pastSection').style.display='block';document.getElementById('pastEvents').innerHTML=past.map(e=>card(e,true)).join('')}}catch(e){document.getElementById('eventLoading').innerHTML=`<div class="empty-events">${esc(e.message)}</div>`}}
+loadEvents();
+</script>
+</body>
+</html>
