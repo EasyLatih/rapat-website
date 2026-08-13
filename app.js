@@ -1,3 +1,4 @@
+// RAPAT public Events directory navigation.
 const core=document.createElement('script');
 core.src='app-core.js?v=1';
 core.onload=()=>{
