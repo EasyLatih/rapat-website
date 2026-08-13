@@ -1,8 +1,14 @@
 const heroImage=document.querySelector('.hero-image img');
 if(heroImage){heroImage.src='hero-career-fair.png';heroImage.removeAttribute('style');}
 
-// Add recruiter / employer contribution links to the homepage navigation.
 const desktopNav=document.querySelector('.nav-links');
+if(desktopNav && !desktopNav.querySelector('a[href="events.html"]')){
+  const eventsLink=document.createElement('a');
+  eventsLink.href='events.html';
+  eventsLink.textContent='Events';
+  const firstSpecial=desktopNav.querySelector('a[href="contribute.html"]') || desktopNav.querySelector('.nav-cta');
+  desktopNav.insertBefore(eventsLink,firstSpecial || null);
+}
 if(desktopNav && !desktopNav.querySelector('a[href="contribute.html"]')){
   const contributeLink=document.createElement('a');
   contributeLink.href='contribute.html';
@@ -12,6 +18,12 @@ if(desktopNav && !desktopNav.querySelector('a[href="contribute.html"]')){
 }
 
 const mobileNav=document.querySelector('#mobileMenu > div');
+if(mobileNav && !mobileNav.querySelector('a[href="events.html"]')){
+  const eventsMobile=document.createElement('a');
+  eventsMobile.href='events.html';
+  eventsMobile.textContent='Events';
+  mobileNav.appendChild(eventsMobile);
+}
 if(mobileNav && !mobileNav.querySelector('a[href="contribute.html"]')){
   const contributeMobile=document.createElement('a');
   contributeMobile.href='contribute.html';
@@ -20,6 +32,12 @@ if(mobileNav && !mobileNav.querySelector('a[href="contribute.html"]')){
 }
 
 const footerLinks=document.querySelector('.footer-links');
+if(footerLinks && !footerLinks.querySelector('a[href="events.html"]')){
+  const eventsFooter=document.createElement('a');
+  eventsFooter.href='events.html';
+  eventsFooter.textContent='Events';
+  footerLinks.appendChild(eventsFooter);
+}
 if(footerLinks && !footerLinks.querySelector('a[href="contribute.html"]')){
   const contributeFooter=document.createElement('a');
   contributeFooter.href='contribute.html';
