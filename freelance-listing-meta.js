@@ -5,15 +5,8 @@ let decorating = false;
 let queued = null;
 
 function searchArgs() {
-  const serviceValue = $('serviceFilter')?.value || '';
-  const serviceArgs = !serviceValue
-    ? { p_service_id: null, p_custom_service: null }
-    : serviceValue.startsWith('custom:')
-      ? { p_service_id: null, p_custom_service: decodeURIComponent(serviceValue.slice(7)) }
-      : { p_service_id: serviceValue, p_custom_service: null };
-
   return {
-    ...serviceArgs,
+    p_keyword: $('keywordFilter')?.value?.trim() || null,
     p_state: $('stateFilter')?.value || null,
     p_district: $('districtFilter')?.value || null,
     p_postcode: $('postcodeFilter')?.value?.trim() || null
@@ -42,7 +35,7 @@ async function decorateCards() {
 
   decorating = true;
   try {
-    const { data, error } = await db.rpc('gig_search_providers', searchArgs());
+    const { data, error } = await db.rpc('gig_search_providers_keyword', searchArgs());
     if (error) return;
     const byId = new Map((data || []).map(provider => [String(provider.provider_id), provider]));
 
