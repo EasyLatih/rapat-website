@@ -1,3 +1,17 @@
+function gigMountAdminUI(){
+  const nav=document.querySelector('.admin-nav');
+  if(nav&&!document.getElementById('gigAdminTab')){
+    const b=document.createElement('button');b.id='gigAdminTab';b.className='tab';b.textContent='Freelance / Gig';b.onclick=()=>adminTab('gig',b);
+    const audit=[...nav.querySelectorAll('button')].find(x=>x.textContent.trim()==='Audit Log');nav.insertBefore(b,audit||nav.lastElementChild);
+  }
+  const app=document.getElementById('adminApp');
+  if(app&&!document.getElementById('view-gig')){
+    const s=document.createElement('section');s.id='view-gig';s.className='admin-view';s.innerHTML=`<div id="gigAdminMsg"></div><div id="gigStats" class="admin-grid" style="grid-template-columns:repeat(5,1fr)"></div><div class="grid2" style="margin-top:16px"><div class="panel"><h2>Service Providers</h2><p class="muted">Approve, reject or suspend provider listings.</p><div id="gigProviders"></div></div><div class="panel"><h2>Reports / Aduan</h2><p class="muted">Review public reports and take action where necessary.</p><div id="gigReports"></div></div></div><div class="grid2" style="margin-top:16px"><div class="panel"><h2>Add Category</h2><div class="field"><label>Category Name</label><input id="gigNewCategory" placeholder="e.g. Pet Care"></div><button class="btn primary" onclick="gigCreateCategory()">+ Add Category</button><hr style="border:0;border-top:1px solid #e7ebf1;margin:20px 0"><h2>Add Service</h2><div class="field"><label>Category</label><select id="gigCategorySelect"></select></div><div class="field"><label>Service Name</label><input id="gigNewService" placeholder="e.g. Cat Sitting"></div><button class="btn primary" onclick="gigCreateService()">+ Add Service</button></div><div class="panel"><h2>Categories & Services</h2><p class="muted">Click a service to enable or disable it.</p><div id="gigCategories"></div></div></div>`;
+    const audit=document.getElementById('view-audit');audit?.before(s);
+  }
+}
+gigMountAdminUI();
+
 const GIG_ADMIN_API='https://afyqxqvflchgwbtmoogd.supabase.co/functions/v1/rapat-gig-admin';
 const gig$=id=>document.getElementById(id);
 const gigEsc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
