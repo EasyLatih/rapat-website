@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>RAPAT — Cari Servis Lokal</title>
-<meta name="description" content="Cari tukang, freelancer, profesional dan penyedia servis lokal berdasarkan servis, daerah dan poskod melalui RAPAT.">
+<meta name="description" content="Cari tukang, freelancer, profesional dan penyedia servis lokal berdasarkan keyword, daerah dan poskod melalui RAPAT.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="freelance.css">
@@ -15,16 +15,15 @@
 <nav class="gig-links"><a href="index.html">Utama</a><a class="active" href="freelance.html">Cari Servis</a><a href="freelance-provider.html">Daftar Servis</a><a href="events-live.html">Career Events</a></nav>
 </div></header>
 <main class="gig-shell">
-<section class="gig-hero"><div><h1>Cari Servis di Kawasan Anda</h1><p>Cari tukang, freelancer, profesional atau perniagaan lokal berdasarkan servis dan kawasan. Semak pilihan, kemudian terus berhubung melalui WhatsApp.</p></div><div id="authState" class="auth-chip"></div></section>
-<section class="search-card"><div class="search-grid">
-<div class="field"><label>Kategori</label><select id="categoryFilter"><option value="">Semua kategori</option></select></div>
-<div class="field"><label>Servis</label><select id="serviceFilter"><option value="">Semua servis</option></select></div>
+<section class="gig-hero"><div><h1>Cari Servis di Kawasan Anda</h1><p>Taip apa yang anda perlukan. RAPAT akan padankan keyword dengan tukang, freelancer, profesional atau perniagaan lokal yang menawarkan servis berkaitan.</p></div><div id="authState" class="auth-chip"></div></section>
+<section class="search-card"><div class="search-grid keyword-search-grid">
+<div class="field keyword-field"><label>Apa servis anda perlukan?</label><input id="keywordFilter" type="search" autocomplete="off" placeholder="Contoh: jahit baju, baiki paip, aircond, resume"></div>
 <div class="field"><label>Poskod</label><input id="postcodeFilter" inputmode="numeric" maxlength="5" placeholder="25200"><div id="postcodeHint" class="auth-chip" style="margin-top:5px"></div></div>
 <div class="field"><label>Negeri</label><select id="stateFilter"></select></div>
 <div class="field"><label>Daerah / Kawasan</label><select id="districtFilter" disabled><option value="">Pilih daerah / kawasan</option></select></div>
 <button class="btn primary search-button" id="searchBtn">Cari</button>
-</div></section>
-<div class="results-head"><span id="resultCount">Memuatkan penyedia servis…</span><span>Lokasi paling sepadan dipaparkan dahulu, kemudian nearby.</span></div>
+</div><div class="search-hint">Tak perlu pilih kategori. Cuba taip terus seperti <b>tukang jahit</b>, <b>plumber</b>, <b>photographer</b> atau <b>cuci rumah</b>.</div></section>
+<div class="results-head"><span id="resultCount">Memuatkan penyedia servis…</span><span>Keyword dan lokasi paling sepadan dipaparkan dahulu.</span></div>
 <section id="providerList" class="provider-list"></section>
 <div class="footer-note">RAPAT ialah direktori penemuan servis dan tidak mengendalikan bayaran atau transaksi. Semak maklumat penyedia dan berurusan terus melalui WhatsApp.</div>
 </main>
