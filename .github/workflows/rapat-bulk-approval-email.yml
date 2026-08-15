@@ -1,0 +1,16 @@
+name: RAPAT Approval Email Backfill
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/rapat-bulk-approval-email.yml'
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send approval emails to approved providers
+        run: |
+          set -euo pipefail
+          curl --fail-with-body --silent --show-error "https://afyqxqvflchgwbtmoogd.supabase.co/functions/v1/rapat-bulk-approval-email?token=InrlTmCKxOlwTiYIIxJsmWo2HtcaYhRYUsGa2I0lTV0"
