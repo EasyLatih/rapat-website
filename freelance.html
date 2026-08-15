@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RAPAT Freelance / Gig — Cari Servis Lokal</title>
+<meta name="description" content="Cari penyedia servis lokal berdasarkan servis, daerah dan poskod melalui RAPAT Freelance / Gig.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="freelance.css">
+</head>
+<body>
+<header class="gig-header"><div class="gig-nav">
+<a class="gig-brand" href="index.html">RA<span class="r">P</span><span class="y">A</span>T</a>
+<nav class="gig-links"><a href="index.html">Utama</a><a href="events-directory.html">Events</a><a class="active" href="freelance.html">Freelance / Gig</a><a class="cta" href="freelance-provider.html">Daftar Penyedia</a></nav>
+</div></header>
+<main class="gig-shell">
+<section class="gig-hero"><div><h1>Cari Servis di Kawasan Anda</h1><p>Cari penyedia servis berdasarkan jenis servis, daerah atau poskod. RAPAT membantu anda jumpa orang lokal — urusan seterusnya terus melalui WhatsApp.</p></div><div id="authState" class="auth-chip"></div></section>
+<section class="search-card"><div class="search-grid">
+<div class="field"><label>Kategori</label><select id="categoryFilter"><option value="">Semua kategori</option></select></div>
+<div class="field"><label>Servis</label><select id="serviceFilter"><option value="">Semua servis</option></select></div>
+<div class="field"><label>Negeri</label><select id="stateFilter"></select></div>
+<div class="field"><label>Daerah</label><select id="districtFilter" disabled><option value="">Pilih daerah</option></select></div>
+<div class="field"><label>Poskod</label><input id="postcodeFilter" inputmode="numeric" maxlength="5" placeholder="25200"></div>
+<button class="btn primary search-button" id="searchBtn">Cari</button>
+</div></section>
+<div class="results-head"><span id="resultCount">Memuatkan penyedia servis…</span><span>Exact location dipaparkan dahulu, kemudian nearby.</span></div>
+<section id="providerList" class="provider-list"></section>
+<div class="footer-note">RAPAT tidak mengendalikan bayaran atau transaksi. Semak maklumat penyedia dan berurusan terus melalui WhatsApp.</div>
+</main>
+
+<div id="detailsModal" class="modal hidden" aria-hidden="true"><div class="modal-card"><button class="close" id="closeDetails">×</button><div id="providerDetails"></div></div></div>
+<div id="reportModal" class="modal hidden" aria-hidden="true"><div class="modal-card"><button class="close" id="closeReport">×</button><h2>Aduan Penyedia Servis</h2><p class="auth-chip">Aduan memerlukan Google Sign-In untuk mengurangkan spam dan sabotaj.</p><div class="field"><label>Sebab Aduan</label><select id="reportReason"><option value="suspected_scam">Disyaki scam</option><option value="false_information">Maklumat palsu / mengelirukan</option><option value="service_not_available">Servis tidak wujud / tidak tersedia</option><option value="inappropriate">Kandungan tidak sesuai</option><option value="other">Lain-lain</option></select></div><div class="field" style="margin-top:10px"><label>Butiran (optional)</label><textarea id="reportDetails" maxlength="1000" placeholder="Terangkan secara ringkas."></textarea></div><div class="detail-actions"><button id="submitReport" class="btn danger">Hantar Aduan</button></div><div id="reportMsg"></div></div></div>
+<script type="module" src="freelance.js"></script>
+</body></html>
