@@ -73,6 +73,41 @@ function selectedServiceArgs() {
   return { p_service_id:value, p_custom_service:null };
 }
 
+function findServiceFromQuery(query) {
+  const q = String(query || '').trim().toLowerCase();
+  if (!q) return null;
+  return services.find(s => String(s.name).trim().toLowerCase() === q)
+    || services.find(s => String(s.name).toLowerCase().includes(q))
+    || services.find(s => q.includes(String(s.name).toLowerCase()));
+}
+
+async function applyUrlFilters() {
+  const params = new URLSearchParams(location.search);
+  const serviceQuery = params.get('q');
+  const postcode = String(params.get('postcode') || '').replace(/\D/g,'').slice(0,5);
+  const state = params.get('state');
+  const district = params.get('district');
+
+  const matchedService = findServiceFromQuery(serviceQuery);
+  if (matchedService) {
+    $('categoryFilter').value = matchedService.category_id || '';
+    renderServiceFilter();
+    $('serviceFilter').value = matchedService.id;
+  }
+
+  if (postcode.length === 5) {
+    $('postcodeFilter').value = postcode;
+    await autofillPostcode();
+  } else if (state) {
+    const stateOption = [...$('stateFilter').options].find(o => o.value.toLowerCase() === state.toLowerCase());
+    if (stateOption) {
+      $('stateFilter').value = stateOption.value;
+      populateDistricts($('districtFilter'), stateOption.value, 'Semua daerah / kawasan');
+      if (district) selectDistrict($('districtFilter'), stateOption.value, district, 'Semua daerah / kawasan');
+    }
+  }
+}
+
 async function searchProviders() {
   $('providerList').innerHTML = '<div class="empty">Mencari penyedia servis…</div>';
   const args = {
@@ -237,6 +272,7 @@ async function resumePendingAction() {
   $('reportModal').onclick = e => { if (e.target.id === 'reportModal') closeModal('reportModal'); };
   try {
     await Promise.all([loadAuth(), loadTaxonomy()]);
+    await applyUrlFilters();
     await searchProviders();
     await resumePendingAction();
   } catch (error) {
