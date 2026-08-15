@@ -1,14 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAPAT — Closing the Gap Between Talent and Opportunity</title>
-<meta name="description" content="RAPAT is an employment outcome platform for organisations that want to track what happens beyond attendance and use data to design better employment interventions.">
+<title>RAPAT — Cari Servis Lokal Berdekatan Anda</title>
+<meta name="description" content="RAPAT membantu orang ramai mencari penyedia servis lokal mengikut servis dan kawasan. Closing the Gap Between Talent and Opportunity.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<style>
+.home-hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#f6faff 0%,#fff 56%,#fff9ee 100%);padding:82px 0 76px}
+.home-hero:after{content:"";position:absolute;width:520px;height:520px;border-radius:50%;right:-240px;top:-250px;background:rgba(15,92,200,.055)}
+.home-grid{display:grid;grid-template-columns:1.04fr .96fr;gap:58px;align-items:center;position:relative;z-index:2}
+.home-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:#eaf3ff;color:var(--blue);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:18px}
+.home-eyebrow i{display:block;width:7px;height:7px;border-radius:50%;background:var(--green)}
+.home-hero h1{font-size:58px;line-height:1.02;letter-spacing:-2.8px;color:var(--navy);font-weight:900;margin:0 0 20px}
+.home-hero h1 span{color:var(--red)}
+.home-lead{font-size:17px;line-height:1.75;color:#40506a;max-width:620px;margin:0 0 27px}
+.home-lead strong{color:var(--navy)}
+.home-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.home-actions .btn{padding:15px 21px}
+.home-note{display:flex;gap:9px;align-items:flex-start;font-size:12px;line-height:1.55;color:#6d798c;max-width:590px}
+.home-note i{font-style:normal;width:21px;height:21px;border-radius:50%;background:#edf1f6;color:var(--navy);font-weight:900;display:grid;place-items:center;flex:0 0 auto;font-size:11px}
+.finder-card{background:#fff;border:1px solid var(--line);border-radius:25px;padding:29px;box-shadow:0 24px 60px rgba(11,29,66,.12)}
+.finder-label{font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--blue);font-weight:800;margin-bottom:8px}
+.finder-card h2{font-size:23px;line-height:1.2;color:var(--navy);margin:0 0 6px}
+.finder-card>p{font-size:12.5px;color:#728096;margin:0 0 19px}
+.finder-field{border:1px solid #dfe5ed;border-radius:12px;background:#fbfcfe;padding:13px 14px;margin-bottom:10px}
+.finder-field small{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.7px;color:#8b96a8;font-weight:800;margin-bottom:4px}
+.finder-field strong{font-size:13px;color:#293b5a}
+.finder-card .btn{width:100%;margin-top:3px}
+.quick-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px}
+.quick-tags a{font-size:10.5px;padding:7px 9px;border-radius:999px;background:#f1f4f8;color:#526078;font-weight:700}
+.quick-tags a:hover{background:#e8eef7;color:var(--navy)}
+
+.home-section{padding:76px 0}
+.home-soft{background:#f7f9fc}
+.section-head{max-width:760px;margin:0 auto 35px;text-align:center}
+.section-head h2{font-size:38px;line-height:1.14;letter-spacing:-1.5px;color:var(--navy);margin:0 0 11px}
+.section-head p{font-size:15px;line-height:1.7;color:#5d6b80;margin:0}
+.individual-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.individual-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 12px 32px rgba(11,29,66,.055);overflow:hidden}
+.individual-card:after{content:"";position:absolute;width:175px;height:175px;border-radius:50%;right:-78px;top:-80px;opacity:.065}
+.individual-card.find:after{background:var(--blue)}
+.individual-card.offer:after{background:var(--yellow)}
+.card-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:20px}
+.card-icon{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:22px;font-weight:900}
+.find .card-icon{background:#eaf3ff;color:var(--blue)}
+.offer .card-icon{background:#fff4d8;color:#a87600}
+.card-badge{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;padding:6px 9px;border-radius:999px;background:#eaf8f1;color:#148258}
+.offer .card-badge{background:#fff5de;color:#9b6a00}
+.individual-card h3{font-size:24px;color:var(--navy);margin:0 0 8px}
+.individual-card>p{font-size:14px;line-height:1.65;color:#5d6a7f;margin:0 0 20px}
+.card-list{display:grid;gap:10px;margin:0 0 24px}
+.card-list div{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:#33445f}
+.card-list i{font-style:normal;width:20px;height:20px;border-radius:50%;background:#edf4ff;color:var(--blue);display:grid;place-items:center;font-size:10px;font-weight:900;flex:0 0 auto}
+.offer .card-list i{background:#fff4d8;color:#9b6a00}
+.card-actions{display:flex;gap:10px;flex-wrap:wrap}
+.card-actions .btn{padding:11px 15px;font-size:12px}
+
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 10px 28px rgba(11,29,66,.045)}
+.step-no{width:38px;height:38px;border-radius:12px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:900;margin-bottom:16px}
+.step-card:nth-child(2) .step-no{background:var(--blue)}
+.step-card:nth-child(3) .step-no{background:var(--red)}
+.step-card h3{font-size:16px;color:var(--navy);margin:0 0 7px}
+.step-card p{font-size:12.5px;line-height:1.6;color:#657287;margin:0}
+
+.brand-band{background:linear-gradient(135deg,#06245f,#0a428b);color:#fff;padding:54px 0}
+.brand-band-grid{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center}
+.brand-band .mini{font-size:10.5px;text-transform:uppercase;letter-spacing:1.2px;color:#aac9f4;font-weight:800;margin-bottom:7px}
+.brand-band h2{font-size:33px;line-height:1.18;margin:0 0 10px}
+.brand-band p{font-size:13.5px;line-height:1.7;color:#d0dcec;max-width:760px;margin:0}
+.brand-band .btn{background:#fff;color:var(--navy);white-space:nowrap}
+
+.org-wrap{display:grid;grid-template-columns:.82fr 1.18fr;gap:28px;max-width:1020px;margin:0 auto}
+.org-card{background:var(--navy);color:#fff;border-radius:20px;padding:28px;box-shadow:var(--shadow)}
+.org-card .kicker{color:#acc9f2}
+.org-card h3{font-size:23px;line-height:1.25;margin:0 0 9px}
+.org-card>p{font-size:12.5px;line-height:1.65;color:#c8d5e8;margin:0 0 20px}
+.org-point{display:flex;gap:10px;padding:12px 0;border-top:1px solid rgba(255,255,255,.12)}
+.org-point i{font-style:normal;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;font-size:10px;font-weight:900;flex:0 0 auto}
+.org-point b{display:block;font-size:12.5px}
+.org-point span{display:block;font-size:10.8px;color:#b8c8de;margin-top:2px}
+.org-wrap .form-card{padding:27px}
+.org-wrap .form-card h3{font-size:19px}
+.org-wrap .form-card .btn{margin-top:2px}
+
+.simple-footer-note{font-size:11px;color:#8793a5;margin-top:8px}
+
+@media(max-width:980px){
+  .home-grid,.org-wrap{grid-template-columns:1fr}
+  .home-hero{padding:62px 0}
+  .home-hero h1{font-size:49px}
+  .finder-card{max-width:650px}
+  .brand-band-grid{grid-template-columns:1fr}
+  .brand-band .btn{justify-self:start}
+}
+@media(max-width:760px){
+  .home-hero{padding:48px 0 56px}.home-grid{gap:35px}.home-hero h1{font-size:40px;letter-spacing:-2px}.home-lead{font-size:15px}
+  .home-section{padding:58px 0}.section-head{text-align:left}.section-head h2{font-size:31px}.individual-grid,.steps-grid{grid-template-columns:1fr}
+  .brand-band h2{font-size:28px}
+}
+@media(max-width:520px){
+  .container{width:min(100% - 30px,1216px)}.home-hero h1{font-size:35px}.home-actions .btn{width:100%}.individual-card{padding:23px}.finder-card{padding:23px}
+}
+</style>
 </head>
 <body>
 <header class="header">
@@ -18,163 +116,163 @@
       <div class="tagline">Closing the Gap Between<br>Talent and Opportunity.</div>
     </a>
     <nav class="nav-links">
-      <a href="#about">About RAPAT</a>
-      <a href="#how">How It Works</a>
-      <a href="#who">Who It's For</a>
-      <a href="#benefits">Key Benefits</a>
-      <a href="contribute.html">Contribute</a>
-      <a href="trainer.html">Join as Trainer</a>
-      <a href="#pilot" class="nav-cta">Request Pilot Access</a>
+      <a href="freelance.html">Cari Servis</a>
+      <a href="freelance-provider.html">Daftar Penyedia</a>
+      <a href="#individual">For Individual</a>
+      <a href="#organisation">For Organisation</a>
+      <a href="freelance.html" class="nav-cta">Cari Servis Sekarang</a>
     </nav>
     <button class="mobile-toggle" aria-label="Open menu" onclick="document.getElementById('mobileMenu').style.display=document.getElementById('mobileMenu').style.display==='block'?'none':'block'">☰</button>
   </div>
-  <div id="mobileMenu" style="display:none;background:white;border-top:1px solid #e5eaf1;padding:10px 20px 17px;font-size:13px;font-weight:700">
-    <div style="display:grid;gap:10px"><a href="#about">About RAPAT</a><a href="#how">How It Works</a><a href="#who">Who It's For</a><a href="#benefits">Key Benefits</a><a href="contribute.html">Contribute</a><a href="trainer.html">Join as Trainer</a><a href="#pilot">Pilot Program</a></div>
+  <div id="mobileMenu" style="display:none;background:white;border-top:1px solid #e5eaf1;padding:12px 20px 18px;font-size:13px;font-weight:700">
+    <div style="display:grid;gap:11px"><a href="freelance.html">Cari Servis</a><a href="freelance-provider.html">Daftar Penyedia</a><a href="#individual">For Individual</a><a href="#organisation">For Organisation</a></div>
   </div>
 </header>
+
 <main id="top">
-<section class="hero" id="about">
-  <div class="container hero-grid">
-    <div class="hero-copy">
-      <h1>Closing the Gap<br>Between <span class="blue">Talent</span><br>and <span class="red">Opportunity.</span></h1>
-      <p class="lead">RAPAT is an employment outcome platform that helps organisations track what happens beyond events and programmes — from application to placement — and use data to drive meaningful intervention.</p>
-      <div class="outcome-note">
-        <div class="outcome-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 18V9m5 9V5m5 13v-6m5 6V3"/><path d="M3 20h18"/></svg></div>
-        <div><strong>For organisations that care about outcomes, not just attendance.</strong><span>Make better decisions. Drive real impact.</span></div>
+<section class="home-hero">
+  <div class="container home-grid">
+    <div>
+      <div class="home-eyebrow"><i></i> Servis lokal, lebih mudah ditemui</div>
+      <h1>Cari servis yang anda perlukan, <span>dekat dengan anda.</span></h1>
+      <p class="home-lead"><strong>Perlukan designer, tutor, wiring, aircond, runner atau servis lain?</strong> RAPAT membantu anda jumpa penyedia servis lokal berdasarkan jenis servis dan kawasan — kemudian terus berhubung melalui WhatsApp.</p>
+      <div class="home-actions">
+        <a class="btn btn-primary" href="freelance.html">Cari Servis Sekarang <span>→</span></a>
+        <a class="btn btn-outline" href="freelance-provider.html">Saya Nak Tawarkan Servis</a>
       </div>
-      <div class="hero-actions"><a class="btn btn-primary" href="#pilot">Request Pilot Access <span>→</span></a><a class="btn btn-outline" href="#how">Learn More</a></div>
+      <div class="home-note"><i>i</i><span>RAPAT membantu anda <strong>menemui penyedia servis</strong>. Urusan skop kerja, harga dan pembayaran dibuat terus antara anda dengan penyedia.</span></div>
     </div>
-    <div class="hero-image"><img src="amir.png" style="position:absolute;width:1065px;height:auto;max-width:none;min-width:0;min-height:0;top:-76px;right:0;left:auto;bottom:auto;object-fit:initial" alt="Malaysian jobseeker attending a career fair"></div>
+
+    <div class="finder-card">
+      <div class="finder-label">RAPAT Local Service Finder</div>
+      <h2>Nak cari siapa hari ini?</h2>
+      <p>Cari ikut servis, negeri, daerah atau poskod.</p>
+      <div class="finder-field"><small>Servis</small><strong>Contoh: Aircond, Graphic Design, Tutor...</strong></div>
+      <div class="finder-field"><small>Lokasi</small><strong>Contoh: Kuantan, 25200</strong></div>
+      <a class="btn btn-red" href="freelance.html">Buka Carian Servis →</a>
+      <div class="quick-tags">
+        <a href="freelance.html">Home Service</a><a href="freelance.html">Creative</a><a href="freelance.html">Education</a><a href="freelance.html">Runner</a><a href="freelance.html">Business Support</a>
+      </div>
+    </div>
   </div>
-  <div class="hero-swoosh"></div>
 </section>
 
-<section class="section story section-soft" id="how">
+<section class="home-section" id="individual">
   <div class="container">
-    <div class="story-grid">
-      <div class="story-photo"><img src="amir-story.jpg" alt="Amir after an unsuccessful job interview"></div>
-      <div>
-        <h2>Meet Amir.</h2>
-        <p class="intro">Amir attended a career fair.<br>He registered, submitted his CV and got interviewed.</p>
-        <div class="fail">But Amir didn't get the job.</div>
-        <p class="why">Do we know why he wasn't hired?</p>
-        <div class="reason-list">
-          <div class="reason"><i>?</i> His interview skills?</div>
-          <div class="reason"><i>?</i> A skills mismatch?</div>
-          <div class="reason"><i>?</i> Lack of experience?</div>
-          <div class="reason"><i>?</i> His qualifications?</div>
-          <div class="reason"><i>?</i> Wrong job match?</div>
-          <div class="reason"><i>?</i> Or no suitable vacancy?</div>
+    <div class="section-head">
+      <div class="kicker">For Individual</div>
+      <h2>Satu tempat untuk cari servis — atau tawarkan kemahiran anda.</h2>
+      <p>RAPAT bermula dengan satu idea mudah: orang yang perlukan bantuan patut lebih mudah jumpa orang yang boleh membantu mereka.</p>
+    </div>
+
+    <div class="individual-grid">
+      <div class="individual-card find">
+        <div class="card-top"><div class="card-icon">⌕</div><span class="card-badge">Untuk Orang Awam</span></div>
+        <h3>Saya Nak Cari Servis</h3>
+        <p>Cari penyedia servis yang sesuai berdasarkan apa yang anda perlukan dan lokasi anda.</p>
+        <div class="card-list">
+          <div><i>✓</i><span>Cari mengikut kategori dan jenis servis.</span></div>
+          <div><i>✓</i><span>Tapis berdasarkan negeri, daerah atau poskod.</span></div>
+          <div><i>✓</i><span>Lihat profil penyedia dan hubungi terus melalui WhatsApp.</span></div>
         </div>
+        <div class="card-actions"><a class="btn btn-primary" href="freelance.html">Cari Servis →</a></div>
       </div>
-      <div class="next">
-        <h3>And more importantly,<br>what happens to Amir next?</h3>
-        <p>If we know where Amir's journey stopped, we can determine what intervention he actually needs.</p>
-        <div class="journey">
-          <div class="journey-item"><div class="journey-icon ji-red"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-4 2.2-6 6-6 2.2 0 3.9.7 4.9 2"/><path d="m17 16 4 4m0-4-4 4"/></svg></div><div class="journey-label">Application</div></div>
-          <div class="journey-item"><div class="journey-icon ji-yellow"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="9" r="2.5"/><path d="M2.5 20c0-4 2-6 5.5-6s5.5 2 5.5 6M14 15c3 0 5 1.5 5 5"/></svg></div><div class="journey-label">Interview</div></div>
-          <div class="journey-item"><div class="journey-icon ji-blue"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M7 4h10v16H7z"/><path d="M9 8h6M9 12h4M9 16h6"/></svg></div><div class="journey-label">Not Hired</div></div>
-          <div class="journey-item"><div class="journey-icon ji-green"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="m4 17 5-5 4 3 7-8"/><path d="M15 7h5v5"/></svg></div><div class="journey-label">What's Next?</div></div>
+
+      <div class="individual-card offer">
+        <div class="card-top"><div class="card-icon">+</div><span class="card-badge">Untuk Penyedia</span></div>
+        <h3>Saya Ada Servis</h3>
+        <p>Ada kemahiran atau buat kerja freelance? Daftarkan servis supaya orang di kawasan anda lebih mudah menemui anda.</p>
+        <div class="card-list">
+          <div><i>✓</i><span>Bina listing penyedia servis anda.</span></div>
+          <div><i>✓</i><span>Pilih servis dan kawasan yang anda cover.</span></div>
+          <div><i>✓</i><span>Terima pertanyaan pelanggan terus melalui WhatsApp.</span></div>
         </div>
-        <div class="zoom-card">Now imagine Amir is one of <strong>1,000 jobseekers.</strong><br>When we understand why hundreds of jobseekers aren't progressing, employment programmes can move from general interventions to <strong>data-based interventions</strong>.</div>
+        <div class="card-actions"><a class="btn btn-outline" href="freelance-provider.html">Daftar Penyedia →</a></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section" id="benefits">
+<section class="home-section home-soft" id="how">
   <div class="container">
-    <div class="center gap-title"><h2>That's the gap RAPAT wants to close.</h2><p>RAPAT tracks the journey beyond attendance — helping organisations understand, act and improve.</p></div>
-    <div class="feature-grid">
-      <div class="feature-card"><div class="f-icon f1"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="19" r="2"/><path d="M8 5h6a4 4 0 0 1 4 4v1M16 19h-6a4 4 0 0 1-4-4v-1"/><path d="m16 8 2 2 2-2M8 16l-2-2-2 2"/></svg></div><h3>Track the Full Journey</h3><p>From registration to placement and beyond. See where jobseekers progress, pause or drop off.</p></div>
-      <div class="feature-card"><div class="f-icon f2"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/><path d="M10 7v6M7 10h6"/></svg></div><h3>Understand the Why</h3><p>Capture reasons, barriers and feedback to uncover the real issues behind employment outcomes.</p></div>
-      <div class="feature-card"><div class="f-icon f3"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M22 12h-3M12 22v-3M2 12h3"/></svg></div><h3>Intervene with Purpose</h3><p>Design the right interventions — training, coaching, upskilling, reskilling or better job matching.</p></div>
-      <div class="feature-card"><div class="f-icon f4"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19h16M6 16v-4m4 4V8m4 8v-6m4 6V5"/><path d="m4 10 5-4 4 2 7-5"/></svg></div><h3>Improve Outcomes</h3><p>Use data to measure impact, improve programmes and create better pathways to opportunity.</p></div>
+    <div class="section-head">
+      <div class="kicker">Cara RAPAT Berfungsi</div>
+      <h2>Cari. Semak. Hubungi.</h2>
+      <p>Tak perlu proses panjang untuk mula mencari penyedia servis yang sesuai.</p>
     </div>
-
-    <div class="impact">
-      <h2>Why It Matters</h2><small>Illustrative example of an employment initiative funnel</small>
-      <div class="impact-grid">
-        <div class="impact-item"><div class="impact-icon">◎</div><div class="impact-num">1,000</div><div class="impact-label">Jobseekers Attend</div><div class="impact-desc">a career event</div></div>
-        <div class="impact-item"><div class="impact-icon">▤</div><div class="impact-num">700</div><div class="impact-label">Applied</div><div class="impact-desc">for jobs</div></div>
-        <div class="impact-item"><div class="impact-icon">◉◉</div><div class="impact-num">300</div><div class="impact-label">Interviewed</div><div class="impact-desc">by employers</div></div>
-        <div class="impact-item"><div class="impact-icon">▣</div><div class="impact-num">80</div><div class="impact-label">Hired</div><div class="impact-desc">Great outcome!</div></div>
-        <div class="impact-item"><div class="impact-icon">?</div><div class="impact-num">920</div><div class="impact-label">Not Hired</div><div class="impact-desc">What happened to them?</div></div>
-      </div>
-      <div class="impact-banner">💡 If we know why, we can act. That's how we close the gap.</div>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-no">01</div><h3>Cari servis</h3><p>Pilih servis yang anda perlukan dan masukkan kawasan atau poskod.</p></div>
+      <div class="step-card"><div class="step-no">02</div><h3>Semak pilihan</h3><p>Lihat penyedia servis yang tersedia dan pilih berdasarkan keperluan anda.</p></div>
+      <div class="step-card"><div class="step-no">03</div><h3>Hubungi terus</h3><p>Terus WhatsApp penyedia untuk bincang skop, harga dan urusan seterusnya.</p></div>
     </div>
   </div>
 </section>
 
-<section class="audience section-soft" id="who">
-  <div class="container audience-grid">
-    <div class="audience-copy">
-      <div class="kicker">Who RAPAT is for</div>
-      <h2>Built for organisations that need to see outcomes — and act on them.</h2>
-      <p>RAPAT is designed for organisations that run, fund or support employment initiatives and want stronger visibility on what happens after participation.</p>
-      <div class="audience-list">
-        <div class="audience-item"><div class="audience-check">✓</div><div><strong>Government & Public Agencies</strong><span>Track outcomes and inform intervention design.</span></div></div>
-        <div class="audience-item"><div class="audience-check">✓</div><div><strong>Foundations & GLCs</strong><span>Measure programme impact beyond attendance.</span></div></div>
-        <div class="audience-item"><div class="audience-check">✓</div><div><strong>Education & TVET</strong><span>Understand graduate and participant pathways.</span></div></div>
-        <div class="audience-item"><div class="audience-check">✓</div><div><strong>NGOs & Employment Partners</strong><span>Target support to the people who need it most.</span></div></div>
-      </div>
+<section class="brand-band">
+  <div class="container brand-band-grid">
+    <div>
+      <div class="mini">Why RAPAT</div>
+      <h2>Closing the Gap Between Talent & Opportunity.</h2>
+      <p>Ada orang yang perlukan sesuatu. Ada orang yang mempunyai kemahiran untuk melakukannya. RAPAT cuba merapatkan kedua-duanya — bermula dengan servis lokal.</p>
     </div>
-    <div class="data-panel">
-      <div class="panel-top"><h3>Outcome Intelligence</h3><span class="badge">Data-based intervention</span></div>
-      <div class="metric-row"><div class="metric-card"><b>72%</b><span>Application activity</span></div><div class="metric-card"><b>30%</b><span>Interview conversion</span></div><div class="metric-card"><b>8%</b><span>Placement outcome</span></div></div>
-      <div class="bar-item"><div class="bar-head"><span>Interview readiness gap</span><span>72%</span></div><div class="bar"><span class="bar1"></span></div></div>
-      <div class="bar-item"><div class="bar-head"><span>Skills mismatch</span><span>54%</span></div><div class="bar"><span class="bar2"></span></div></div>
-      <div class="bar-item"><div class="bar-head"><span>Experience gap</span><span>41%</span></div><div class="bar"><span class="bar3"></span></div></div>
-      <div class="bar-item"><div class="bar-head"><span>Job matching issue</span><span>26%</span></div><div class="bar"><span class="bar4"></span></div></div>
-      <div style="font-size:10.5px;color:#8b96a8;margin-top:14px">Illustrative dashboard only. Actual measures will be configured based on pilot programme design.</div>
-    </div>
+    <a class="btn" href="freelance.html">Explore Servis Lokal →</a>
   </div>
 </section>
 
-<section class="pilot" id="pilot">
-  <div class="container pilot-inner">
-    <div class="pilot-head"><div class="kicker">Pilot Programme</div><h2>RAPAT is currently inviting organisations<br>to be our <span>pilot partners.</span></h2><p>If your organisation runs, funds or supports employment initiatives and wants to drive real outcomes through data, we would love to hear from you.</p></div>
-    <div class="pilot-layout">
-      <div class="pilot-info">
-        <h3>What a RAPAT pilot can test</h3>
-        <div class="pilot-point"><i>1</i><div><b>Jobseeker registration & profile capture</b><span>Build a structured view of participants from the start.</span></div></div>
-        <div class="pilot-point"><i>2</i><div><b>Vacancy and opportunity matching</b><span>Connect jobseekers to relevant employer opportunities.</span></div></div>
-        <div class="pilot-point"><i>3</i><div><b>Outcome and drop-off tracking</b><span>See where the journey stops — and capture why.</span></div></div>
-        <div class="pilot-point"><i>4</i><div><b>Data-based intervention insight</b><span>Use evidence to decide what support or programme should come next.</span></div></div>
-        <div style="margin-top:18px;padding:13px 15px;background:#fff8e5;border-radius:10px;border-left:4px solid var(--yellow);font-size:12px;color:#46556d"><strong style="color:#203555">Validation-stage offer:</strong> selected pilot partners may test RAPAT at no system cost.</div>
+<section class="home-section" id="organisation">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">For Organisation</div>
+      <h2>RAPAT juga boleh digunakan melalui kolaborasi career event.</h2>
+      <p>Bahagian ini bukan portal jawatan kosong. Ia adalah modul kolaborasi untuk organisasi yang menjalankan program kerjaya dan mahu memahami outcome peserta dengan lebih baik.</p>
+    </div>
+
+    <div class="org-wrap">
+      <div class="org-card">
+        <div class="kicker">Career Event Collaboration</div>
+        <h3>Daripada attendance kepada actionable insight.</h3>
+        <p>Jika organisasi anda menjalankan career fair atau employment programme, RAPAT boleh digunakan sebagai sebahagian daripada event flow.</p>
+        <div class="org-point"><i>1</i><div><b>Candidate registration</b><span>Kumpul data peserta secara tersusun.</span></div></div>
+        <div class="org-point"><i>2</i><div><b>Employer evaluation</b><span>Capture feedback dan keputusan selepas interview.</span></div></div>
+        <div class="org-point"><i>3</i><div><b>Intervention insight</b><span>Kenal pasti gap untuk latihan, coaching atau tindakan susulan.</span></div></div>
+        <div class="org-point"><i>4</i><div><b>Partner-led deployment</b><span>Modul digunakan bila ada organisasi yang berkolaborasi dengan RAPAT.</span></div></div>
+        <div class="card-actions" style="margin-top:18px"><a class="btn" style="background:#fff;color:var(--navy)" href="events-live.html">Lihat Career Events →</a></div>
       </div>
-      <div class="form-card" id="contact">
-        <h3>Request Pilot Access</h3><p class="form-sub">Tell us about your organisation and the employment initiative you want to improve.</p>
+
+      <div class="form-card" id="collaborate">
+        <h3>Collaborate With RAPAT</h3>
+        <p class="form-sub">Ada career event atau employment initiative? Tinggalkan maklumat ringkas untuk perbincangan kolaborasi.</p>
         <form id="pilotForm">
+          <input type="hidden" name="organisationType" value="Organisation / Event Partner">
+          <input type="hidden" name="position" value="Not specified">
+          <input type="hidden" name="careerProgramme" value="Yes / Collaboration enquiry">
+          <input type="hidden" name="estimatedParticipants" value="Not sure yet">
+          <input type="hidden" name="openToDiscussion" value="Yes">
           <div class="form-grid">
             <div class="field"><label>Organisation Name *</label><input name="organisation" required placeholder="Organisation"></div>
-            <div class="field"><label>Organisation Type *</label><select name="organisationType" required><option value="">Select</option><option>Government Agency</option><option>Foundation</option><option>GLC / State-Owned Company</option><option>Local Authority</option><option>Educational / TVET Institution</option><option>NGO</option><option>Private Sector</option><option>Others</option></select></div>
             <div class="field"><label>Contact Person *</label><input name="contactPerson" required placeholder="Full name"></div>
-            <div class="field"><label>Position / Designation *</label><input name="position" required placeholder="Your role"></div>
             <div class="field"><label>Email *</label><input type="email" name="email" required placeholder="name@organisation.com"></div>
             <div class="field"><label>Phone *</label><input name="phone" required placeholder="0123456789"></div>
-            <div class="field"><label>Do you run employment programmes? *</label><select name="careerProgramme" required><option value="">Select</option><option>Yes</option><option>No</option><option>Planning to</option></select></div>
-            <div class="field"><label>Upcoming programme / event? *</label><select name="upcomingEvent" required><option value="">Select</option><option>Yes</option><option>Not confirmed yet</option><option>No</option></select></div>
-            <div class="field full"><label>Estimated participants</label><select name="estimatedParticipants"><option value="">Select</option><option>Below 100</option><option>100–300</option><option>301–500</option><option>501–1,000</option><option>More than 1,000</option><option>Not sure yet</option></select></div>
-            <div class="field full"><label>What outcome or employment challenge do you want to understand better?</label><textarea name="challenge" placeholder="Tell us briefly about the programme, current challenge or outcome you want to track."></textarea></div>
-            <div class="field full"><label>Open to a short pilot discussion? *</label><select name="openToDiscussion" required><option value="">Select</option><option>Yes</option><option>Maybe, I need more information</option><option>Not at this stage</option></select></div>
+            <div class="field full"><label>Upcoming career event? *</label><select name="upcomingEvent" required><option value="">Select</option><option>Yes</option><option>Not confirmed yet</option><option>No — exploring collaboration</option></select></div>
+            <div class="field full"><label>Tell us briefly about your event / initiative</label><textarea name="challenge" placeholder="Contoh: career fair, jumlah peserta, objektif atau outcome yang ingin dilihat."></textarea></div>
           </div>
-          <button class="btn btn-red" id="submitButton" type="submit">Request Pilot Access</button>
+          <button class="btn btn-red" id="submitButton" type="submit">Hantar Collaboration Enquiry</button>
           <div id="formStatus" class="status"></div>
-          <div class="form-note">Your information will only be used for RAPAT pilot discussion and validation.</div>
+          <div class="simple-footer-note">Maklumat ini hanya digunakan untuk perbincangan kolaborasi RAPAT.</div>
         </form>
       </div>
     </div>
   </div>
 </section>
 </main>
+
 <footer class="footer">
   <div class="container footer-grid">
     <div><div class="logo">RA<span class="red">P</span><span class="yellow">A</span>T</div><div class="tagline">Closing the Gap Between<br>Talent and Opportunity.</div></div>
-    <div><h4>Quick Links</h4><div class="footer-links"><a href="#about">About RAPAT</a><a href="#benefits">Key Benefits</a><a href="#how">How It Works</a><a href="#pilot">Pilot Program</a><a href="#who">Who It's For</a><a href="contribute.html">Contribute</a><a href="trainer.html">Join as Trainer</a><a href="#contact">Contact</a></div></div>
-    <div><h4>Connect With Us</h4><div class="social"><a href="#" aria-label="LinkedIn">in</a><a href="mailto:hello@rapat.my" aria-label="Email">✉</a><a href="https://rapat.my" aria-label="Website">◎</a></div></div>
+    <div><h4>Quick Links</h4><div class="footer-links"><a href="freelance.html">Cari Servis</a><a href="freelance-provider.html">Daftar Penyedia</a><a href="#individual">For Individual</a><a href="#organisation">For Organisation</a><a href="events-live.html">Career Events</a></div></div>
+    <div><h4>Connect With Us</h4><div class="social"><a href="mailto:hello@rapat.my" aria-label="Email">✉</a><a href="https://rapat.my" aria-label="Website">◎</a></div></div>
   </div>
-  <div class="container footer-bottom"><div>© 2026 RAPAT. All rights reserved.</div><div><span>Privacy Policy</span><span>Terms of Use</span></div></div>
+  <div class="container footer-bottom"><div>© 2026 RAPAT. All rights reserved.</div><div><span>Talent × Opportunity</span></div></div>
 </footer>
 <script src="app.js"></script>
 </body>
