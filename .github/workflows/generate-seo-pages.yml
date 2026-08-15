@@ -30,7 +30,7 @@ jobs:
 
       - name: Commit generated pages
         run: |
-          if git diff --quiet -- servis sitemap.xml; then
+          if [ -z "$(git status --porcelain -- servis sitemap.xml)" ]; then
             echo "No SEO page changes."
             exit 0
           fi
