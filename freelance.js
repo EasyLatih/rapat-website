@@ -1,4 +1,4 @@
-import { db, populateStates, populateDistricts, escapeHtml, ensureVisitorKey, whatsappNumber, ratingStars } from './gig-config.js';
+import { db, populateStates, populateDistricts, selectDistrict, lookupPostcode, escapeHtml, ensureVisitorKey, whatsappNumber, ratingStars } from './gig-config.js';
 
 const $ = id => document.getElementById(id);
 let categories = [];
@@ -6,6 +6,7 @@ let services = [];
 let providers = [];
 let selectedProvider = null;
 let currentUser = null;
+let postcodeLookupSeq = 0;
 const visitorKey = ensureVisitorKey();
 
 function showMsg(el, text, type='notice') {
@@ -30,28 +31,52 @@ async function signInFor(returnMode, providerId) {
 }
 
 async function loadTaxonomy() {
-  const [{ data: cats, error: ce }, { data: svcs, error: se }] = await Promise.all([
+  const [{ data: cats, error: ce }, { data: svcs, error: se }, { data: custom, error: cse }] = await Promise.all([
     db.from('gig_categories').select('id,name,slug,sort_order').order('sort_order').order('name'),
-    db.from('gig_services').select('id,category_id,name,slug,sort_order').order('sort_order').order('name')
+    db.from('gig_services').select('id,category_id,name,slug,sort_order').order('sort_order').order('name'),
+    db.rpc('gig_searchable_custom_services')
   ]);
   if (ce) throw ce;
   if (se) throw se;
+  if (cse) throw cse;
   categories = cats || [];
-  services = svcs || [];
+  const standard = (svcs || []).map(s => ({ ...s, custom:false }));
+  const otherCategory = categories.find(c => c.slug === 'lain-lain');
+  const standardNames = new Set(standard.map(s => s.name.trim().toLowerCase()));
+  const dynamic = (custom || [])
+    .filter(x => x.name && !standardNames.has(String(x.name).trim().toLowerCase()))
+    .map((x,i) => ({
+      id:`custom:${encodeURIComponent(x.name)}`,
+      category_id:otherCategory?.id || '',
+      name:x.name,
+      slug:`custom-${i}`,
+      sort_order:200+i,
+      custom:true,
+      provider_count:Number(x.provider_count||0)
+    }));
+  services = [...standard, ...dynamic];
   $('categoryFilter').innerHTML = '<option value="">Semua kategori</option>' + categories.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
   renderServiceFilter();
 }
 
 function renderServiceFilter() {
   const cat = $('categoryFilter').value;
-  const list = cat ? services.filter(s => s.category_id === cat) : services;
-  $('serviceFilter').innerHTML = '<option value="">Semua servis</option>' + list.map(s => `<option value="${s.id}">${escapeHtml(s.name)}</option>`).join('');
+  const list = (cat ? services.filter(s => s.category_id === cat) : services)
+    .slice().sort((a,b)=>(a.sort_order-b.sort_order)||a.name.localeCompare(b.name));
+  $('serviceFilter').innerHTML = '<option value="">Semua servis</option>' + list.map(s => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.name)}${s.custom && !cat ? ' · Lain-lain' : ''}</option>`).join('');
+}
+
+function selectedServiceArgs() {
+  const value = $('serviceFilter').value || '';
+  if (!value) return { p_service_id:null, p_custom_service:null };
+  if (value.startsWith('custom:')) return { p_service_id:null, p_custom_service:decodeURIComponent(value.slice(7)) };
+  return { p_service_id:value, p_custom_service:null };
 }
 
 async function searchProviders() {
   $('providerList').innerHTML = '<div class="empty">Mencari penyedia servis…</div>';
   const args = {
-    p_service_id: $('serviceFilter').value || null,
+    ...selectedServiceArgs(),
     p_state: $('stateFilter').value || null,
     p_district: $('districtFilter').value || null,
     p_postcode: $('postcodeFilter').value.trim() || null
@@ -68,7 +93,7 @@ async function searchProviders() {
 
 function matchLabel(p, args) {
   if (args.p_postcode && Number(p.match_rank) === 0) return 'Exact poskod';
-  if (args.p_district && Number(p.match_rank) <= 1) return 'Daerah sama';
+  if (args.p_district && Number(p.match_rank) <= 1) return 'Kawasan sama';
   if (args.p_state) return 'Nearby';
   return '';
 }
@@ -126,15 +151,9 @@ async function openDetails(providerId) {
 async function rateProvider(rating) {
   if (!selectedProvider) return;
   if (!currentUser) return signInFor('rate', selectedProvider.provider_id);
-  const { data: existing, error: readError } = await db.from('gig_ratings')
-    .select('id')
-    .eq('provider_id', selectedProvider.provider_id)
-    .eq('user_id', currentUser.id)
-    .maybeSingle();
+  const { data: existing, error: readError } = await db.from('gig_ratings').select('id').eq('provider_id', selectedProvider.provider_id).eq('user_id', currentUser.id).maybeSingle();
   if (readError) return showMsg($('detailsMsg'), readError.message, 'notice bad');
-  const query = existing
-    ? db.from('gig_ratings').update({ rating }).eq('id', existing.id)
-    : db.from('gig_ratings').insert({ provider_id: selectedProvider.provider_id, user_id: currentUser.id, rating });
+  const query = existing ? db.from('gig_ratings').update({ rating }).eq('id', existing.id) : db.from('gig_ratings').insert({ provider_id: selectedProvider.provider_id, user_id: currentUser.id, rating });
   const { error } = await query;
   if (error) return showMsg($('detailsMsg'), error.message, 'notice bad');
   showMsg($('detailsMsg'), `Rating ${rating} bintang disimpan.`, 'notice');
@@ -162,15 +181,29 @@ function startReport(providerId) {
 
 async function submitReport() {
   if (!selectedProvider || !currentUser) return;
-  const { error } = await db.from('gig_reports').insert({
-    provider_id: selectedProvider.provider_id,
-    user_id: currentUser.id,
-    reason: $('reportReason').value,
-    details: $('reportDetails').value.trim() || null
-  });
+  const { error } = await db.from('gig_reports').insert({ provider_id: selectedProvider.provider_id, user_id: currentUser.id, reason: $('reportReason').value, details: $('reportDetails').value.trim() || null });
   if (error) return showMsg($('reportMsg'), error.message, 'notice bad');
   showMsg($('reportMsg'), 'Aduan diterima. Admin RAPAT akan review listing ini.', 'notice');
   $('reportDetails').value = '';
+}
+
+async function autofillPostcode() {
+  const input = $('postcodeFilter');
+  const postcode = input.value.replace(/\D/g,'').slice(0,5);
+  input.value = postcode;
+  const seq = ++postcodeLookupSeq;
+  if (postcode.length !== 5) { $('postcodeHint').textContent = ''; return; }
+  $('postcodeHint').textContent = 'Mencari lokasi…';
+  try {
+    const hit = await lookupPostcode(postcode);
+    if (seq !== postcodeLookupSeq) return;
+    if (!hit) { $('postcodeHint').textContent = 'Poskod tidak dijumpai. Pilih lokasi secara manual.'; return; }
+    $('stateFilter').value = hit.state;
+    selectDistrict($('districtFilter'), hit.state, hit.district, 'Semua daerah / kawasan');
+    $('postcodeHint').textContent = `✓ ${hit.district}, ${hit.state}`;
+  } catch {
+    if (seq === postcodeLookupSeq) $('postcodeHint').textContent = 'Auto lokasi tak tersedia. Pilih lokasi secara manual.';
+  }
 }
 
 function closeModal(id) { $(id).classList.add('hidden'); }
@@ -192,9 +225,10 @@ async function resumePendingAction() {
 
 (async function init() {
   populateStates($('stateFilter'), 'Semua negeri');
-  $('stateFilter').onchange = () => populateDistricts($('districtFilter'), $('stateFilter').value, 'Semua daerah');
+  $('stateFilter').onchange = () => populateDistricts($('districtFilter'), $('stateFilter').value, 'Semua daerah / kawasan');
   $('categoryFilter').onchange = renderServiceFilter;
   $('searchBtn').onclick = searchProviders;
+  $('postcodeFilter').addEventListener('input', autofillPostcode);
   $('postcodeFilter').onkeydown = e => { if (e.key === 'Enter') searchProviders(); };
   $('closeDetails').onclick = () => closeModal('detailsModal');
   $('closeReport').onclick = () => closeModal('reportModal');
