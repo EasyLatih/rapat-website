@@ -2,18 +2,19 @@
 <html lang="ms">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RAPAT Freelance / Gig — Penyedia Servis</title>
+<title>RAPAT — Daftar Penyedia Servis</title>
+<meta name="description" content="Daftar servis anda di RAPAT supaya pelanggan di kawasan anda lebih mudah menemui dan menghubungi anda.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="freelance.css">
 </head>
 <body>
-<header class="gig-header"><div class="gig-nav"><a class="gig-brand" href="index.html">RA<span class="r">P</span><span class="y">A</span>T</a><nav class="gig-links"><a href="index.html">Utama</a><a href="freelance.html">Cari Servis</a><a class="active" href="freelance-provider.html">Penyedia Servis</a></nav></div></header>
+<header class="gig-header"><div class="gig-nav"><a class="gig-brand" href="index.html">RA<span class="r">P</span><span class="y">A</span>T</a><nav class="gig-links"><a href="index.html">Utama</a><a href="freelance.html">Cari Servis</a><a class="active" href="freelance-provider.html">Daftar Servis</a><a href="events-live.html">Career Events</a></nav></div></header>
 <main class="gig-shell provider-shell">
-<div class="provider-top"><div><h1 style="margin:0 0 7px">Dashboard Penyedia Servis</h1><p style="margin:0;color:#6b778c">Daftar sekali, pilih satu kawasan coverage dan urus servis anda sendiri.</p></div><div id="providerAuth"></div></div>
+<div class="provider-top"><div><h1 style="margin:0 0 7px">Dashboard Penyedia Servis</h1><p style="margin:0;color:#6b778c">Untuk tukang, freelancer, profesional dan perniagaan lokal. Daftar servis anda dan pilih satu kawasan utama yang anda cover.</p></div><div id="providerAuth"></div></div>
 <section id="loginPanel" class="panel"><h2>Sign in untuk mula</h2><p class="auth-chip">Gunakan Google Sign-In. Email hanya digunakan untuk akaun/verification dan tidak dipaparkan kepada public.</p><button id="googleLogin" class="btn primary">Sign in with Google</button><div id="loginMsg"></div></section>
 <div id="providerApp" class="hidden">
 <div id="statusBox"></div><div id="metrics" class="metrics"></div>
-<section class="panel"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><div><h2 id="formTitle">Daftar sebagai Penyedia Servis</h2><p class="auth-chip">Listing pertama perlu kelulusan admin RAPAT sebelum dipaparkan.</p></div><button id="logoutBtn" class="btn light small">Logout</button></div>
+<section class="panel"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><div><h2 id="formTitle">Daftar Sebagai Penyedia Servis</h2><p class="auth-chip">Listing pertama perlu kelulusan admin RAPAT sebelum dipaparkan.</p></div><button id="logoutBtn" class="btn light small">Logout</button></div>
 <div class="form-grid">
 <div class="field"><label>Nama / Nama Komersial *</label><input id="displayName" maxlength="120" placeholder="Ali Electrical Services"></div>
 <div class="field"><label>No. WhatsApp *</label><input id="whatsapp" inputmode="tel" placeholder="0123456789"></div>
@@ -25,7 +26,7 @@
 <div class="full"><label style="display:block;font-size:11px;font-weight:800;color:#56647a;margin-bottom:8px;text-transform:uppercase">Servis * — boleh pilih lebih daripada satu</label><div id="serviceGroups" class="service-groups"></div></div>
 <div id="customServiceField" class="field full hidden"><label>Nyatakan servis Lain-lain *</label><input id="customServices" maxlength="420" placeholder="Contoh: Pasang TV, Repair TV"><div class="auth-chip" style="margin-top:5px">Jika lebih daripada satu, asingkan dengan koma.</div></div>
 </div>
-<div class="toolbar" style="margin-top:16px"><button id="saveProvider" class="btn primary">Simpan</button><a class="btn light" href="freelance.html">Lihat Direktori</a></div><div id="saveMsg"></div>
+<div class="toolbar" style="margin-top:16px"><button id="saveProvider" class="btn primary">Simpan Listing</button><a class="btn light" href="freelance.html">Lihat Direktori Servis</a></div><div id="saveMsg"></div>
 </section></div>
 </main>
 <script type="module" src="freelance-provider.js"></script>
