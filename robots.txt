@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rapat.my/sitemap.xml
