@@ -18,11 +18,12 @@
 <div class="field"><label>Nama / Nama Komersial *</label><input id="displayName" maxlength="120" placeholder="Ali Electrical Services"></div>
 <div class="field"><label>No. WhatsApp *</label><input id="whatsapp" inputmode="tel" placeholder="0123456789"></div>
 <div class="field full"><label>Social Media / Website *</label><input id="socialUrl" type="url" placeholder="https://facebook.com/... atau https://website.my"></div>
+<div class="field"><label>Poskod *</label><input id="providerPostcode" inputmode="numeric" maxlength="5" placeholder="25200"><div id="providerPostcodeHint" class="auth-chip" style="margin-top:5px"></div></div>
 <div class="field"><label>Negeri *</label><select id="providerState"></select></div>
-<div class="field"><label>Daerah *</label><select id="providerDistrict" disabled><option value="">Pilih daerah</option></select></div>
-<div class="field"><label>Poskod *</label><input id="providerPostcode" inputmode="numeric" maxlength="5" placeholder="25200"></div>
+<div class="field"><label>Daerah / Kawasan *</label><select id="providerDistrict" disabled><option value="">Pilih daerah / kawasan</option></select></div>
 <div class="field"><label>Status Listing</label><select id="publishSelect"><option value="true">Published</option><option value="false">Unpublished</option></select></div>
 <div class="full"><label style="display:block;font-size:11px;font-weight:800;color:#56647a;margin-bottom:8px;text-transform:uppercase">Servis * — boleh pilih lebih daripada satu</label><div id="serviceGroups" class="service-groups"></div></div>
+<div id="customServiceField" class="field full hidden"><label>Nyatakan servis Lain-lain *</label><input id="customServices" maxlength="420" placeholder="Contoh: Pasang TV, Repair TV"><div class="auth-chip" style="margin-top:5px">Jika lebih daripada satu, asingkan dengan koma.</div></div>
 </div>
 <div class="toolbar" style="margin-top:16px"><button id="saveProvider" class="btn primary">Simpan</button><a class="btn light" href="freelance.html">Lihat Direktori</a></div><div id="saveMsg"></div>
 </section></div>
