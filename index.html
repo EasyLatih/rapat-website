@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RAPAT — Cari Servis Lokal Berdekatan Anda</title>
-<meta name="description" content="RAPAT membantu orang ramai mencari penyedia servis lokal mengikut servis dan kawasan. Closing the Gap Between Talent and Opportunity.">
+<meta name="description" content="Cari tukang, freelancer, profesional dan penyedia servis lokal berdekatan anda melalui RAPAT. Closing the Gap Between Talent and Opportunity.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -27,14 +27,14 @@
 .finder-label{font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--blue);font-weight:800;margin-bottom:8px}
 .finder-card h2{font-size:23px;line-height:1.2;color:var(--navy);margin:0 0 6px}
 .finder-card>p{font-size:12.5px;color:#728096;margin:0 0 19px}
-.finder-field{border:1px solid #dfe5ed;border-radius:12px;background:#fbfcfe;padding:13px 14px;margin-bottom:10px}
-.finder-field small{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.7px;color:#8b96a8;font-weight:800;margin-bottom:4px}
-.finder-field strong{font-size:13px;color:#293b5a}
+.finder-field{border:1px solid #dfe5ed;border-radius:12px;background:#fbfcfe;padding:11px 14px;margin-bottom:10px}
+.finder-field label{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.7px;color:#8b96a8;font-weight:800;margin-bottom:3px}
+.finder-field input{width:100%;border:0;outline:0;background:transparent;font:inherit;font-size:13px;font-weight:700;color:#293b5a;padding:3px 0}
+.finder-field input::placeholder{color:#9aa5b5;font-weight:600}
 .finder-card .btn{width:100%;margin-top:3px}
 .quick-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px}
 .quick-tags a{font-size:10.5px;padding:7px 9px;border-radius:999px;background:#f1f4f8;color:#526078;font-weight:700}
 .quick-tags a:hover{background:#e8eef7;color:var(--navy)}
-
 .home-section{padding:76px 0}
 .home-soft{background:#f7f9fc}
 .section-head{max-width:760px;margin:0 auto 35px;text-align:center}
@@ -59,7 +59,6 @@
 .offer .card-list i{background:#fff4d8;color:#9b6a00}
 .card-actions{display:flex;gap:10px;flex-wrap:wrap}
 .card-actions .btn{padding:11px 15px;font-size:12px}
-
 .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .step-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 10px 28px rgba(11,29,66,.045)}
 .step-no{width:38px;height:38px;border-radius:12px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:900;margin-bottom:16px}
@@ -67,14 +66,12 @@
 .step-card:nth-child(3) .step-no{background:var(--red)}
 .step-card h3{font-size:16px;color:var(--navy);margin:0 0 7px}
 .step-card p{font-size:12.5px;line-height:1.6;color:#657287;margin:0}
-
 .brand-band{background:linear-gradient(135deg,#06245f,#0a428b);color:#fff;padding:54px 0}
 .brand-band-grid{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center}
 .brand-band .mini{font-size:10.5px;text-transform:uppercase;letter-spacing:1.2px;color:#aac9f4;font-weight:800;margin-bottom:7px}
 .brand-band h2{font-size:33px;line-height:1.18;margin:0 0 10px}
 .brand-band p{font-size:13.5px;line-height:1.7;color:#d0dcec;max-width:760px;margin:0}
 .brand-band .btn{background:#fff;color:var(--navy);white-space:nowrap}
-
 .org-wrap{display:grid;grid-template-columns:.82fr 1.18fr;gap:28px;max-width:1020px;margin:0 auto}
 .org-card{background:var(--navy);color:#fff;border-radius:20px;padding:28px;box-shadow:var(--shadow)}
 .org-card .kicker{color:#acc9f2}
@@ -87,25 +84,10 @@
 .org-wrap .form-card{padding:27px}
 .org-wrap .form-card h3{font-size:19px}
 .org-wrap .form-card .btn{margin-top:2px}
-
 .simple-footer-note{font-size:11px;color:#8793a5;margin-top:8px}
-
-@media(max-width:980px){
-  .home-grid,.org-wrap{grid-template-columns:1fr}
-  .home-hero{padding:62px 0}
-  .home-hero h1{font-size:49px}
-  .finder-card{max-width:650px}
-  .brand-band-grid{grid-template-columns:1fr}
-  .brand-band .btn{justify-self:start}
-}
-@media(max-width:760px){
-  .home-hero{padding:48px 0 56px}.home-grid{gap:35px}.home-hero h1{font-size:40px;letter-spacing:-2px}.home-lead{font-size:15px}
-  .home-section{padding:58px 0}.section-head{text-align:left}.section-head h2{font-size:31px}.individual-grid,.steps-grid{grid-template-columns:1fr}
-  .brand-band h2{font-size:28px}
-}
-@media(max-width:520px){
-  .container{width:min(100% - 30px,1216px)}.home-hero h1{font-size:35px}.home-actions .btn{width:100%}.individual-card{padding:23px}.finder-card{padding:23px}
-}
+@media(max-width:980px){.home-grid,.org-wrap{grid-template-columns:1fr}.home-hero{padding:62px 0}.home-hero h1{font-size:49px}.finder-card{max-width:650px}.brand-band-grid{grid-template-columns:1fr}.brand-band .btn{justify-self:start}}
+@media(max-width:760px){.home-hero{padding:48px 0 56px}.home-grid{gap:35px}.home-hero h1{font-size:40px;letter-spacing:-2px}.home-lead{font-size:15px}.home-section{padding:58px 0}.section-head{text-align:left}.section-head h2{font-size:31px}.individual-grid,.steps-grid{grid-template-columns:1fr}.brand-band h2{font-size:28px}}
+@media(max-width:520px){.container{width:min(100% - 30px,1216px)}.home-hero h1{font-size:35px}.home-actions .btn{width:100%}.individual-card{padding:23px}.finder-card{padding:23px}}
 </style>
 </head>
 <body>
@@ -116,59 +98,56 @@
       <div class="tagline">Closing the Gap Between<br>Talent and Opportunity.</div>
     </a>
     <nav class="nav-links">
+      <a href="#top">Home</a>
       <a href="freelance.html">Cari Servis</a>
-      <a href="freelance-provider.html">Daftar Penyedia</a>
-      <a href="#individual">For Individual</a>
-      <a href="#organisation">For Organisation</a>
+      <a href="freelance-provider.html">Daftar Servis</a>
+      <a href="events-live.html">Career Events</a>
+      <a href="#about">Tentang RAPAT</a>
       <a href="freelance.html" class="nav-cta">Cari Servis Sekarang</a>
     </nav>
     <button class="mobile-toggle" aria-label="Open menu" onclick="document.getElementById('mobileMenu').style.display=document.getElementById('mobileMenu').style.display==='block'?'none':'block'">☰</button>
   </div>
   <div id="mobileMenu" style="display:none;background:white;border-top:1px solid #e5eaf1;padding:12px 20px 18px;font-size:13px;font-weight:700">
-    <div style="display:grid;gap:11px"><a href="freelance.html">Cari Servis</a><a href="freelance-provider.html">Daftar Penyedia</a><a href="#individual">For Individual</a><a href="#organisation">For Organisation</a></div>
+    <div style="display:grid;gap:11px"><a href="#top">Home</a><a href="freelance.html">Cari Servis</a><a href="freelance-provider.html">Daftar Servis</a><a href="events-live.html">Career Events</a><a href="#about">Tentang RAPAT</a></div>
   </div>
 </header>
-
 <main id="top">
 <section class="home-hero">
   <div class="container home-grid">
     <div>
-      <div class="home-eyebrow"><i></i> Servis lokal, lebih mudah ditemui</div>
-      <h1>Cari servis yang anda perlukan, <span>dekat dengan anda.</span></h1>
-      <p class="home-lead"><strong>Perlukan designer, tutor, wiring, aircond, runner atau servis lain?</strong> RAPAT membantu anda jumpa penyedia servis lokal berdasarkan jenis servis dan kawasan — kemudian terus berhubung melalui WhatsApp.</p>
+      <div class="home-eyebrow"><i></i> Orang lokal. Servis lokal.</div>
+      <h1>Cari orang berdekatan untuk <span>buat kerja.</span></h1>
+      <p class="home-lead"><strong>Tukang paip, wiring, aircond, designer, tutor, runner dan banyak lagi.</strong> RAPAT membantu anda cari penyedia servis lokal berdasarkan jenis servis dan kawasan — kemudian terus berhubung melalui WhatsApp.</p>
       <div class="home-actions">
-        <a class="btn btn-primary" href="freelance.html">Cari Servis Sekarang <span>→</span></a>
-        <a class="btn btn-outline" href="freelance-provider.html">Saya Nak Tawarkan Servis</a>
+        <a class="btn btn-primary" href="freelance.html">Cari Servis <span>→</span></a>
+        <a class="btn btn-outline" href="freelance-provider.html">Daftar Sebagai Penyedia Servis</a>
       </div>
-      <div class="home-note"><i>i</i><span>RAPAT membantu anda <strong>menemui penyedia servis</strong>. Urusan skop kerja, harga dan pembayaran dibuat terus antara anda dengan penyedia.</span></div>
+      <div class="home-note"><i>i</i><span>RAPAT ialah direktori penemuan servis. Urusan skop kerja, harga dan pembayaran dibuat terus antara anda dengan penyedia.</span></div>
     </div>
-
-    <div class="finder-card">
-      <div class="finder-label">RAPAT Local Service Finder</div>
-      <h2>Nak cari siapa hari ini?</h2>
-      <p>Cari ikut servis, negeri, daerah atau poskod.</p>
-      <div class="finder-field"><small>Servis</small><strong>Contoh: Aircond, Graphic Design, Tutor...</strong></div>
-      <div class="finder-field"><small>Lokasi</small><strong>Contoh: Kuantan, 25200</strong></div>
-      <a class="btn btn-red" href="freelance.html">Buka Carian Servis →</a>
+    <form class="finder-card" id="homeServiceSearch">
+      <div class="finder-label">Cari Servis Berdekatan</div>
+      <h2>Apa yang anda perlukan?</h2>
+      <p>Taip servis dan lokasi anda untuk mula mencari.</p>
+      <div class="finder-field"><label for="homeService">Servis</label><input id="homeService" name="service" placeholder="Contoh: Aircond, Tukang Paip, Tutor"></div>
+      <div class="finder-field"><label for="homePostcode">Poskod</label><input id="homePostcode" name="postcode" inputmode="numeric" maxlength="5" placeholder="Contoh: 25200"></div>
+      <button class="btn btn-red" type="submit">Cari Penyedia Servis →</button>
       <div class="quick-tags">
-        <a href="freelance.html">Home Service</a><a href="freelance.html">Creative</a><a href="freelance.html">Education</a><a href="freelance.html">Runner</a><a href="freelance.html">Business Support</a>
+        <a href="freelance.html?q=Aircond">Aircond</a><a href="freelance.html?q=Paip">Tukang Paip</a><a href="freelance.html?q=Graphic%20Design">Design</a><a href="freelance.html?q=Tutor">Tutor</a><a href="freelance.html?q=Runner">Runner</a>
       </div>
-    </div>
+    </form>
   </div>
 </section>
-
-<section class="home-section" id="individual">
+<section class="home-section" id="services">
   <div class="container">
     <div class="section-head">
-      <div class="kicker">For Individual</div>
+      <div class="kicker">Untuk Anda</div>
       <h2>Satu tempat untuk cari servis — atau tawarkan kemahiran anda.</h2>
-      <p>RAPAT bermula dengan satu idea mudah: orang yang perlukan bantuan patut lebih mudah jumpa orang yang boleh membantu mereka.</p>
+      <p>Ada kerja yang perlu dibuat? Cari orang lokal. Ada kemahiran atau servis? Biar orang di kawasan anda lebih mudah menemui anda.</p>
     </div>
-
     <div class="individual-grid">
       <div class="individual-card find">
-        <div class="card-top"><div class="card-icon">⌕</div><span class="card-badge">Untuk Orang Awam</span></div>
-        <h3>Saya Nak Cari Servis</h3>
+        <div class="card-top"><div class="card-icon">⌕</div><span class="card-badge">Nak Cari Orang</span></div>
+        <h3>Cari Penyedia Servis</h3>
         <p>Cari penyedia servis yang sesuai berdasarkan apa yang anda perlukan dan lokasi anda.</p>
         <div class="card-list">
           <div><i>✓</i><span>Cari mengikut kategori dan jenis servis.</span></div>
@@ -177,22 +156,20 @@
         </div>
         <div class="card-actions"><a class="btn btn-primary" href="freelance.html">Cari Servis →</a></div>
       </div>
-
       <div class="individual-card offer">
-        <div class="card-top"><div class="card-icon">+</div><span class="card-badge">Untuk Penyedia</span></div>
-        <h3>Saya Ada Servis</h3>
-        <p>Ada kemahiran atau buat kerja freelance? Daftarkan servis supaya orang di kawasan anda lebih mudah menemui anda.</p>
+        <div class="card-top"><div class="card-icon">+</div><span class="card-badge">Ada Servis</span></div>
+        <h3>Daftar Sebagai Penyedia</h3>
+        <p>Tukang, freelancer, profesional atau perniagaan lokal boleh daftar supaya pelanggan lebih mudah mencari anda.</p>
         <div class="card-list">
           <div><i>✓</i><span>Bina listing penyedia servis anda.</span></div>
-          <div><i>✓</i><span>Pilih servis dan kawasan yang anda cover.</span></div>
+          <div><i>✓</i><span>Pilih servis dan satu kawasan utama yang anda cover.</span></div>
           <div><i>✓</i><span>Terima pertanyaan pelanggan terus melalui WhatsApp.</span></div>
         </div>
-        <div class="card-actions"><a class="btn btn-outline" href="freelance-provider.html">Daftar Penyedia →</a></div>
+        <div class="card-actions"><a class="btn btn-outline" href="freelance-provider.html">Daftar Servis →</a></div>
       </div>
     </div>
   </div>
 </section>
-
 <section class="home-section home-soft" id="how">
   <div class="container">
     <div class="section-head">
@@ -207,26 +184,23 @@
     </div>
   </div>
 </section>
-
-<section class="brand-band">
+<section class="brand-band" id="about">
   <div class="container brand-band-grid">
     <div>
-      <div class="mini">Why RAPAT</div>
+      <div class="mini">Tentang RAPAT</div>
       <h2>Closing the Gap Between Talent & Opportunity.</h2>
-      <p>Ada orang yang perlukan sesuatu. Ada orang yang mempunyai kemahiran untuk melakukannya. RAPAT cuba merapatkan kedua-duanya — bermula dengan servis lokal.</p>
+      <p>Ada orang yang perlukan sesuatu. Ada orang yang mempunyai kemahiran untuk melakukannya. RAPAT merapatkan kedua-duanya dengan membantu talent, tukang, freelancer, profesional dan penyedia servis lokal lebih mudah ditemui.</p>
     </div>
-    <a class="btn" href="freelance.html">Explore Servis Lokal →</a>
+    <a class="btn" href="freelance.html">Cari Servis Lokal →</a>
   </div>
 </section>
-
-<section class="home-section" id="organisation">
+<section class="home-section" id="career-events">
   <div class="container">
     <div class="section-head">
-      <div class="kicker">For Organisation</div>
-      <h2>RAPAT juga boleh digunakan melalui kolaborasi career event.</h2>
-      <p>Bahagian ini bukan portal jawatan kosong. Ia adalah modul kolaborasi untuk organisasi yang menjalankan program kerjaya dan mahu memahami outcome peserta dengan lebih baik.</p>
+      <div class="kicker">Career Events</div>
+      <h2>Ada program kerjaya? RAPAT terbuka untuk kolaborasi.</h2>
+      <p>Career Events ialah modul tambahan RAPAT untuk organisasi yang mahu mengurus pendaftaran, employer evaluation dan memahami outcome peserta dengan lebih tersusun.</p>
     </div>
-
     <div class="org-wrap">
       <div class="org-card">
         <div class="kicker">Career Event Collaboration</div>
@@ -238,7 +212,6 @@
         <div class="org-point"><i>4</i><div><b>Partner-led deployment</b><span>Modul digunakan bila ada organisasi yang berkolaborasi dengan RAPAT.</span></div></div>
         <div class="card-actions" style="margin-top:18px"><a class="btn" style="background:#fff;color:var(--navy)" href="events-live.html">Lihat Career Events →</a></div>
       </div>
-
       <div class="form-card" id="collaborate">
         <h3>Collaborate With RAPAT</h3>
         <p class="form-sub">Ada career event atau employment initiative? Tinggalkan maklumat ringkas untuk perbincangan kolaborasi.</p>
@@ -265,15 +238,26 @@
   </div>
 </section>
 </main>
-
 <footer class="footer">
   <div class="container footer-grid">
     <div><div class="logo">RA<span class="red">P</span><span class="yellow">A</span>T</div><div class="tagline">Closing the Gap Between<br>Talent and Opportunity.</div></div>
-    <div><h4>Quick Links</h4><div class="footer-links"><a href="freelance.html">Cari Servis</a><a href="freelance-provider.html">Daftar Penyedia</a><a href="#individual">For Individual</a><a href="#organisation">For Organisation</a><a href="events-live.html">Career Events</a></div></div>
+    <div><h4>Quick Links</h4><div class="footer-links"><a href="freelance.html">Cari Servis</a><a href="freelance-provider.html">Daftar Servis</a><a href="events-live.html">Career Events</a><a href="#about">Tentang RAPAT</a></div></div>
     <div><h4>Connect With Us</h4><div class="social"><a href="mailto:hello@rapat.my" aria-label="Email">✉</a><a href="https://rapat.my" aria-label="Website">◎</a></div></div>
   </div>
   <div class="container footer-bottom"><div>© 2026 RAPAT. All rights reserved.</div><div><span>Talent × Opportunity</span></div></div>
 </footer>
 <script src="app.js"></script>
+<script>
+document.getElementById('homeServiceSearch').addEventListener('submit', function(e){
+  e.preventDefault();
+  const service=document.getElementById('homeService').value.trim();
+  const postcode=document.getElementById('homePostcode').value.replace(/\D/g,'').slice(0,5);
+  const params=new URLSearchParams();
+  if(service) params.set('q',service);
+  if(postcode) params.set('postcode',postcode);
+  window.location.href='freelance.html'+(params.toString()?'?'+params.toString():'');
+});
+document.getElementById('homePostcode').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,5)});
+</script>
 </body>
 </html>
