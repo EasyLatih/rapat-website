@@ -31,6 +31,9 @@ function parseCustomServices() {
   const unique = [...new Map(names.map(x => [x.toLowerCase(), x])).values()];
   if (unique.length > 5) throw new Error('Maksimum 5 servis Lain-lain bagi satu listing.');
   if (unique.some(x => x.length < 2 || x.length > 80)) throw new Error('Setiap servis Lain-lain mesti antara 2 hingga 80 aksara.');
+  const standardNames = new Set(services.filter(s => s.slug !== 'servis-lain-lain').map(s => s.name.trim().toLowerCase()));
+  const duplicate = unique.find(x => standardNames.has(x.toLowerCase()));
+  if (duplicate) throw new Error(`Servis "${duplicate}" sudah ada dalam senarai. Sila pilih servis tersebut, bukan Lain-lain.`);
   return unique;
 }
 
