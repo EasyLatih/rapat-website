@@ -1,8 +1,6 @@
 import { db, populateStates, populateDistricts, selectDistrict, lookupPostcode, escapeHtml, ensureVisitorKey, whatsappNumber, ratingStars } from './gig-config.js';
 
 const $ = id => document.getElementById(id);
-let categories = [];
-let services = [];
 let providers = [];
 let selectedProvider = null;
 let currentUser = null;
@@ -25,75 +23,19 @@ async function loadAuth() {
 
 async function signInFor(returnMode, providerId) {
   sessionStorage.setItem('rapatGigPendingAction', JSON.stringify({ mode: returnMode, providerId }));
-  const redirectTo = `${location.origin}${location.pathname}`;
+  const redirectTo = `${location.origin}${location.pathname}${location.search}`;
   const { error } = await db.auth.signInWithOAuth({ provider: 'google', options: { redirectTo } });
   if (error) alert(error.message);
 }
 
-async function loadTaxonomy() {
-  const [{ data: cats, error: ce }, { data: svcs, error: se }, { data: custom, error: cse }] = await Promise.all([
-    db.from('gig_categories').select('id,name,slug,sort_order').order('sort_order').order('name'),
-    db.from('gig_services').select('id,category_id,name,slug,sort_order').order('sort_order').order('name'),
-    db.rpc('gig_searchable_custom_services')
-  ]);
-  if (ce) throw ce;
-  if (se) throw se;
-  if (cse) throw cse;
-  categories = cats || [];
-  const standard = (svcs || []).map(s => ({ ...s, custom:false }));
-  const otherCategory = categories.find(c => c.slug === 'lain-lain');
-  const standardNames = new Set(standard.map(s => s.name.trim().toLowerCase()));
-  const dynamic = (custom || [])
-    .filter(x => x.name && !standardNames.has(String(x.name).trim().toLowerCase()))
-    .map((x,i) => ({
-      id:`custom:${encodeURIComponent(x.name)}`,
-      category_id:otherCategory?.id || '',
-      name:x.name,
-      slug:`custom-${i}`,
-      sort_order:200+i,
-      custom:true,
-      provider_count:Number(x.provider_count||0)
-    }));
-  services = [...standard, ...dynamic];
-  $('categoryFilter').innerHTML = '<option value="">Semua kategori</option>' + categories.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
-  renderServiceFilter();
-}
-
-function renderServiceFilter() {
-  const cat = $('categoryFilter').value;
-  const list = (cat ? services.filter(s => s.category_id === cat) : services)
-    .slice().sort((a,b)=>(a.sort_order-b.sort_order)||a.name.localeCompare(b.name));
-  $('serviceFilter').innerHTML = '<option value="">Semua servis</option>' + list.map(s => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.name)}${s.custom && !cat ? ' · Lain-lain' : ''}</option>`).join('');
-}
-
-function selectedServiceArgs() {
-  const value = $('serviceFilter').value || '';
-  if (!value) return { p_service_id:null, p_custom_service:null };
-  if (value.startsWith('custom:')) return { p_service_id:null, p_custom_service:decodeURIComponent(value.slice(7)) };
-  return { p_service_id:value, p_custom_service:null };
-}
-
-function findServiceFromQuery(query) {
-  const q = String(query || '').trim().toLowerCase();
-  if (!q) return null;
-  return services.find(s => String(s.name).trim().toLowerCase() === q)
-    || services.find(s => String(s.name).toLowerCase().includes(q))
-    || services.find(s => q.includes(String(s.name).toLowerCase()));
-}
-
 async function applyUrlFilters() {
   const params = new URLSearchParams(location.search);
-  const serviceQuery = params.get('q');
+  const keyword = params.get('q');
   const postcode = String(params.get('postcode') || '').replace(/\D/g,'').slice(0,5);
   const state = params.get('state');
   const district = params.get('district');
 
-  const matchedService = findServiceFromQuery(serviceQuery);
-  if (matchedService) {
-    $('categoryFilter').value = matchedService.category_id || '';
-    renderServiceFilter();
-    $('serviceFilter').value = matchedService.id;
-  }
+  if (keyword) $('keywordFilter').value = keyword;
 
   if (postcode.length === 5) {
     $('postcodeFilter').value = postcode;
@@ -108,21 +50,37 @@ async function applyUrlFilters() {
   }
 }
 
+function updateUrlFromSearch() {
+  const params = new URLSearchParams();
+  const keyword = $('keywordFilter').value.trim();
+  const postcode = $('postcodeFilter').value.trim();
+  const state = $('stateFilter').value;
+  const district = $('districtFilter').value;
+  if (keyword) params.set('q', keyword);
+  if (postcode) params.set('postcode', postcode);
+  if (state) params.set('state', state);
+  if (district) params.set('district', district);
+  const next = params.toString() ? `${location.pathname}?${params}` : location.pathname;
+  history.replaceState(null, '', next);
+}
+
 async function searchProviders() {
   $('providerList').innerHTML = '<div class="empty">Mencari penyedia servis…</div>';
+  const keyword = $('keywordFilter').value.trim();
   const args = {
-    ...selectedServiceArgs(),
+    p_keyword: keyword || null,
     p_state: $('stateFilter').value || null,
     p_district: $('districtFilter').value || null,
     p_postcode: $('postcodeFilter').value.trim() || null
   };
-  const { data, error } = await db.rpc('gig_search_providers', args);
+  const { data, error } = await db.rpc('gig_search_providers_keyword', args);
   if (error) {
     $('providerList').innerHTML = `<div class="empty">${escapeHtml(error.message)}</div>`;
     $('resultCount').textContent = 'Carian gagal.';
     return;
   }
   providers = data || [];
+  updateUrlFromSearch();
   renderProviders(args);
 }
 
@@ -134,9 +92,14 @@ function matchLabel(p, args) {
 }
 
 function renderProviders(args) {
-  $('resultCount').textContent = `${providers.length} penyedia servis ditemui`;
+  const keyword = String(args.p_keyword || '').trim();
+  $('resultCount').textContent = keyword
+    ? `${providers.length} penyedia ditemui untuk “${keyword}”`
+    : `${providers.length} penyedia servis ditemui`;
   if (!providers.length) {
-    $('providerList').innerHTML = '<div class="empty">Belum ada penyedia servis yang sepadan. Cuba lokasi atau servis lain.</div>';
+    $('providerList').innerHTML = keyword
+      ? `<div class="empty">Belum ada penyedia yang sepadan dengan <b>${escapeHtml(keyword)}</b>. Cuba keyword lebih ringkas seperti “jahit”, “paip”, “aircond” atau “resume”.</div>`
+      : '<div class="empty">Belum ada penyedia servis yang sepadan. Cuba lokasi lain.</div>';
     return;
   }
   $('providerList').innerHTML = providers.map(p => {
@@ -261,8 +224,8 @@ async function resumePendingAction() {
 (async function init() {
   populateStates($('stateFilter'), 'Semua negeri');
   $('stateFilter').onchange = () => populateDistricts($('districtFilter'), $('stateFilter').value, 'Semua daerah / kawasan');
-  $('categoryFilter').onchange = renderServiceFilter;
   $('searchBtn').onclick = searchProviders;
+  $('keywordFilter').onkeydown = e => { if (e.key === 'Enter') searchProviders(); };
   $('postcodeFilter').addEventListener('input', autofillPostcode);
   $('postcodeFilter').onkeydown = e => { if (e.key === 'Enter') searchProviders(); };
   $('closeDetails').onclick = () => closeModal('detailsModal');
@@ -271,7 +234,7 @@ async function resumePendingAction() {
   $('detailsModal').onclick = e => { if (e.target.id === 'detailsModal') closeModal('detailsModal'); };
   $('reportModal').onclick = e => { if (e.target.id === 'reportModal') closeModal('reportModal'); };
   try {
-    await Promise.all([loadAuth(), loadTaxonomy()]);
+    await loadAuth();
     await applyUrlFilters();
     await searchProviders();
     await resumePendingAction();
