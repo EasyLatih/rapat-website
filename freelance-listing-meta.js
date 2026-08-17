@@ -13,7 +13,7 @@ function searchArgs() {
   };
 }
 
-function providerMetaHtml(provider) {
+function providerMetaHtml(provider, declaredMalaysian = false) {
   const list = Array.isArray(provider.services) ? provider.services : [];
   const primary = list[0] || null;
   const extra = Math.max(0, list.length - 1);
@@ -23,6 +23,7 @@ function providerMetaHtml(provider) {
   const location = [provider.district, provider.state].filter(Boolean).map(escapeHtml).join(', ');
 
   return `
+    ${declaredMalaysian ? `<div><span class="provider-citizenship-badge" title="Status ini diisytihar sendiri oleh penyedia servis dan bukan pengesahan identiti oleh RAPAT.my.">🇲🇾 Diisytihar Warganegara Malaysia</span></div>` : ''}
     <div class="provider-service-line">${serviceLine}${extra ? ` <span class="provider-more">+${extra} lagi servis</span>` : ''}</div>
     ${location ? `<div class="provider-location-line">${location}</div>` : ''}`;
 }
@@ -35,20 +36,28 @@ async function decorateCards() {
 
   decorating = true;
   try {
-    const { data, error } = await db.rpc('gig_search_providers_keyword', searchArgs());
-    if (error) return;
-    const byId = new Map((data || []).map(provider => [String(provider.provider_id), provider]));
+    const [searchResult, citizenshipResult] = await Promise.all([
+      db.rpc('gig_search_providers_keyword', searchArgs()),
+      db.rpc('gig_declared_malaysian_providers')
+    ]);
+    if (searchResult.error) return;
+
+    const byId = new Map((searchResult.data || []).map(provider => [String(provider.provider_id), provider]));
+    const declaredIds = new Set(
+      citizenshipResult.error ? [] : (citizenshipResult.data || []).map(row => String(row.provider_id))
+    );
 
     cards.forEach(card => {
       if (card.dataset.metaReady === '1') return;
       const detailsBtn = card.querySelector('[data-details]');
-      const provider = detailsBtn ? byId.get(String(detailsBtn.dataset.details)) : null;
+      const providerId = detailsBtn ? String(detailsBtn.dataset.details) : '';
+      const provider = providerId ? byId.get(providerId) : null;
       const info = card.firstElementChild;
       if (!provider || !info) return;
 
       const meta = document.createElement('div');
       meta.className = 'provider-card-meta';
-      meta.innerHTML = providerMetaHtml(provider);
+      meta.innerHTML = providerMetaHtml(provider, declaredIds.has(providerId));
       const badge = info.querySelector('.match-badge');
       if (badge) info.insertBefore(meta, badge);
       else info.appendChild(meta);
