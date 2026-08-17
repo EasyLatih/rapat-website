@@ -22,6 +22,10 @@ async function loadAuth() {
 }
 
 async function signInFor(returnMode, providerId) {
+  if (window.RAPAT_NATIVE?.signInFor) {
+    try { return await window.RAPAT_NATIVE.signInFor(returnMode, providerId); }
+    catch (error) { alert(error.message || 'Google Sign-In tidak dapat dibuka.'); return; }
+  }
   sessionStorage.setItem('rapatGigPendingAction', JSON.stringify({ mode: returnMode, providerId }));
   const redirectTo = `${location.origin}${location.pathname}${location.search}`;
   const { error } = await db.auth.signInWithOAuth({ provider: 'google', options: { redirectTo } });
