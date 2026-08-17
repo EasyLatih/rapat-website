@@ -3,6 +3,7 @@
 
   const SOCIAL_STYLE_ID = 'gig-social-kit-styles';
   const SOCIAL_KIT_ID = 'gigSocialKit';
+  const UNKNOWN_STATE_KEY = '__tanpa_negeri__';
   let socialProviders = [];
   let activeProviderId = '';
   let captionVariant = 0;
@@ -17,6 +18,48 @@
   }[char]));
 
   const esc = value => typeof window.gigEsc === 'function' ? window.gigEsc(value) : fallbackEsc(value);
+
+  function providerStateKey(provider) {
+    const state = String(provider?.state || '').trim();
+    return state ? state.toLocaleLowerCase('ms') : UNKNOWN_STATE_KEY;
+  }
+
+  function interleaveProvidersByState(providers) {
+    const groups = new Map();
+
+    providers.forEach(provider => {
+      const key = providerStateKey(provider);
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(provider);
+    });
+
+    groups.forEach(group => {
+      group.sort((a, b) => String(a.display_name || '').localeCompare(String(b.display_name || ''), 'ms'));
+    });
+
+    const stateKeys = Array.from(groups.keys()).sort((a, b) => {
+      if (a === UNKNOWN_STATE_KEY) return 1;
+      if (b === UNKNOWN_STATE_KEY) return -1;
+      return a.localeCompare(b, 'ms');
+    });
+
+    const ordered = [];
+    let round = 0;
+    let added = true;
+
+    while (added) {
+      added = false;
+      stateKeys.forEach(key => {
+        const provider = groups.get(key)?.[round];
+        if (!provider) return;
+        ordered.push(provider);
+        added = true;
+      });
+      round += 1;
+    }
+
+    return ordered;
+  }
 
   function injectStyles() {
     if (document.getElementById(SOCIAL_STYLE_ID)) return;
@@ -66,9 +109,7 @@
 
   function providerServices(provider) {
     if (!provider) return [];
-    if (typeof window.gigServiceEntries === 'function') {
-      return window.gigServiceEntries(provider);
-    }
+    if (typeof window.gigServiceEntries === 'function') return window.gigServiceEntries(provider);
     return [];
   }
 
@@ -101,7 +142,7 @@
         <div>
           <div class="eyebrow">Social Content Kit</div>
           <h2 style="margin-bottom:6px">#RAPATkanRezeki</h2>
-          <p class="muted" style="margin:0">Pilih provider, download social card RAPAT dan copy caption. Tiada gambar provider dan tiada fail poster disimpan.</p>
+          <p class="muted" style="margin:0">Provider disusun berselang-seli ikut negeri supaya content lebih seimbang. Pilih provider, download social card RAPAT dan copy caption.</p>
         </div>
       </div>
 
@@ -114,7 +155,7 @@
           <label>Servis untuk diketengahkan</label>
           <select id="gigSocialService" onchange="gigSocialRender()"></select>
         </div>
-        <button class="btn light gig-social-random" type="button" onclick="gigSocialPickRandom()">Pilih Rawak</button>
+        <button class="btn light gig-social-random" type="button" onclick="gigSocialPickRandom()">Provider Seterusnya</button>
       </div>
 
       <div id="gigSocialEmpty" class="empty" style="display:none;margin-top:16px">Belum ada provider approved & published untuk dijadikan content.</div>
@@ -170,9 +211,7 @@
       return;
     }
 
-    if (!socialProviders.some(provider => provider.id === activeProviderId)) {
-      activeProviderId = socialProviders[0].id;
-    }
+    if (!socialProviders.some(provider => provider.id === activeProviderId)) activeProviderId = socialProviders[0].id;
 
     providerSelect.innerHTML = socialProviders.map(provider => (
       `<option value="${esc(provider.id)}" ${provider.id === activeProviderId ? 'selected' : ''}>${esc(provider.display_name || 'Provider')} · ${esc(providerLocation(provider))}</option>`
@@ -270,11 +309,11 @@
     syncServiceOptions();
   }
 
-  function pickRandomProvider() {
+  function pickNextProvider() {
     if (!socialProviders.length) return;
-    let pool = socialProviders;
-    if (socialProviders.length > 1 && activeProviderId) pool = socialProviders.filter(provider => provider.id !== activeProviderId);
-    selectProvider(pool[Math.floor(Math.random() * pool.length)].id);
+    const currentIndex = socialProviders.findIndex(provider => provider.id === activeProviderId);
+    const nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % socialProviders.length;
+    selectProvider(socialProviders[nextIndex].id);
   }
 
   function nextCaption() {
@@ -308,9 +347,7 @@
   function inlineComputedStyles(source, target) {
     const computed = window.getComputedStyle(source);
     let css = '';
-    for (const property of computed) {
-      css += `${property}:${computed.getPropertyValue(property)};`;
-    }
+    for (const property of computed) css += `${property}:${computed.getPropertyValue(property)};`;
     target.setAttribute('style', css);
 
     const sourceChildren = Array.from(source.children);
@@ -387,9 +424,10 @@
     if (typeof original !== 'function' || original.__rapatSocialHook) return;
 
     function wrappedRenderGigProviders(rows) {
-      socialProviders = (Array.isArray(rows) ? rows : [])
-        .filter(provider => provider.status === 'approved' && provider.is_published)
-        .sort((a, b) => String(a.display_name || '').localeCompare(String(b.display_name || ''), 'ms'));
+      const eligibleProviders = (Array.isArray(rows) ? rows : [])
+        .filter(provider => provider.status === 'approved' && provider.is_published);
+
+      socialProviders = interleaveProvidersByState(eligibleProviders);
 
       const result = original(rows);
       syncProviderOptions();
@@ -401,7 +439,7 @@
   }
 
   window.gigSocialSelectProvider = selectProvider;
-  window.gigSocialPickRandom = pickRandomProvider;
+  window.gigSocialPickRandom = pickNextProvider;
   window.gigSocialRender = renderSocialKit;
   window.gigSocialNextCaption = nextCaption;
   window.gigSocialCopyCaption = copyCaption;
