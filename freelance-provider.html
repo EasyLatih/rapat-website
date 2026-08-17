@@ -11,11 +11,21 @@
 <header class="gig-header"><div class="gig-nav"><a class="gig-brand" href="index.html">RA<span class="r">P</span><span class="y">A</span>T</a><nav class="gig-links"><a href="index.html">Utama</a><a href="freelance.html">Cari Servis</a><a class="active" href="freelance-provider.html">Daftar Servis</a><a href="events-live.html">Career Events</a></nav></div></header>
 <main class="gig-shell provider-shell">
 <div class="provider-top"><div><h1 style="margin:0 0 7px">Dashboard Penyedia Servis</h1><p style="margin:0;color:#6b778c">Untuk tukang, freelancer, profesional dan perniagaan lokal. Daftar servis anda dan pilih satu kawasan utama yang anda cover.</p></div><div id="providerAuth"></div></div>
-<section id="loginPanel" class="panel"><h2>Sign in untuk mula</h2><p class="auth-chip">Gunakan Google Sign-In. Email hanya digunakan untuk akaun/verification dan tidak dipaparkan kepada public.</p><button id="googleLogin" class="btn primary">Sign in with Google</button><div id="loginMsg"></div></section>
+<section id="loginPanel" class="panel"><h2>Sign in untuk mula</h2><p class="auth-chip">Gunakan Google Sign-In. Email hanya digunakan untuk akaun/verification dan tidak dipaparkan kepada public.</p><p class="auth-chip"><b>Pendaftaran penyedia servis RAPAT.my hanya untuk warganegara Malaysia.</b></p><button id="googleLogin" class="btn primary">Sign in with Google</button><div id="loginMsg"></div></section>
 <div id="providerApp" class="hidden">
+<section id="citizenshipPanel" class="panel hidden" style="border:2px solid #e5b000">
+<h2 style="margin-top:0">Pengesahan Warganegara Malaysia</h2>
+<p class="auth-chip">RAPAT.my kini mengehadkan pendaftaran penyedia servis kepada <b>warganegara Malaysia sahaja</b>. Sila sahkan status anda. Kami tidak meminta nombor atau salinan MyKad untuk pengesahan ini.</p>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 0">
+<label class="check" style="padding:10px 14px;border:1px solid #dde4ee;border-radius:10px"><input type="radio" name="existingCitizenship" value="malaysian"><span>Ya, saya warganegara Malaysia</span></label>
+<label class="check" style="padding:10px 14px;border:1px solid #dde4ee;border-radius:10px"><input type="radio" name="existingCitizenship" value="non_malaysian"><span>Tidak, saya bukan warganegara Malaysia</span></label>
+</div>
+<button id="confirmCitizenship" class="btn primary">Sahkan Status</button><div id="citizenshipMsg"></div>
+</section>
 <div id="statusBox"></div><div id="metrics" class="metrics"></div>
 <section class="panel"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><div><h2 id="formTitle">Daftar Sebagai Penyedia Servis</h2><p class="auth-chip">Listing pertama perlu kelulusan admin RAPAT sebelum dipaparkan.</p></div><button id="logoutBtn" class="btn light small">Logout</button></div>
 <div class="form-grid">
+<div id="newCitizenshipField" class="field full"><label>Warganegara Malaysia *</label><select id="citizenshipSelect"><option value="">Sila pilih</option><option value="malaysian">Ya, saya warganegara Malaysia</option><option value="non_malaysian">Tidak, saya bukan warganegara Malaysia</option></select><div class="auth-chip" style="margin-top:5px">Pendaftaran penyedia servis RAPAT.my hanya dibuka kepada warganegara Malaysia.</div></div>
 <div class="field"><label>Nama / Nama Komersial *</label><input id="displayName" maxlength="120" placeholder="Ali Electrical Services"></div>
 <div class="field"><label>No. WhatsApp *</label><input id="whatsapp" inputmode="tel" placeholder="0123456789"></div>
 <div class="field full"><label>Social Media / Website *</label><input id="socialUrl" type="url" placeholder="https://facebook.com/... atau https://website.my"></div>
@@ -29,5 +39,5 @@
 <div class="toolbar" style="margin-top:16px"><button id="saveProvider" class="btn primary">Simpan Listing</button><a class="btn light" href="freelance.html">Lihat Direktori Servis</a></div><div id="saveMsg"></div>
 </section></div>
 </main>
-<script type="module" src="freelance-provider.js?v=2"></script><script src="freelance-provider-search.js?v=1"></script>
+<script type="module" src="freelance-provider.js?v=3"></script><script src="freelance-provider-search.js?v=1"></script>
 </body></html>
