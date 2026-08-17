@@ -11,9 +11,12 @@ let postcodeLookupSeq = 0;
 function msg(text, good=false) {
   $('saveMsg').innerHTML = text ? `<div class="notice ${good ? '' : 'bad'}">${escapeHtml(text)}</div>` : '';
 }
+function citizenshipMsg(text, good=false) {
+  $('citizenshipMsg').innerHTML = text ? `<div class="notice ${good ? '' : 'bad'}" style="margin-top:12px">${escapeHtml(text)}</div>` : '';
+}
 
 async function googleLogin() {
-  const redirectTo = `${location.origin}${location.pathname}`;
+  const redirectTo = `${location.origin}${location.pathname}${location.search || ''}`;
   const { error } = await db.auth.signInWithOAuth({ provider: 'google', options: { redirectTo } });
   if (error) $('loginMsg').innerHTML = `<div class="notice bad">${escapeHtml(error.message)}</div>`;
 }
@@ -63,6 +66,59 @@ function renderServices() {
   toggleCustomServiceField();
 }
 
+function renderCitizenship() {
+  const panel = $('citizenshipPanel');
+  const newField = $('newCitizenshipField');
+  const saveBtn = $('saveProvider');
+  if (!provider) {
+    panel.classList.add('hidden');
+    newField.classList.remove('hidden');
+    saveBtn.disabled = false;
+    return;
+  }
+
+  newField.classList.add('hidden');
+  const status = provider.citizenship_status || 'pending';
+  if (status === 'pending') {
+    panel.classList.remove('hidden');
+    saveBtn.disabled = true;
+    citizenshipMsg('Sila sahkan status warganegara sebelum mengemas kini listing anda.');
+    return;
+  }
+
+  if (status === 'non_malaysian') {
+    panel.classList.remove('hidden');
+    panel.querySelector('h2').textContent = 'Pendaftaran Tidak Layak';
+    panel.querySelectorAll('input[name="existingCitizenship"]').forEach(x => x.disabled = true);
+    $('confirmCitizenship').classList.add('hidden');
+    saveBtn.disabled = true;
+    citizenshipMsg('Buat masa ini, pendaftaran penyedia servis RAPAT.my hanya dibuka kepada warganegara Malaysia. Listing anda telah ditolak dan tidak dipaparkan kepada umum.');
+    return;
+  }
+
+  panel.classList.add('hidden');
+  saveBtn.disabled = false;
+}
+
+async function confirmCitizenship() {
+  try {
+    citizenshipMsg('');
+    const choice = document.querySelector('input[name="existingCitizenship"]:checked')?.value || '';
+    if (!choice) throw new Error('Sila pilih Ya atau Tidak terlebih dahulu.');
+    const { data, error } = await db.from('gig_providers')
+      .update({ citizenship_status: choice, citizenship_confirmed_at: new Date().toISOString() })
+      .eq('id', provider.id)
+      .select('*').single();
+    if (error) throw error;
+    provider = data;
+    if (choice === 'malaysian') citizenshipMsg('Terima kasih. Status warganegara anda telah disahkan.', true);
+    else citizenshipMsg('Pendaftaran penyedia servis RAPAT.my hanya untuk warganegara Malaysia. Listing anda telah ditolak.');
+    await loadProvider();
+  } catch (error) {
+    citizenshipMsg(error.message || 'Tidak dapat menyimpan pengesahan.');
+  }
+}
+
 async function loadProvider() {
   const { data, error } = await db.from('gig_providers').select('*').maybeSingle();
   if (error) throw error;
@@ -71,6 +127,7 @@ async function loadProvider() {
     $('formTitle').textContent = 'Daftar sebagai Penyedia Servis';
     renderStatus();
     renderMetrics(null);
+    renderCitizenship();
     renderServices();
     return;
   }
@@ -92,6 +149,7 @@ async function loadProvider() {
   $('customServices').value = (custom || []).map(x => x.name).join(', ');
   renderServices();
   renderStatus();
+  renderCitizenship();
   const { data: metrics, error: me } = await db.rpc('gig_my_metrics');
   if (!me) renderMetrics((metrics || [])[0] || null);
 }
@@ -105,7 +163,7 @@ function renderStatus() {
   let note = '';
   if (provider.status === 'pending') note = 'Admin RAPAT perlu approve listing pertama sebelum ia muncul dalam carian.';
   if (provider.status === 'approved' && !provider.is_published) note = 'Listing anda diluluskan tetapi sedang unpublished.';
-  if (provider.status === 'rejected') note = 'Listing belum diluluskan. Semak dan kemas kini maklumat; admin masih boleh review semula.';
+  if (provider.status === 'rejected') note = provider.citizenship_status === 'non_malaysian' ? 'Pendaftaran penyedia servis RAPAT.my hanya dibuka kepada warganegara Malaysia.' : 'Listing belum diluluskan. Semak dan kemas kini maklumat; admin masih boleh review semula.';
   if (provider.status === 'suspended') note = 'Listing digantung oleh admin RAPAT dan tidak dipaparkan kepada public.';
   $('statusBox').innerHTML = `<div class="notice"><span class="status-pill status-${escapeHtml(provider.status)}">${escapeHtml(label)}</span>${note ? ` &nbsp; ${escapeHtml(note)}` : ''}</div>`;
 }
@@ -145,6 +203,15 @@ function validateForm() {
   const state = $('providerState').value;
   const district = $('providerDistrict').value;
   const postcode = $('providerPostcode').value.trim();
+  if (!provider) {
+    const citizenship = $('citizenshipSelect').value;
+    if (!citizenship) throw new Error('Sila sahkan status warganegara Malaysia.');
+    if (citizenship !== 'malaysian') throw new Error('Buat masa ini, pendaftaran penyedia servis RAPAT.my hanya dibuka kepada warganegara Malaysia.');
+  } else if ((provider.citizenship_status || 'pending') === 'pending') {
+    throw new Error('Sila sahkan status warganegara Malaysia terlebih dahulu.');
+  } else if (provider.citizenship_status === 'non_malaysian') {
+    throw new Error('Pendaftaran penyedia servis RAPAT.my hanya dibuka kepada warganegara Malaysia.');
+  }
   if (!name || !whatsapp || !social || !state || !district || !postcode) throw new Error('Lengkapkan semua maklumat wajib.');
   if (!/^https?:\/\//i.test(social)) throw new Error('Social media / website mesti bermula dengan http:// atau https://');
   if (!/^\d{5}$/.test(postcode)) throw new Error('Poskod mesti 5 digit.');
@@ -185,7 +252,12 @@ async function saveProvider() {
     msg('');
     const { payload, customServices } = validateForm();
     if (!provider) {
-      const { data, error } = await db.from('gig_providers').insert({ ...payload, user_id:user.id }).select().single();
+      const { data, error } = await db.from('gig_providers').insert({
+        ...payload,
+        user_id:user.id,
+        citizenship_status:'malaysian',
+        citizenship_confirmed_at:new Date().toISOString()
+      }).select().single();
       if (error) throw error;
       provider = data;
       await syncServices(provider.id);
@@ -224,6 +296,7 @@ async function initAuth() {
   $('googleLogin').onclick = googleLogin;
   $('logoutBtn').onclick = async () => { await db.auth.signOut(); location.reload(); };
   $('saveProvider').onclick = saveProvider;
+  $('confirmCitizenship').onclick = confirmCitizenship;
   try {
     await initAuth();
     if (user) {
