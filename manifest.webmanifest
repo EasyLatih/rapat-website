@@ -1,0 +1,20 @@
+{
+  "name": "RAPAT.my — Menghubungkan Rakyat dengan Peluang",
+  "short_name": "RAPAT",
+  "description": "Cari servis tempatan, tawarkan kemahiran dan terokai peluang berdekatan di Malaysia.",
+  "lang": "ms-MY",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#06245f",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
