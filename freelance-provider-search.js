@@ -1,5 +1,5 @@
 (function(){
-  function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[m]));}
+  function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
   function mount(){
     const groups=document.getElementById('serviceGroups');
     if(!groups||document.getElementById('providerServiceSearch'))return false;
