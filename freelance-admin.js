@@ -1,7 +1,7 @@
 function gigMountAdminUI(){
   if(!document.querySelector('link[data-gig-admin-dashboard]')){
     const link=document.createElement('link');
-    link.rel='stylesheet';link.href='freelance-admin-dashboard.css?v=1';link.dataset.gigAdminDashboard='1';
+    link.rel='stylesheet';link.href='freelance-admin-dashboard.css?v=2';link.dataset.gigAdminDashboard='1';
     document.head.appendChild(link);
   }
   const nav=document.querySelector('.admin-nav');
@@ -29,7 +29,7 @@ function gigMountAdminUI(){
       <div class="panel" style="margin-top:16px"><div class="sectiontitle"><div><h2>Pendaftaran Terkini</h2><p class="muted2">Penyedia terbaru yang mendaftar di RAPAT.</p></div><span id="gigRecentMeta" class="muted2"></span></div><div id="gigRecentProviders"></div></div>
 
       <div class="gig-manage-head"><div><div class="eyebrow">Operations</div><h2>Manage Service Directory</h2></div><div id="gigOpsMeta" class="muted2"></div></div>
-      <div class="grid2" style="margin-top:16px"><div class="panel"><h2>Service Providers</h2><p class="muted">Approve, reject or suspend provider listings.</p><div id="gigProviders"></div></div><div class="panel"><h2>Reports / Aduan</h2><p class="muted">Review public reports and take action where necessary.</p><div id="gigReports"></div></div></div>
+      <div class="grid2" style="margin-top:16px"><div class="panel"><h2>Service Providers</h2><p class="muted">Approve, reject or suspend provider listings.</p><div id="gigProviders"></div><nav id="gigProviderPagination" class="gig-admin-pagination hidden" aria-label="Navigasi halaman penyedia servis"></nav></div><div class="panel"><h2>Reports / Aduan</h2><p class="muted">Review public reports and take action where necessary.</p><div id="gigReports"></div></div></div>
       <div class="grid2" style="margin-top:16px"><div class="panel"><h2>Add Category</h2><div class="field"><label>Category Name</label><input id="gigNewCategory" placeholder="e.g. Pet Care"></div><button class="btn primary" onclick="gigCreateCategory()">+ Add Category</button><hr style="border:0;border-top:1px solid #e7ebf1;margin:20px 0"><h2>Add Service</h2><div class="field"><label>Category</label><select id="gigCategorySelect"></select></div><div class="field"><label>Service Name</label><input id="gigNewService" placeholder="e.g. Cat Sitting"></div><button class="btn primary" onclick="gigCreateService()">+ Add Service</button></div><div class="panel"><h2>Categories & Services</h2><p class="muted">Click a service to enable or disable it.</p><div id="gigCategories"></div></div></div>`;
     const audit=document.getElementById('view-audit');audit?.before(s);
   }
@@ -42,6 +42,9 @@ const gigEsc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>'
 const gigNice=s=>String(s||'').replaceAll('_',' ').replace(/\b\w/g,m=>m.toUpperCase());
 const gigMYDateTime=d=>new Intl.DateTimeFormat('ms-MY',{timeZone:'Asia/Kuala_Lumpur',day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(d));
 const gigDateKey=d=>new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Kuala_Lumpur',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(d));
+const GIG_ADMIN_PAGE_SIZE=10;
+let gigProviderPage=1;
+let gigProviderRows=[];
 
 async function gigAdminApi(action,data={}){
   const r=await fetch(GIG_ADMIN_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,sessionToken:adminToken,...data})});
@@ -101,7 +104,37 @@ async function loadGigAdmin(){
   }catch(e){if(String(e.message).includes('access'))return adminLogout();gig$('gigAdminMsg').innerHTML=`<div class="alert">${gigEsc(e.message)}</div>`}
 }
 
-function renderGigProviders(rows){gig$('gigProviders').innerHTML=rows.length?`<div style="overflow:auto"><table class="admin-table"><thead><tr><th>Provider</th><th>Coverage</th><th>Services</th><th>Status</th><th>Actions</th></tr></thead><tbody>${rows.map(p=>`<tr><td><b>${gigEsc(p.display_name)}</b><div class="muted2">${gigEsc(p.whatsapp)}</div><a href="${gigEsc(p.social_url)}" target="_blank" rel="noopener noreferrer">Social / Website</a></td><td>${gigEsc(p.postcode)}<br>${gigEsc(p.district)}, ${gigEsc(p.state)}</td><td style="min-width:230px">${gigEsc(gigProviderServices(p))}</td><td><span class="badge ${p.status==='approved'?'ok':p.status==='pending'?'wait':''}">${gigEsc(gigNice(p.status))}</span><div class="muted2">${p.is_published?'Published':'Unpublished'}</div></td><td style="min-width:205px"><div style="display:flex;gap:6px;flex-wrap:wrap">${p.status!=='approved'?`<button class="btn primary small" onclick="gigSetProviderStatus('${p.id}','approved')">Approve</button>`:''}${p.status!=='rejected'?`<button class="btn light small" onclick="gigSetProviderStatus('${p.id}','rejected')">Reject</button>`:''}${p.status!=='suspended'?`<button class="btn light small" onclick="gigSetProviderStatus('${p.id}','suspended')">Suspend</button>`:''}</div></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">No service providers yet.</div>'}
+function gigProviderPageNumbers(totalPages){const pages=new Set([1,totalPages,gigProviderPage-1,gigProviderPage,gigProviderPage+1]);return [...pages].filter(page=>page>=1&&page<=totalPages).sort((a,b)=>a-b)}
+function renderGigProviderPagination(totalPages,pageStart,pageEnd){
+  const pagination=gig$('gigProviderPagination');
+  if(!pagination)return;
+  if(gigProviderRows.length<=GIG_ADMIN_PAGE_SIZE){pagination.classList.add('hidden');pagination.innerHTML='';return}
+  const pageButtons=[];let previousPage=0;
+  for(const page of gigProviderPageNumbers(totalPages)){
+    if(previousPage&&page-previousPage>1)pageButtons.push('<span class="gig-pagination-ellipsis" aria-hidden="true">…</span>');
+    pageButtons.push(`<button class="gig-pagination-page${page===gigProviderPage?' active':''}" onclick="gigGoToProviderPage(${page})"${page===gigProviderPage?' aria-current="page"':''} aria-label="Halaman ${page}">${page}</button>`);
+    previousPage=page;
+  }
+  pagination.innerHTML=`<span class="gig-pagination-summary">Paparan ${pageStart+1}–${pageEnd} daripada ${gigProviderRows.length}</span><button class="btn light small" onclick="gigGoToProviderPage(${gigProviderPage-1})" ${gigProviderPage===1?'disabled':''}>← Sebelumnya</button><div class="gig-pagination-pages">${pageButtons.join('')}</div><span class="gig-pagination-status">Halaman ${gigProviderPage} daripada ${totalPages}</span><button class="btn light small" onclick="gigGoToProviderPage(${gigProviderPage+1})" ${gigProviderPage===totalPages?'disabled':''}>Seterusnya →</button>`;
+  pagination.classList.remove('hidden');
+}
+function gigGoToProviderPage(page){
+  const totalPages=Math.max(1,Math.ceil(gigProviderRows.length/GIG_ADMIN_PAGE_SIZE));
+  if(page<1||page>totalPages||page===gigProviderPage)return;
+  gigProviderPage=page;
+  window.renderGigProviders(gigProviderRows);
+  gig$('gigProviders')?.closest('.panel')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function renderGigProviders(rows){
+  gigProviderRows=Array.isArray(rows)?rows:[];
+  const totalPages=Math.max(1,Math.ceil(gigProviderRows.length/GIG_ADMIN_PAGE_SIZE));
+  gigProviderPage=Math.min(Math.max(1,gigProviderPage),totalPages);
+  const pageStart=(gigProviderPage-1)*GIG_ADMIN_PAGE_SIZE;
+  const pageRows=gigProviderRows.slice(pageStart,pageStart+GIG_ADMIN_PAGE_SIZE);
+  const pageEnd=pageStart+pageRows.length;
+  gig$('gigProviders').innerHTML=pageRows.length?`<div style="overflow:auto"><table class="admin-table"><thead><tr><th>Provider</th><th>Coverage</th><th>Services</th><th>Status</th><th>Actions</th></tr></thead><tbody>${pageRows.map(p=>`<tr data-provider-id="${gigEsc(p.id)}"><td><b>${gigEsc(p.display_name)}</b><div class="muted2">${gigEsc(p.whatsapp)}</div><a href="${gigEsc(p.social_url)}" target="_blank" rel="noopener noreferrer">Social / Website</a></td><td>${gigEsc(p.postcode)}<br>${gigEsc(p.district)}, ${gigEsc(p.state)}</td><td style="min-width:230px">${gigEsc(gigProviderServices(p))}</td><td><span class="badge ${p.status==='approved'?'ok':p.status==='pending'?'wait':''}">${gigEsc(gigNice(p.status))}</span><div class="muted2">${p.is_published?'Published':'Unpublished'}</div></td><td style="min-width:205px"><div style="display:flex;gap:6px;flex-wrap:wrap">${p.status!=='approved'?`<button class="btn primary small" onclick="gigSetProviderStatus('${p.id}','approved')">Approve</button>`:''}${p.status!=='rejected'?`<button class="btn light small" onclick="gigSetProviderStatus('${p.id}','rejected')">Reject</button>`:''}${p.status!=='suspended'?`<button class="btn light small" onclick="gigSetProviderStatus('${p.id}','suspended')">Suspend</button>`:''}</div></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">No service providers yet.</div>';
+  renderGigProviderPagination(totalPages,pageStart,pageEnd);
+}
 async function gigSetProviderStatus(providerId,status){try{await gigAdminApi('set_provider_status',{providerId,status});await loadGigAdmin()}catch(e){alert(e.message)}}
 function renderGigReports(rows){gig$('gigReports').innerHTML=rows.length?rows.map(r=>{const p=gigJoined(r,'gig_providers')||{};return `<div class="journey-card"><div class="sectiontitle"><div><b>${gigEsc(p.display_name||'Provider')}</b><div class="muted2">${gigEsc([p.postcode,p.district,p.state].filter(Boolean).join(' · '))}</div></div><span class="badge ${r.status==='resolved'||r.status==='dismissed'?'ok':'wait'}">${gigEsc(gigNice(r.status))}</span></div><p><b>Reason:</b> ${gigEsc(gigNice(r.reason))}</p><p>${gigEsc(r.details||'No additional details.')}</p><div class="field"><label>Admin Note</label><input id="gig-note-${r.id}" value="${gigEsc(r.admin_note||'')}" placeholder="Optional internal note"></div><div style="display:flex;gap:7px;flex-wrap:wrap"><button class="btn light small" onclick="gigSetReportStatus('${r.id}','reviewing')">Reviewing</button><button class="btn primary small" onclick="gigSetReportStatus('${r.id}','resolved')">Resolved</button><button class="btn light small" onclick="gigSetReportStatus('${r.id}','dismissed')">Dismiss</button>${p.status!=='suspended'&&r.provider_id?`<button class="btn light small" onclick="gigSetProviderStatus('${r.provider_id}','suspended')">Suspend Provider</button>`:''}</div></div>`}).join(''):'<div class="empty">No reports yet.</div>'}
 async function gigSetReportStatus(reportId,status){try{await gigAdminApi('set_report_status',{reportId,status,adminNote:gig$(`gig-note-${reportId}`)?.value||''});await loadGigAdmin()}catch(e){alert(e.message)}}
