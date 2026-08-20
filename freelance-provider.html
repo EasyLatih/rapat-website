@@ -10,7 +10,7 @@
 <body>
 <header class="gig-header"><div class="gig-nav"><a class="gig-brand" href="index.html">RA<span class="r">P</span><span class="y">A</span>T</a><nav class="gig-links"><a href="index.html">Utama</a><a href="freelance.html">Cari Servis</a><a class="active" href="freelance-provider.html">Daftar Servis</a><a href="events-live.html">Career Events</a></nav></div></header>
 <main class="gig-shell provider-shell">
-<div class="provider-top"><div><h1 style="margin:0 0 7px">Dashboard Penyedia Servis</h1><p style="margin:0;color:#6b778c">Untuk tukang, freelancer, profesional dan perniagaan lokal. Daftar servis anda dan pilih satu kawasan utama yang anda cover.</p></div><div id="providerAuth"></div></div>
+<div class="provider-top"><div><h1 style="margin:0 0 7px">Dashboard Penyedia Servis</h1><p style="margin:0;color:#6b778c">Untuk tukang, freelancer, profesional dan perniagaan lokal. Daftar servis anda, pilih satu Servis Utama dan satu kawasan utama yang anda cover.</p></div><div id="providerAuth"></div></div>
 <section id="loginPanel" class="panel"><h2>Sign in untuk mula</h2><p class="auth-chip">Gunakan Google Sign-In. Email hanya digunakan untuk akaun/verification dan tidak dipaparkan kepada public. Dengan meneruskan, anda mengakui <a href="pdpa.html">Notis Privasi &amp; PDPA RAPAT</a>.</p><p class="auth-chip"><b>Pendaftaran penyedia servis RAPAT.my hanya untuk warganegara Malaysia.</b></p><button id="googleLogin" class="btn primary">Sign in with Google</button><div id="loginMsg"></div></section>
 <div id="providerApp" class="hidden">
 <section id="citizenshipPanel" class="panel hidden" style="border:2px solid #e5b000">
@@ -33,11 +33,14 @@
 <div class="field"><label>Negeri *</label><select id="providerState"></select></div>
 <div class="field"><label>Daerah / Kawasan *</label><select id="providerDistrict" disabled><option value="">Pilih daerah / kawasan</option></select></div>
 <div class="field"><label>Status Listing</label><select id="publishSelect"><option value="true">Published</option><option value="false">Unpublished</option></select></div>
-<div class="full"><label style="display:block;font-size:11px;font-weight:800;color:#56647a;margin-bottom:8px;text-transform:uppercase">Servis * — boleh pilih lebih daripada satu</label><div id="serviceGroups" class="service-groups"></div></div>
+<div id="mainServiceStatus" class="field full hidden"></div>
+<div class="field"><label>Kategori Utama *</label><select id="mainCategory"><option value="">Pilih kategori utama</option></select><div class="auth-chip" style="margin-top:5px">Kategori bagi servis yang paling utama anda tawarkan.</div></div>
+<div class="field"><label>Servis Utama *</label><select id="mainService" disabled><option value="">Pilih servis utama</option></select><div class="auth-chip" style="margin-top:5px">Servis ini akan dipaparkan pada kad carian RAPAT.</div></div>
+<div class="full"><label style="display:block;font-size:11px;font-weight:800;color:#56647a;margin-bottom:8px;text-transform:uppercase">Servis Lain * — boleh pilih lebih daripada satu</label><div id="serviceGroups" class="service-groups"></div></div>
 <div id="customServiceField" class="field full hidden"><label>Nyatakan servis Lain-lain *</label><input id="customServices" maxlength="420" placeholder="Contoh: Pasang TV, Repair TV"><div class="auth-chip" style="margin-top:5px">Jika lebih daripada satu, asingkan dengan koma.</div></div>
 </div>
 <div class="toolbar" style="margin-top:16px"><button id="saveProvider" class="btn primary">Simpan Listing</button><a class="btn light" href="freelance.html">Lihat Direktori Servis</a></div><p class="auth-chip">Apabila disiarkan, nama komersial, nombor WhatsApp, pautan sosial, servis dan kawasan anda boleh dilihat umum. Lihat <a href="pdpa.html">Notis Privasi &amp; PDPA</a>.</p><div id="saveMsg"></div>
 </section></div>
 </main>
-<script type="module" src="freelance-provider.js?v=3"></script><script type="module" src="freelance-provider-delete.js?v=1"></script><script src="freelance-provider-search.js?v=1"></script>
+<script type="module" src="freelance-provider.js?v=4"></script><script type="module" src="freelance-provider-delete.js?v=1"></script><script src="freelance-provider-search.js?v=1"></script>
 </body></html>
