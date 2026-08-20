@@ -22,6 +22,61 @@ async function googleLogin() {
 }
 
 function otherService() { return services.find(s => s.slug === 'servis-lain-lain'); }
+function mainEligibleServices(categoryId='') {
+  return services.filter(s => s.slug !== 'servis-lain-lain' && (!categoryId || s.category_id === categoryId));
+}
+function mainServiceById(serviceId) {
+  return mainEligibleServices().find(s => String(s.id) === String(serviceId || '')) || null;
+}
+function categoryById(categoryId) {
+  return categories.find(c => String(c.id) === String(categoryId || '')) || null;
+}
+
+function renderMainCategoryOptions(selectedCategoryId='') {
+  const select = $('mainCategory');
+  if (!select) return;
+  select.innerHTML = '<option value="">Pilih kategori utama</option>' + categories.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+  select.value = categories.some(c => String(c.id) === String(selectedCategoryId)) ? String(selectedCategoryId) : '';
+}
+
+function renderMainServiceOptions(categoryId='', selectedServiceId='') {
+  const select = $('mainService');
+  if (!select) return;
+  const list = mainEligibleServices(categoryId);
+  select.innerHTML = '<option value="">Pilih servis utama</option>' + list.map(s => `<option value="${s.id}">${escapeHtml(s.name)}</option>`).join('');
+  select.disabled = !categoryId;
+  select.value = list.some(s => String(s.id) === String(selectedServiceId)) ? String(selectedServiceId) : '';
+}
+
+function renderMainServiceStatus() {
+  const box = $('mainServiceStatus');
+  if (!box) return;
+  if (!provider || !provider.main_service_confirmation_required) {
+    box.classList.add('hidden');
+    box.innerHTML = '';
+    return;
+  }
+  const svc = mainServiceById(provider.main_service_id);
+  const cat = svc ? categoryById(svc.category_id) : null;
+  const current = svc ? ` Pilihan sementara sekarang: <b>${escapeHtml(cat?.name || '')} · ${escapeHtml(svc.name)}</b>.` : '';
+  box.innerHTML = `<div class="auth-chip" style="border-left:3px solid #e5b000;padding-left:10px"><b>Servis utama belum disahkan.</b>${current} Semak pilihan di bawah dan klik <b>Simpan Listing</b>.</div>`;
+  box.classList.remove('hidden');
+}
+
+function renderMainServiceControls() {
+  const selected = mainServiceById(provider?.main_service_id || '');
+  const categoryId = selected?.category_id || '';
+  renderMainCategoryOptions(categoryId);
+  renderMainServiceOptions(categoryId, selected?.id || '');
+  renderMainServiceStatus();
+}
+
+function ensureMainServiceSelected(serviceId) {
+  if (!serviceId) return;
+  selectedServiceIds.add(String(serviceId));
+  renderServices();
+}
+
 function toggleCustomServiceField() {
   const other = otherService();
   const on = Boolean(other && selectedServiceIds.has(other.id));
@@ -50,6 +105,7 @@ async function loadTaxonomy() {
   categories = cats || [];
   services = svcs || [];
   renderServices();
+  renderMainServiceControls();
 }
 
 function renderServices() {
@@ -59,7 +115,12 @@ function renderServices() {
   }).join('');
   $('serviceGroups').querySelectorAll('input[type=checkbox]').forEach(input => {
     input.onchange = () => {
-      input.checked ? selectedServiceIds.add(input.value) : selectedServiceIds.delete(input.value);
+      if (input.checked) {
+        selectedServiceIds.add(input.value);
+      } else {
+        selectedServiceIds.delete(input.value);
+        if ($('mainService')?.value === input.value) $('mainService').value = '';
+      }
       toggleCustomServiceField();
     };
   });
@@ -124,11 +185,13 @@ async function loadProvider() {
   if (error) throw error;
   provider = data || null;
   if (!provider) {
+    selectedServiceIds = new Set();
     $('formTitle').textContent = 'Daftar sebagai Penyedia Servis';
     renderStatus();
     renderMetrics(null);
     renderCitizenship();
     renderServices();
+    renderMainServiceControls();
     return;
   }
   const [{ data: links, error: le }, { data: custom, error: cse }] = await Promise.all([
@@ -148,6 +211,7 @@ async function loadProvider() {
   $('publishSelect').value = String(provider.is_published);
   $('customServices').value = (custom || []).map(x => x.name).join(', ');
   renderServices();
+  renderMainServiceControls();
   renderStatus();
   renderCitizenship();
   const { data: metrics, error: me } = await db.rpc('gig_my_metrics');
@@ -203,6 +267,8 @@ function validateForm() {
   const state = $('providerState').value;
   const district = $('providerDistrict').value;
   const postcode = $('providerPostcode').value.trim();
+  const mainCategoryId = $('mainCategory').value;
+  const mainServiceId = $('mainService').value;
   if (!provider) {
     const citizenship = $('citizenshipSelect').value;
     if (!citizenship) throw new Error('Sila sahkan status warganegara Malaysia.');
@@ -215,11 +281,16 @@ function validateForm() {
   if (!name || !whatsapp || !social || !state || !district || !postcode) throw new Error('Lengkapkan semua maklumat wajib.');
   if (!/^https?:\/\//i.test(social)) throw new Error('Social media / website mesti bermula dengan http:// atau https://');
   if (!/^\d{5}$/.test(postcode)) throw new Error('Poskod mesti 5 digit.');
+  if (!mainCategoryId) throw new Error('Pilih Kategori Utama.');
+  if (!mainServiceId) throw new Error('Pilih Servis Utama.');
+  const mainService = mainServiceById(mainServiceId);
+  if (!mainService || String(mainService.category_id) !== String(mainCategoryId)) throw new Error('Servis Utama tidak sah. Sila pilih semula.');
+  selectedServiceIds.add(mainServiceId);
   if (!selectedServiceIds.size) throw new Error('Pilih sekurang-kurangnya satu servis.');
   const other = otherService();
   const customServices = other && selectedServiceIds.has(other.id) ? parseCustomServices() : [];
   if (other && selectedServiceIds.has(other.id) && !customServices.length) throw new Error('Bila pilih Lain-lain, sila nyatakan servis tersebut.');
-  return { payload:{ display_name:name, whatsapp, social_url:social, state, district, postcode, is_published:$('publishSelect').value === 'true' }, customServices };
+  return { payload:{ display_name:name, whatsapp, social_url:social, state, district, postcode, is_published:$('publishSelect').value === 'true' }, customServices, mainServiceId };
 }
 
 async function syncServices(providerId) {
@@ -247,21 +318,33 @@ async function syncCustomServices(providerId, names) {
   }
 }
 
+async function confirmMainService(providerId, mainServiceId) {
+  const { data, error } = await db.from('gig_providers').update({
+    main_service_id: mainServiceId,
+    main_service_confirmed_at: new Date().toISOString(),
+    main_service_confirmation_required: false
+  }).eq('id', providerId).select().single();
+  if (error) throw error;
+  provider = data;
+}
+
 async function saveProvider() {
   try {
     msg('');
-    const { payload, customServices } = validateForm();
+    const { payload, customServices, mainServiceId } = validateForm();
     if (!provider) {
       const { data, error } = await db.from('gig_providers').insert({
         ...payload,
         user_id:user.id,
         citizenship_status:'malaysian',
-        citizenship_confirmed_at:new Date().toISOString()
+        citizenship_confirmed_at:new Date().toISOString(),
+        main_service_confirmation_required:false
       }).select().single();
       if (error) throw error;
       provider = data;
       await syncServices(provider.id);
       await syncCustomServices(provider.id, customServices);
+      await confirmMainService(provider.id, mainServiceId);
       msg('Pendaftaran dihantar. Listing sedang menunggu kelulusan admin RAPAT.', true);
     } else {
       const { data, error } = await db.from('gig_providers').update(payload).eq('id', provider.id).select().single();
@@ -269,7 +352,8 @@ async function saveProvider() {
       provider = data;
       await syncServices(provider.id);
       await syncCustomServices(provider.id, customServices);
-      msg('Maklumat listing berjaya dikemas kini.', true);
+      await confirmMainService(provider.id, mainServiceId);
+      msg('Maklumat listing dan Servis Utama berjaya dikemas kini.', true);
     }
     await loadProvider();
   } catch (error) { msg(error.message || 'Tidak dapat menyimpan listing.'); }
@@ -293,6 +377,8 @@ async function initAuth() {
   populateStates($('providerState'));
   $('providerState').onchange = () => populateDistricts($('providerDistrict'), $('providerState').value);
   $('providerPostcode').addEventListener('input', autofillPostcode);
+  $('mainCategory').onchange = () => renderMainServiceOptions($('mainCategory').value, '');
+  $('mainService').onchange = () => ensureMainServiceSelected($('mainService').value);
   $('googleLogin').onclick = googleLogin;
   $('logoutBtn').onclick = async () => { await db.auth.signOut(); location.reload(); };
   $('saveProvider').onclick = saveProvider;
