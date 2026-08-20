@@ -1,8 +1,10 @@
-const CACHE_NAME = 'rapat-v1';
+const CACHE_NAME = 'rapat-v2-install-ui';
 const APP_SHELL = [
   '/',
   '/index.html',
   '/styles.css',
+  '/app.js',
+  '/app-core.js',
   '/favicon.svg',
   '/manifest.webmanifest'
 ];
