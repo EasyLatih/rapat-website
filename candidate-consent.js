@@ -10,7 +10,7 @@
         <input id="consent" type="checkbox" style="width:auto;margin-top:3px">
         <span>
           <b>I agree to the use of my data for employability support.</b><br>
-          My registration details and employability assessment data may be used by RAPAT, the event organizer, and relevant Malaysian government agencies involved in employment or employability support for intervention planning, programme or job matching, monitoring and outcome reporting.
+          My registration details and employability assessment data may be used by RAPAT, the event organizer, and relevant Malaysian government agencies involved in employment or employability support for intervention planning, programme or job matching, monitoring and outcome reporting, as described in the <a href="pdpa.html" target="_blank" rel="noopener">RAPAT Privacy &amp; PDPA Notice</a>.
         </span>
       </label>
       <div class="rapat-consent-note">Only data relevant to these purposes should be used or shared. Internal HR notes remain restricted to authorized employer and organizer users.</div>
