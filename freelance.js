@@ -1,10 +1,13 @@
 import { db, populateStates, populateDistricts, selectDistrict, lookupPostcode, escapeHtml, ensureVisitorKey, whatsappNumber, ratingStars } from './gig-config.js';
 
 const $ = id => document.getElementById(id);
+const PAGE_SIZE = 20;
 let providers = [];
 let selectedProvider = null;
 let currentUser = null;
 let postcodeLookupSeq = 0;
+let currentPage = 1;
+let currentSearchArgs = null;
 const visitorKey = ensureVisitorKey();
 
 function showMsg(el, text, type='notice') {
@@ -64,8 +67,9 @@ function updateUrlFromSearch() {
   history.replaceState(null, '', next);
 }
 
-async function searchProviders() {
+async function searchProviders({ preservePage = false } = {}) {
   $('providerList').innerHTML = '<div class="empty">Mencari penyedia servis…</div>';
+  $('providerPagination').classList.add('hidden');
   const keyword = $('keywordFilter').value.trim();
   const args = {
     p_keyword: keyword || null,
@@ -77,9 +81,15 @@ async function searchProviders() {
   if (error) {
     $('providerList').innerHTML = `<div class="empty">${escapeHtml(error.message)}</div>`;
     $('resultCount').textContent = 'Carian gagal.';
+    providers = [];
+    currentSearchArgs = null;
     return;
   }
   providers = data || [];
+  currentSearchArgs = args;
+  if (!preservePage) currentPage = 1;
+  const totalPages = Math.max(1, Math.ceil(providers.length / PAGE_SIZE));
+  currentPage = Math.min(currentPage, totalPages);
   updateUrlFromSearch();
   renderProviders(args);
 }
@@ -93,16 +103,21 @@ function matchLabel(p, args) {
 
 function renderProviders(args) {
   const keyword = String(args.p_keyword || '').trim();
+  const totalPages = Math.max(1, Math.ceil(providers.length / PAGE_SIZE));
+  const pageStart = (currentPage - 1) * PAGE_SIZE;
+  const pageProviders = providers.slice(pageStart, pageStart + PAGE_SIZE);
+  const pageEnd = pageStart + pageProviders.length;
   $('resultCount').textContent = keyword
-    ? `${providers.length} penyedia ditemui untuk “${keyword}”`
-    : `${providers.length} penyedia servis ditemui`;
+    ? `${providers.length} penyedia ditemui untuk “${keyword}”${providers.length ? ` · Paparan ${pageStart + 1}–${pageEnd}` : ''}`
+    : `${providers.length} penyedia servis ditemui${providers.length ? ` · Paparan ${pageStart + 1}–${pageEnd}` : ''}`;
   if (!providers.length) {
     $('providerList').innerHTML = keyword
       ? `<div class="empty">Belum ada penyedia yang sepadan dengan <b>${escapeHtml(keyword)}</b>. Cuba keyword lebih ringkas seperti “jahit”, “paip”, “aircond” atau “resume”.</div>`
       : '<div class="empty">Belum ada penyedia servis yang sepadan. Cuba lokasi lain.</div>';
+    $('providerPagination').classList.add('hidden');
     return;
   }
-  $('providerList').innerHTML = providers.map(p => {
+  $('providerList').innerHTML = pageProviders.map(p => {
     const label = matchLabel(p, args);
     return `<article class="provider-card">
       <div><div class="provider-name">${escapeHtml(p.display_name)}</div>${label ? `<span class="match-badge">${escapeHtml(label)}</span>` : ''}</div>
@@ -111,6 +126,47 @@ function renderProviders(args) {
   }).join('');
   document.querySelectorAll('[data-details]').forEach(b => b.onclick = () => openDetails(b.dataset.details));
   document.querySelectorAll('[data-wa]').forEach(b => b.onclick = () => openWhatsApp(b.dataset.wa));
+  renderPagination(totalPages);
+}
+
+function visiblePageNumbers(totalPages) {
+  const pages = new Set([1, totalPages, currentPage - 1, currentPage, currentPage + 1]);
+  return [...pages].filter(page => page >= 1 && page <= totalPages).sort((a, b) => a - b);
+}
+
+function renderPagination(totalPages) {
+  const pagination = $('providerPagination');
+  if (totalPages <= 1) {
+    pagination.classList.add('hidden');
+    pagination.innerHTML = '';
+    return;
+  }
+
+  const pageButtons = [];
+  let previousPage = 0;
+  for (const page of visiblePageNumbers(totalPages)) {
+    if (previousPage && page - previousPage > 1) pageButtons.push('<span class="pagination-ellipsis" aria-hidden="true">…</span>');
+    pageButtons.push(`<button class="pagination-page${page === currentPage ? ' active' : ''}" data-page="${page}"${page === currentPage ? ' aria-current="page"' : ''} aria-label="Halaman ${page}">${page}</button>`);
+    previousPage = page;
+  }
+
+  pagination.innerHTML = `
+    <button class="btn light small pagination-nav" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>← Sebelumnya</button>
+    <div class="pagination-pages">${pageButtons.join('')}</div>
+    <span class="pagination-status">Halaman ${currentPage} daripada ${totalPages}</span>
+    <button class="btn light small pagination-nav" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Seterusnya →</button>`;
+  pagination.classList.remove('hidden');
+  pagination.querySelectorAll('[data-page]:not([disabled])').forEach(button => {
+    button.onclick = () => goToPage(Number(button.dataset.page));
+  });
+}
+
+function goToPage(page) {
+  const totalPages = Math.max(1, Math.ceil(providers.length / PAGE_SIZE));
+  if (!currentSearchArgs || page < 1 || page > totalPages || page === currentPage) return;
+  currentPage = page;
+  renderProviders(currentSearchArgs);
+  document.querySelector('.results-head')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 async function recordInteraction(providerId, type) {
@@ -155,7 +211,7 @@ async function rateProvider(rating) {
   const { error } = await query;
   if (error) return showMsg($('detailsMsg'), error.message, 'notice bad');
   showMsg($('detailsMsg'), `Rating ${rating} bintang disimpan.`, 'notice');
-  await searchProviders();
+  await searchProviders({ preservePage: true });
   const fresh = providers.find(p => p.provider_id === selectedProvider.provider_id);
   if (fresh) { selectedProvider = fresh; await openDetails(fresh.provider_id); }
 }
