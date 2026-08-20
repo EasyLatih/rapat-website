@@ -1,0 +1,48 @@
+{
+  "id": "/",
+  "name": "RAPAT.my — Menghubungkan Rakyat dengan Peluang",
+  "short_name": "RAPAT",
+  "description": "Cari servis tempatan, tawarkan kemahiran dan terokai peluang berdekatan di Malaysia melalui RAPAT.my.",
+  "lang": "ms-MY",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#06245f",
+  "categories": ["business", "productivity", "social"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Cari Servis",
+      "short_name": "Cari Servis",
+      "description": "Cari penyedia servis berdekatan",
+      "url": "/freelance.html?source=pwa"
+    },
+    {
+      "name": "Daftar Servis",
+      "short_name": "Daftar Servis",
+      "description": "Daftar sebagai penyedia servis di RAPAT",
+      "url": "/freelance-provider.html?source=pwa"
+    },
+    {
+      "name": "Peluang Kerjaya",
+      "short_name": "Kerjaya",
+      "description": "Terokai peluang kerjaya melalui RAPAT",
+      "url": "/events-live.html?source=pwa"
+    }
+  ]
+}
