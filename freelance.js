@@ -37,8 +37,15 @@ function providerRandomScore(providerId) {
   return hash >>> 0;
 }
 
+function providerLocationRank(provider) {
+  const rank = Number(provider?.match_rank);
+  return Number.isFinite(rank) ? rank : Number.MAX_SAFE_INTEGER;
+}
+
 function randomizeProviders(list) {
   return [...list].sort((a, b) => {
+    const rankDiff = providerLocationRank(a) - providerLocationRank(b);
+    if (rankDiff) return rankDiff;
     const scoreDiff = providerRandomScore(a.provider_id) - providerRandomScore(b.provider_id);
     return scoreDiff || String(a.provider_id || '').localeCompare(String(b.provider_id || ''));
   });
