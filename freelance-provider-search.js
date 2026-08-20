@@ -1,5 +1,5 @@
 (function(){
-  function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+  function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[m]));}
   function mount(){
     const groups=document.getElementById('serviceGroups');
     if(!groups||document.getElementById('providerServiceSearch'))return false;
@@ -11,7 +11,7 @@
 
     const style=document.createElement('style');
     style.textContent=`
-      .provider-service-search-wrap{margin:0 0 14px}.provider-service-search-box{display:flex;align-items:center;gap:9px;border:1px solid #dbe3ee;background:#fff;border-radius:12px;padding:0 11px;box-shadow:0 4px 14px rgba(11,29,66,.04)}.provider-service-search-box:focus-within{border-color:#0f5cc8;box-shadow:0 0 0 3px rgba(15,92,200,.09)}.provider-service-search-box>span{font-size:20px;color:#728096;line-height:1}.provider-service-search-box input{flex:1;min-width:0;border:0!important;outline:0!important;box-shadow:none!important;padding:12px 0!important;background:transparent!important;font:inherit}.provider-service-search-box button{border:0;background:transparent;color:#8491a3;font-size:22px;cursor:pointer;padding:3px 5px;display:none}.provider-service-search-box.has-query button{display:block}.provider-service-search-meta{font-size:11px;color:#748399;margin-top:6px}.service-search-empty{border:1px dashed #ccd6e3;border-radius:12px;padding:18px;text-align:center;color:#718096;background:#fafcff;margin-top:8px}
+      .provider-service-search-wrap{margin:0 0 14px}.provider-service-search-box{display:flex;align-items:center;gap:9px;border:1px solid #dbe3ee;background:#fff;border-radius:12px;padding:0 11px;box-shadow:0 4px 14px rgba(11,29,66,.04)}.provider-service-search-box:focus-within{border-color:#0f5cc8;box-shadow:0 0 0 3px rgba(15,92,200,.09)}.provider-service-search-box>span{font-size:20px;color:#728096;line-height:1}.provider-service-search-box input{flex:1;min-width:0;border:0!important;outline:0!important;box-shadow:none!important;padding:12px 0!important;background:transparent!important;font:inherit}.provider-service-search-box button{border:0;background:transparent;color:#8491a3;font-size:22px;cursor:pointer;padding:3px 5px;display:none}.provider-service-search-box.has-query button{display:block}.provider-service-search-meta{font-size:11px;color:#748399;margin-top:6px}.service-search-empty{border:1px dashed #ccd6e3;border-radius:12px;padding:18px;text-align:center;color:#718096;background:#fafcff;margin-top:8px}.provider-channel-after-save{margin-top:10px}.provider-channel-after-save a{display:inline-block;margin-top:8px;font-weight:800;text-decoration:none}
     `;
     document.head.appendChild(style);
 
@@ -58,9 +58,26 @@
     return true;
   }
 
+  function mountSuccessChannel(){
+    const saveMsg=document.getElementById('saveMsg');
+    if(!saveMsg)return false;
+    const addChannel=()=>{
+      const notice=saveMsg.querySelector('.notice');
+      if(!notice||!notice.textContent.includes('Pendaftaran dihantar')||notice.querySelector('.provider-channel-after-save'))return;
+      const box=document.createElement('div');
+      box.className='provider-channel-after-save';
+      box.innerHTML='📢 Jangan terlepas makluman penting RAPAT.<br><a href="https://whatsapp.com/channel/0029Vb9PjziIXnljC6kVrc04" target="_blank" rel="noopener">Sertai WhatsApp Channel Rasmi RAPAT →</a>';
+      notice.appendChild(box);
+    };
+    new MutationObserver(addChannel).observe(saveMsg,{childList:true,subtree:true});
+    addChannel();
+    return true;
+  }
+
   if(!mount()){
     const observer=new MutationObserver(()=>{if(mount())observer.disconnect();});
     observer.observe(document.documentElement,{childList:true,subtree:true});
     window.addEventListener('DOMContentLoaded',mount,{once:true});
   }
+  if(!mountSuccessChannel())window.addEventListener('DOMContentLoaded',mountSuccessChannel,{once:true});
 })();
