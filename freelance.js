@@ -2,7 +2,19 @@ import { db, populateStates, populateDistricts, selectDistrict, lookupPostcode, 
 
 const $ = id => document.getElementById(id);
 const PAGE_SIZE = 10;
+const SEARCH_BATCH_SIZE = 1000;
+const pageRandomSeed = (() => {
+  try {
+    const values = new Uint32Array(1);
+    crypto.getRandomValues(values);
+    return values[0] || 1;
+  } catch {
+    return ((Date.now() ^ Math.floor(Math.random() * 0xffffffff)) >>> 0) || 1;
+  }
+})();
 let providers = [];
+let providerPool = [];
+let providerPoolKey = '';
 let providerTotal = 0;
 let selectedProvider = null;
 let currentUser = null;
@@ -13,6 +25,45 @@ const visitorKey = ensureVisitorKey();
 
 function showMsg(el, text, type='notice') {
   el.innerHTML = text ? `<div class="${type}">${escapeHtml(text)}</div>` : '';
+}
+
+function providerRandomScore(providerId) {
+  const text = String(providerId || '');
+  let hash = (2166136261 ^ pageRandomSeed) >>> 0;
+  for (let i = 0; i < text.length; i += 1) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+function randomizeProviders(list) {
+  return [...list].sort((a, b) => {
+    const scoreDiff = providerRandomScore(a.provider_id) - providerRandomScore(b.provider_id);
+    return scoreDiff || String(a.provider_id || '').localeCompare(String(b.provider_id || ''));
+  });
+}
+
+async function fetchAllProviders(args) {
+  const rows = [];
+  let from = 0;
+  let total = null;
+
+  while (true) {
+    const { data, error, count } = await db
+      .rpc('gig_search_providers_keyword', args, { count: 'exact' })
+      .range(from, from + SEARCH_BATCH_SIZE - 1);
+    if (error) throw error;
+
+    const batch = data || [];
+    if (total === null) total = Number.isFinite(count) ? count : batch.length;
+    rows.push(...batch);
+
+    if (!batch.length || batch.length < SEARCH_BATCH_SIZE || rows.length >= total) break;
+    from += SEARCH_BATCH_SIZE;
+  }
+
+  return randomizeProviders(rows);
 }
 
 async function loadAuth() {
@@ -68,7 +119,7 @@ function updateUrlFromSearch() {
   history.replaceState(null, '', next);
 }
 
-async function searchProviders({ preservePage = false } = {}) {
+async function searchProviders({ preservePage = false, refreshResults = false } = {}) {
   $('providerList').innerHTML = '<div class="empty">Mencari penyedia servis…</div>';
   $('providerPagination').classList.add('hidden');
   const keyword = $('keywordFilter').value.trim();
@@ -78,27 +129,31 @@ async function searchProviders({ preservePage = false } = {}) {
     p_district: $('districtFilter').value || null,
     p_postcode: $('postcodeFilter').value.trim() || null
   };
+  const searchKey = JSON.stringify(args);
   if (!preservePage) currentPage = 1;
-  const pageStart = (currentPage - 1) * PAGE_SIZE;
-  const { data, error, count } = await db
-    .rpc('gig_search_providers_keyword', args, { count: 'exact' })
-    .range(pageStart, pageStart + PAGE_SIZE - 1);
-  if (error) {
+
+  try {
+    if (refreshResults || providerPoolKey !== searchKey) {
+      providerPool = await fetchAllProviders(args);
+      providerPoolKey = searchKey;
+    }
+  } catch (error) {
     $('providerList').innerHTML = `<div class="empty">${escapeHtml(error.message)}</div>`;
     $('resultCount').textContent = 'Carian gagal.';
     providers = [];
+    providerPool = [];
+    providerPoolKey = '';
     providerTotal = 0;
     currentSearchArgs = null;
     return;
   }
-  providers = data || [];
-  providerTotal = Number.isFinite(count) ? count : providers.length;
+
+  providerTotal = providerPool.length;
   currentSearchArgs = args;
   const totalPages = Math.max(1, Math.ceil(providerTotal / PAGE_SIZE));
-  if (currentPage > totalPages) {
-    currentPage = totalPages;
-    return searchProviders({ preservePage: true });
-  }
+  if (currentPage > totalPages) currentPage = totalPages;
+  const pageStart = (currentPage - 1) * PAGE_SIZE;
+  providers = providerPool.slice(pageStart, pageStart + PAGE_SIZE);
   updateUrlFromSearch();
   renderProviders(args);
 }
@@ -191,7 +246,7 @@ function serviceText(p) {
 }
 
 async function openDetails(providerId) {
-  selectedProvider = providers.find(p => p.provider_id === providerId);
+  selectedProvider = providerPool.find(p => p.provider_id === providerId) || providers.find(p => p.provider_id === providerId);
   if (!selectedProvider) return;
   await recordInteraction(providerId, 'view');
   const p = selectedProvider;
@@ -222,14 +277,15 @@ async function rateProvider(rating) {
   const query = existing ? db.from('gig_ratings').update({ rating }).eq('id', existing.id) : db.from('gig_ratings').insert({ provider_id: selectedProvider.provider_id, user_id: currentUser.id, rating });
   const { error } = await query;
   if (error) return showMsg($('detailsMsg'), error.message, 'notice bad');
+  const selectedId = selectedProvider.provider_id;
   showMsg($('detailsMsg'), `Rating ${rating} bintang disimpan.`, 'notice');
-  await searchProviders({ preservePage: true });
-  const fresh = providers.find(p => p.provider_id === selectedProvider.provider_id);
+  await searchProviders({ preservePage: true, refreshResults: true });
+  const fresh = providerPool.find(p => p.provider_id === selectedId);
   if (fresh) { selectedProvider = fresh; await openDetails(fresh.provider_id); }
 }
 
 async function openWhatsApp(providerId) {
-  const p = providers.find(x => x.provider_id === providerId);
+  const p = providerPool.find(x => x.provider_id === providerId) || providers.find(x => x.provider_id === providerId);
   if (!p) return;
   await recordInteraction(providerId, 'whatsapp');
   const num = whatsappNumber(p.whatsapp);
@@ -238,7 +294,7 @@ async function openWhatsApp(providerId) {
 }
 
 function startReport(providerId) {
-  selectedProvider = providers.find(p => p.provider_id === providerId) || selectedProvider;
+  selectedProvider = providerPool.find(p => p.provider_id === providerId) || providers.find(p => p.provider_id === providerId) || selectedProvider;
   if (!currentUser) return signInFor('report', providerId);
   $('detailsModal').classList.add('hidden');
   $('reportMsg').innerHTML = '';
@@ -281,7 +337,7 @@ async function resumePendingAction() {
   try {
     const action = JSON.parse(raw);
     if (!action.providerId) return;
-    const p = providers.find(x => x.provider_id === action.providerId);
+    const p = providerPool.find(x => x.provider_id === action.providerId) || providers.find(x => x.provider_id === action.providerId);
     if (!p) return;
     selectedProvider = p;
     if (action.mode === 'report') startReport(action.providerId);
