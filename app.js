@@ -74,3 +74,40 @@ async function addHomepageServiceBrowse(){
 }
 
 addHomepageServiceBrowse();
+
+// Progressive Web App support.
+(function enableRapatPWA(){
+  if(!document.querySelector('link[rel="manifest"]')){
+    const manifest=document.createElement('link');
+    manifest.rel='manifest';
+    manifest.href='/manifest.webmanifest';
+    document.head.appendChild(manifest);
+  }
+
+  const metaTags=[
+    ['apple-mobile-web-app-capable','yes'],
+    ['apple-mobile-web-app-status-bar-style','default'],
+    ['apple-mobile-web-app-title','RAPAT']
+  ];
+  for(const [name,content] of metaTags){
+    if(!document.querySelector(`meta[name="${name}"]`)){
+      const meta=document.createElement('meta');
+      meta.name=name;
+      meta.content=content;
+      document.head.appendChild(meta);
+    }
+  }
+
+  if(!document.querySelector('link[rel="apple-touch-icon"]')){
+    const icon=document.createElement('link');
+    icon.rel='apple-touch-icon';
+    icon.href='/favicon.svg';
+    document.head.appendChild(icon);
+  }
+
+  if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')){
+    window.addEventListener('load',()=>{
+      navigator.serviceWorker.register('/service-worker.js').catch(error=>console.warn('RAPAT PWA service worker:',error));
+    });
+  }
+})();
