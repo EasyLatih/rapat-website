@@ -1,8 +1,9 @@
 import { db, populateStates, populateDistricts, selectDistrict, lookupPostcode, escapeHtml, ensureVisitorKey, whatsappNumber, ratingStars } from './gig-config.js';
 
 const $ = id => document.getElementById(id);
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 10;
 let providers = [];
+let providerTotal = 0;
 let selectedProvider = null;
 let currentUser = null;
 let postcodeLookupSeq = 0;
@@ -77,19 +78,27 @@ async function searchProviders({ preservePage = false } = {}) {
     p_district: $('districtFilter').value || null,
     p_postcode: $('postcodeFilter').value.trim() || null
   };
-  const { data, error } = await db.rpc('gig_search_providers_keyword', args);
+  if (!preservePage) currentPage = 1;
+  const pageStart = (currentPage - 1) * PAGE_SIZE;
+  const { data, error, count } = await db
+    .rpc('gig_search_providers_keyword', args, { count: 'exact' })
+    .range(pageStart, pageStart + PAGE_SIZE - 1);
   if (error) {
     $('providerList').innerHTML = `<div class="empty">${escapeHtml(error.message)}</div>`;
     $('resultCount').textContent = 'Carian gagal.';
     providers = [];
+    providerTotal = 0;
     currentSearchArgs = null;
     return;
   }
   providers = data || [];
+  providerTotal = Number.isFinite(count) ? count : providers.length;
   currentSearchArgs = args;
-  if (!preservePage) currentPage = 1;
-  const totalPages = Math.max(1, Math.ceil(providers.length / PAGE_SIZE));
-  currentPage = Math.min(currentPage, totalPages);
+  const totalPages = Math.max(1, Math.ceil(providerTotal / PAGE_SIZE));
+  if (currentPage > totalPages) {
+    currentPage = totalPages;
+    return searchProviders({ preservePage: true });
+  }
   updateUrlFromSearch();
   renderProviders(args);
 }
@@ -103,18 +112,20 @@ function matchLabel(p, args) {
 
 function renderProviders(args) {
   const keyword = String(args.p_keyword || '').trim();
-  const totalPages = Math.max(1, Math.ceil(providers.length / PAGE_SIZE));
+  const totalPages = Math.max(1, Math.ceil(providerTotal / PAGE_SIZE));
   const pageStart = (currentPage - 1) * PAGE_SIZE;
-  const pageProviders = providers.slice(pageStart, pageStart + PAGE_SIZE);
+  const pageProviders = providers;
   const pageEnd = pageStart + pageProviders.length;
   $('resultCount').textContent = keyword
-    ? `${providers.length} penyedia ditemui untuk “${keyword}”${providers.length ? ` · Paparan ${pageStart + 1}–${pageEnd}` : ''}`
-    : `${providers.length} penyedia servis ditemui${providers.length ? ` · Paparan ${pageStart + 1}–${pageEnd}` : ''}`;
-  if (!providers.length) {
+    ? `${providerTotal} penyedia ditemui untuk “${keyword}”${providerTotal ? ` · Paparan ${pageStart + 1}–${pageEnd}` : ''}`
+    : `${providerTotal} penyedia servis ditemui${providerTotal ? ` · Paparan ${pageStart + 1}–${pageEnd}` : ''}`;
+  window.__rapatVisibleProviders = pageProviders;
+  if (!providerTotal) {
     $('providerList').innerHTML = keyword
       ? `<div class="empty">Belum ada penyedia yang sepadan dengan <b>${escapeHtml(keyword)}</b>. Cuba keyword lebih ringkas seperti “jahit”, “paip”, “aircond” atau “resume”.</div>`
       : '<div class="empty">Belum ada penyedia servis yang sepadan. Cuba lokasi lain.</div>';
     $('providerPagination').classList.add('hidden');
+    window.dispatchEvent(new Event('rapat:providers-rendered'));
     return;
   }
   $('providerList').innerHTML = pageProviders.map(p => {
@@ -127,6 +138,7 @@ function renderProviders(args) {
   document.querySelectorAll('[data-details]').forEach(b => b.onclick = () => openDetails(b.dataset.details));
   document.querySelectorAll('[data-wa]').forEach(b => b.onclick = () => openWhatsApp(b.dataset.wa));
   renderPagination(totalPages);
+  window.dispatchEvent(new Event('rapat:providers-rendered'));
 }
 
 function visiblePageNumbers(totalPages) {
@@ -161,11 +173,11 @@ function renderPagination(totalPages) {
   });
 }
 
-function goToPage(page) {
-  const totalPages = Math.max(1, Math.ceil(providers.length / PAGE_SIZE));
+async function goToPage(page) {
+  const totalPages = Math.max(1, Math.ceil(providerTotal / PAGE_SIZE));
   if (!currentSearchArgs || page < 1 || page > totalPages || page === currentPage) return;
   currentPage = page;
-  renderProviders(currentSearchArgs);
+  await searchProviders({ preservePage: true });
   document.querySelector('.results-head')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 

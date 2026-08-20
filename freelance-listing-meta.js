@@ -4,15 +4,6 @@ const $ = id => document.getElementById(id);
 let decorating = false;
 let queued = null;
 
-function searchArgs() {
-  return {
-    p_keyword: $('keywordFilter')?.value?.trim() || null,
-    p_state: $('stateFilter')?.value || null,
-    p_district: $('districtFilter')?.value || null,
-    p_postcode: $('postcodeFilter')?.value?.trim() || null
-  };
-}
-
 function providerMetaHtml(provider, declaredMalaysian = false) {
   const list = Array.isArray(provider.services) ? provider.services : [];
   const primary = list[0] || null;
@@ -36,13 +27,11 @@ async function decorateCards() {
 
   decorating = true;
   try {
-    const [searchResult, citizenshipResult] = await Promise.all([
-      db.rpc('gig_search_providers_keyword', searchArgs()),
-      db.rpc('gig_declared_malaysian_providers')
-    ]);
-    if (searchResult.error) return;
-
-    const byId = new Map((searchResult.data || []).map(provider => [String(provider.provider_id), provider]));
+    const visibleProviders = Array.isArray(window.__rapatVisibleProviders) ? window.__rapatVisibleProviders : [];
+    const byId = new Map(visibleProviders.map(provider => [String(provider.provider_id), provider]));
+    const providerIds = cards.map(card => String(card.querySelector('[data-details]')?.dataset.details || '')).filter(Boolean);
+    if (!providerIds.length || !byId.size) return;
+    const citizenshipResult = await db.rpc('gig_declared_malaysian_providers').in('provider_id', providerIds);
     const declaredIds = new Set(
       citizenshipResult.error ? [] : (citizenshipResult.data || []).map(row => String(row.provider_id))
     );
@@ -65,6 +54,8 @@ async function decorateCards() {
     });
   } finally {
     decorating = false;
+    const currentCards = listEl ? [...listEl.querySelectorAll('.provider-card')] : [];
+    if (currentCards.some(card => !cards.includes(card))) queueDecorate();
   }
 }
 
@@ -76,5 +67,6 @@ function queueDecorate() {
 const observer = new MutationObserver(queueDecorate);
 const listEl = $('providerList');
 if (listEl) observer.observe(listEl, { childList: true, subtree: false });
+window.addEventListener('rapat:providers-rendered', queueDecorate);
 
 queueDecorate();

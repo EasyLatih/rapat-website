@@ -45,8 +45,8 @@
       const head=table.querySelector('thead tr');
       const th=document.createElement('th');th.dataset.citizenship='1';th.textContent='Warganegara';
       const statusHead=head?.children[3];statusHead?head.insertBefore(th,statusHead):head?.appendChild(th);
-      [...table.querySelectorAll('tbody tr')].forEach((tr,i)=>{
-        const p=rows[i]||{};
+      [...table.querySelectorAll('tbody tr')].forEach(tr=>{
+        const p=rows.find(row=>String(row.id)===String(tr.dataset.providerId))||{};
         const td=document.createElement('td');
         td.dataset.citizenship='1';
         td.innerHTML=`<span class="badge ${badge(p.citizenship_status)}">${esc(label(p.citizenship_status||'pending'))}</span>${p.citizenship_confirmed_at?'<div class="muted2">Disahkan</div>':'<div class="muted2">Menunggu pengesahan</div>'}`;
