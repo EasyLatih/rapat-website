@@ -6,8 +6,8 @@ let queued = null;
 
 function providerMetaHtml(provider, declaredMalaysian = false) {
   const list = Array.isArray(provider.services) ? provider.services : [];
-  const primary = list[0] || null;
-  const extra = Math.max(0, list.length - 1);
+  const primary = list.find(service => service?.is_main === true) || list[0] || null;
+  const extra = Math.max(0, list.length - (primary ? 1 : 0));
   const serviceLine = primary
     ? `${escapeHtml(primary.category || 'Lain-lain')} · ${escapeHtml(primary.name || 'Servis')}`
     : 'Servis belum dinyatakan';
