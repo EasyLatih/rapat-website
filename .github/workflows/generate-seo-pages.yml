@@ -8,6 +8,7 @@ on:
     paths:
       - 'scripts/generate-seo-pages.mjs'
       - 'scripts/generate-provider-seo-pages.mjs'
+      - 'scripts/seo-hardening.mjs'
       - 'gig-config.js'
       - '.github/workflows/generate-seo-pages.yml'
 
@@ -31,6 +32,9 @@ jobs:
 
       - name: Generate provider SEO profiles
         run: node scripts/generate-provider-seo-pages.mjs
+
+      - name: Harden generated SEO output
+        run: node scripts/seo-hardening.mjs
 
       - name: Commit generated pages
         run: |
