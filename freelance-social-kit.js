@@ -335,11 +335,25 @@
     syncServiceOptions();
   }
 
+  function findNextProviderAvoidingState(stateKey, startIndex = 0) {
+    if (!socialProviders.length) return null;
+    const safeStart = ((startIndex % socialProviders.length) + socialProviders.length) % socialProviders.length;
+
+    for (let offset = 0; offset < socialProviders.length; offset += 1) {
+      const candidate = socialProviders[(safeStart + offset) % socialProviders.length];
+      if (providerStateKey(candidate) !== stateKey) return candidate;
+    }
+
+    return socialProviders[safeStart] || socialProviders[0] || null;
+  }
+
   function pickNextProvider() {
     if (!socialProviders.length) return;
+    const current = currentProvider();
     const currentIndex = socialProviders.findIndex(provider => provider.id === activeProviderId);
-    const nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % socialProviders.length;
-    selectProvider(socialProviders[nextIndex].id);
+    const startIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % socialProviders.length;
+    const next = findNextProviderAvoidingState(providerStateKey(current), startIndex);
+    if (next) selectProvider(next.id);
   }
 
   function markCurrentProviderPosted() {
@@ -347,6 +361,7 @@
     if (!provider) return;
 
     const providerId = String(provider.id ?? '');
+    const previousStateKey = providerStateKey(provider);
     const currentIndex = socialProviders.findIndex(item => String(item.id) === providerId);
     postedProviderIds.add(providerId);
     persistPostedProviderIds();
@@ -358,10 +373,11 @@
       return;
     }
 
-    const nextIndex = currentIndex < 0 || currentIndex >= socialProviders.length ? 0 : currentIndex;
-    activeProviderId = socialProviders[nextIndex].id;
+    const startIndex = currentIndex < 0 || currentIndex >= socialProviders.length ? 0 : currentIndex;
+    const next = findNextProviderAvoidingState(previousStateKey, startIndex);
+    activeProviderId = next?.id || socialProviders[0].id;
     syncProviderOptions();
-    showToast('Provider ditanda dah posted. Bergerak ke negeri seterusnya.');
+    showToast('Provider ditanda dah posted. Negeri lain dipilih seterusnya.');
   }
 
   function nextCaption() {
