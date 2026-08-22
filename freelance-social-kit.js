@@ -4,6 +4,7 @@
   const SOCIAL_STYLE_ID = 'gig-social-kit-styles';
   const SOCIAL_KIT_ID = 'gigSocialKit';
   const UNKNOWN_STATE_KEY = '__tanpa_negeri__';
+  const POSTED_STORAGE_KEY = 'rapat_social_posted_provider_ids_v1';
   let socialProviders = [];
   let activeProviderId = '';
   let captionVariant = 0;
@@ -18,6 +19,29 @@
   }[char]));
 
   const esc = value => typeof window.gigEsc === 'function' ? window.gigEsc(value) : fallbackEsc(value);
+
+  function loadPostedProviderIds() {
+    try {
+      const stored = JSON.parse(window.localStorage.getItem(POSTED_STORAGE_KEY) || '[]');
+      return new Set(Array.isArray(stored) ? stored.map(String) : []);
+    } catch {
+      return new Set();
+    }
+  }
+
+  let postedProviderIds = loadPostedProviderIds();
+
+  function persistPostedProviderIds() {
+    try {
+      window.localStorage.setItem(POSTED_STORAGE_KEY, JSON.stringify(Array.from(postedProviderIds)));
+    } catch (error) {
+      console.warn('Unable to save posted provider status.', error);
+    }
+  }
+
+  function isProviderPosted(provider) {
+    return postedProviderIds.has(String(provider?.id ?? ''));
+  }
 
   function providerStateKey(provider) {
     const state = String(provider?.state || '').trim();
@@ -142,7 +166,7 @@
         <div>
           <div class="eyebrow">Social Content Kit</div>
           <h2 style="margin-bottom:6px">#RAPATkanRezeki</h2>
-          <p class="muted" style="margin:0">Provider disusun berselang-seli ikut negeri supaya content lebih seimbang. Pilih provider, download social card RAPAT dan copy caption.</p>
+          <p class="muted" style="margin:0">Provider disusun berselang-seli ikut negeri supaya content lebih seimbang. Provider yang sudah dipost akan dikeluarkan daripada giliran.</p>
         </div>
       </div>
 
@@ -158,7 +182,7 @@
         <button class="btn light gig-social-random" type="button" onclick="gigSocialPickRandom()">Provider Seterusnya</button>
       </div>
 
-      <div id="gigSocialEmpty" class="empty" style="display:none;margin-top:16px">Belum ada provider approved & published untuk dijadikan content.</div>
+      <div id="gigSocialEmpty" class="empty" style="display:none;margin-top:16px">Belum ada provider approved & published yang belum dipost.</div>
 
       <div id="gigSocialWorkspace" class="gig-social-grid" style="display:none">
         <div>
@@ -167,8 +191,9 @@
           </div>
           <div class="gig-social-actions">
             <button class="btn primary" type="button" onclick="gigSocialDownload()">Download PNG</button>
+            <button class="btn light" type="button" onclick="gigSocialMarkPosted()">✓ Dah Posted</button>
           </div>
-          <div class="gig-social-note">1080 × 1080 px · RAPAT branding sahaja · dijana dalam browser</div>
+          <div class="gig-social-note">1080 × 1080 px · RAPAT branding sahaja · status posted disimpan pada browser ini</div>
         </div>
 
         <div>
@@ -206,6 +231,7 @@
 
     if (!socialProviders.length) {
       providerSelect.innerHTML = '<option value="">Tiada provider</option>';
+      activeProviderId = '';
       empty.style.display = 'block';
       workspace.style.display = 'none';
       return;
@@ -314,6 +340,28 @@
     const currentIndex = socialProviders.findIndex(provider => provider.id === activeProviderId);
     const nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % socialProviders.length;
     selectProvider(socialProviders[nextIndex].id);
+  }
+
+  function markCurrentProviderPosted() {
+    const provider = currentProvider();
+    if (!provider) return;
+
+    const providerId = String(provider.id ?? '');
+    const currentIndex = socialProviders.findIndex(item => String(item.id) === providerId);
+    postedProviderIds.add(providerId);
+    persistPostedProviderIds();
+    socialProviders = socialProviders.filter(item => String(item.id) !== providerId);
+
+    if (!socialProviders.length) {
+      activeProviderId = '';
+      syncProviderOptions();
+      return;
+    }
+
+    const nextIndex = currentIndex < 0 || currentIndex >= socialProviders.length ? 0 : currentIndex;
+    activeProviderId = socialProviders[nextIndex].id;
+    syncProviderOptions();
+    showToast('Provider ditanda dah posted. Bergerak ke negeri seterusnya.');
   }
 
   function nextCaption() {
@@ -425,7 +473,8 @@
 
     function wrappedRenderGigProviders(rows) {
       const eligibleProviders = (Array.isArray(rows) ? rows : [])
-        .filter(provider => provider.status === 'approved' && provider.is_published);
+        .filter(provider => provider.status === 'approved' && provider.is_published)
+        .filter(provider => !isProviderPosted(provider));
 
       socialProviders = interleaveProvidersByState(eligibleProviders);
 
@@ -440,6 +489,7 @@
 
   window.gigSocialSelectProvider = selectProvider;
   window.gigSocialPickRandom = pickNextProvider;
+  window.gigSocialMarkPosted = markCurrentProviderPosted;
   window.gigSocialRender = renderSocialKit;
   window.gigSocialNextCaption = nextCaption;
   window.gigSocialCopyCaption = copyCaption;
