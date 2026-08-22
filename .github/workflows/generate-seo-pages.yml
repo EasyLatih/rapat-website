@@ -18,6 +18,7 @@ permissions:
 
 # Taxonomy changes live in Supabase, so this workflow is also the canonical
 # static SEO refresh path for /kategori, /servis, /penyedia and sitemap.xml.
+# Canonical provider mappings are reflected on the next refresh run.
 jobs:
   generate:
     runs-on: ubuntu-latest
