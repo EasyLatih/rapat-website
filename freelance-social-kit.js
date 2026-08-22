@@ -48,6 +48,12 @@
     return state ? state.toLocaleLowerCase('ms') : UNKNOWN_STATE_KEY;
   }
 
+  function compareStateKeys(a, b) {
+    if (a === UNKNOWN_STATE_KEY) return 1;
+    if (b === UNKNOWN_STATE_KEY) return -1;
+    return a.localeCompare(b, 'ms');
+  }
+
   function interleaveProvidersByState(providers) {
     const groups = new Map();
 
@@ -61,12 +67,7 @@
       group.sort((a, b) => String(a.display_name || '').localeCompare(String(b.display_name || ''), 'ms'));
     });
 
-    const stateKeys = Array.from(groups.keys()).sort((a, b) => {
-      if (a === UNKNOWN_STATE_KEY) return 1;
-      if (b === UNKNOWN_STATE_KEY) return -1;
-      return a.localeCompare(b, 'ms');
-    });
-
+    const stateKeys = Array.from(groups.keys()).sort(compareStateKeys);
     const ordered = [];
     let round = 0;
     let added = true;
@@ -83,6 +84,22 @@
     }
 
     return ordered;
+  }
+
+  function availableStateKeys() {
+    return Array.from(new Set(socialProviders.map(providerStateKey))).sort(compareStateKeys);
+  }
+
+  function firstProviderForState(stateKey) {
+    return socialProviders.find(provider => providerStateKey(provider) === stateKey) || null;
+  }
+
+  function nextProviderByState(currentStateKey) {
+    const stateKeys = availableStateKeys();
+    if (!stateKeys.length) return null;
+
+    const nextStateKey = stateKeys.find(key => compareStateKeys(key, currentStateKey) > 0) || stateKeys[0];
+    return firstProviderForState(nextStateKey);
   }
 
   function injectStyles() {
@@ -166,7 +183,7 @@
         <div>
           <div class="eyebrow">Social Content Kit</div>
           <h2 style="margin-bottom:6px">#RAPATkanRezeki</h2>
-          <p class="muted" style="margin:0">Provider disusun berselang-seli ikut negeri supaya content lebih seimbang. Provider yang sudah dipost akan dikeluarkan daripada giliran.</p>
+          <p class="muted" style="margin:0">Provider bergerak ikut turutan negeri A–Z. Satu negeri satu giliran; negeri yang tiada provider belum dipost akan terus di-skip.</p>
         </div>
       </div>
 
@@ -335,24 +352,10 @@
     syncServiceOptions();
   }
 
-  function findNextProviderAvoidingState(stateKey, startIndex = 0) {
-    if (!socialProviders.length) return null;
-    const safeStart = ((startIndex % socialProviders.length) + socialProviders.length) % socialProviders.length;
-
-    for (let offset = 0; offset < socialProviders.length; offset += 1) {
-      const candidate = socialProviders[(safeStart + offset) % socialProviders.length];
-      if (providerStateKey(candidate) !== stateKey) return candidate;
-    }
-
-    return socialProviders[safeStart] || socialProviders[0] || null;
-  }
-
   function pickNextProvider() {
     if (!socialProviders.length) return;
     const current = currentProvider();
-    const currentIndex = socialProviders.findIndex(provider => provider.id === activeProviderId);
-    const startIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % socialProviders.length;
-    const next = findNextProviderAvoidingState(providerStateKey(current), startIndex);
+    const next = nextProviderByState(providerStateKey(current));
     if (next) selectProvider(next.id);
   }
 
@@ -362,7 +365,6 @@
 
     const providerId = String(provider.id ?? '');
     const previousStateKey = providerStateKey(provider);
-    const currentIndex = socialProviders.findIndex(item => String(item.id) === providerId);
     postedProviderIds.add(providerId);
     persistPostedProviderIds();
     socialProviders = socialProviders.filter(item => String(item.id) !== providerId);
@@ -373,11 +375,10 @@
       return;
     }
 
-    const startIndex = currentIndex < 0 || currentIndex >= socialProviders.length ? 0 : currentIndex;
-    const next = findNextProviderAvoidingState(previousStateKey, startIndex);
+    const next = nextProviderByState(previousStateKey);
     activeProviderId = next?.id || socialProviders[0].id;
     syncProviderOptions();
-    showToast('Provider ditanda dah posted. Negeri lain dipilih seterusnya.');
+    showToast('Dah posted. Bergerak ke negeri seterusnya ikut turutan A–Z.');
   }
 
   function nextCaption() {
