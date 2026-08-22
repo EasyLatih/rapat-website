@@ -175,11 +175,14 @@
   <url><loc>https://rapat.my/servis/penjaga-warga-emas-non-medical/</loc></url>
   <url><loc>https://rapat.my/servis/kargo-barang/</loc></url>
   <url><loc>https://rapat.my/servis/pembekal-katil-pesakit-kerusi-roda-mesin-oxygen-murah/</loc></url>
+  <url><loc>https://rapat.my/servis/ansuran-barangan-elektrik/</loc></url>
   <url><loc>https://rapat.my/servis/binding/</loc></url>
   <url><loc>https://rapat.my/servis/career-coaching/</loc></url>
   <url><loc>https://rapat.my/servis/custom-design-notebook-fridge-magnet-button-badge-goodiebag/</loc></url>
   <url><loc>https://rapat.my/servis/dewan-event-space/</loc></url>
   <url><loc>https://rapat.my/servis/guru-al-quran-bersanad/</loc></url>
+  <url><loc>https://rapat.my/servis/home-appliance/</loc></url>
+  <url><loc>https://rapat.my/servis/interior-design/</loc></url>
   <url><loc>https://rapat.my/servis/menulis-artikel-dan-thesis/</loc></url>
   <url><loc>https://rapat.my/servis/mesin-rumput/</loc></url>
   <url><loc>https://rapat.my/servis/motivasi-al-quran/</loc></url>
@@ -879,6 +882,7 @@
   <url><loc>https://rapat.my/servis/aircond/seremban/</loc></url>
   <url><loc>https://rapat.my/servis/anai-anai-termite/seremban/</loc></url>
   <url><loc>https://rapat.my/servis/angkut-perabot-barang-besar/seremban/</loc></url>
+  <url><loc>https://rapat.my/servis/ansuran-barangan-elektrik/seremban/</loc></url>
   <url><loc>https://rapat.my/servis/ats-resume-writer/seremban/</loc></url>
   <url><loc>https://rapat.my/servis/baiki-atap/seremban/</loc></url>
   <url><loc>https://rapat.my/servis/battery-jump-start/seremban/</loc></url>
@@ -901,6 +905,8 @@
   <url><loc>https://rapat.my/servis/graphic-designer/seremban/</loc></url>
   <url><loc>https://rapat.my/servis/guru-al-quran-bersanad/seremban/</loc></url>
   <url><loc>https://rapat.my/servis/handyman/seremban/</loc></url>
+  <url><loc>https://rapat.my/servis/home-appliance/seremban/</loc></url>
+  <url><loc>https://rapat.my/servis/interior-design/seremban/</loc></url>
   <url><loc>https://rapat.my/servis/interview-preparation/seremban/</loc></url>
   <url><loc>https://rapat.my/servis/lipas-semut/seremban/</loc></url>
   <url><loc>https://rapat.my/servis/lipat-baju/seremban/</loc></url>
@@ -992,12 +998,14 @@
   <url><loc>https://rapat.my/servis/babysitter/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/business-market-research/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/cat-sitter/bandar-seri-iskandar/</loc></url>
+  <url><loc>https://rapat.my/servis/computer-pc-repair/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/content-writing/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/cover-letter-writing/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/cuci-rumah/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/event-management/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/graphic-designer/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/ironing/bandar-seri-iskandar/</loc></url>
+  <url><loc>https://rapat.my/servis/laptop-repair/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/lipat-baju/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/marketing-advertising/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/pengasuh-sementara/bandar-seri-iskandar/</loc></url>
@@ -1007,6 +1015,7 @@
   <url><loc>https://rapat.my/servis/photographer/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/runner-personal-shopper/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/social-media/bandar-seri-iskandar/</loc></url>
+  <url><loc>https://rapat.my/servis/software-windows-installation/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/teman-companion-warga-emas/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/urutan-massage/bandar-seri-iskandar/</loc></url>
   <url><loc>https://rapat.my/servis/videographer/bandar-seri-iskandar/</loc></url>
@@ -1217,6 +1226,7 @@
   <url><loc>https://rapat.my/servis/taxation/pulau-pinang/</loc></url>
   <url><loc>https://rapat.my/servis/welding-metalwork/pulau-pinang/</loc></url>
   <url><loc>https://rapat.my/servis/wireman-elektrik/pulau-pinang/</loc></url>
+  <url><loc>https://rapat.my/servis/cat-sitter/tasek-gelugor/</loc></url>
   <url><loc>https://rapat.my/servis/accounting/kota-kinabalu/</loc></url>
   <url><loc>https://rapat.my/servis/ats-resume-writer/kota-kinabalu/</loc></url>
   <url><loc>https://rapat.my/servis/business-market-research/kota-kinabalu/</loc></url>
@@ -1530,7 +1540,6 @@
   <url><loc>https://rapat.my/servis/pintu-grill-kunci/kajang/</loc></url>
   <url><loc>https://rapat.my/servis/plumbing-paip/kajang/</loc></url>
   <url><loc>https://rapat.my/servis/potong-rumput/kajang/</loc></url>
-  <url><loc>https://rapat.my/servis/printing/kajang/</loc></url>
   <url><loc>https://rapat.my/servis/property-agent-real-estate/kajang/</loc></url>
   <url><loc>https://rapat.my/servis/proposal-concept-paper-writing/kajang/</loc></url>
   <url><loc>https://rapat.my/servis/remote-it-support-consultancy/kajang/</loc></url>
@@ -2319,6 +2328,7 @@
   <url><loc>https://rapat.my/penyedia/get2fix-gadget-repair-specialist-3397423e/</loc></url>
   <url><loc>https://rapat.my/penyedia/ghostech-computer-63d398e8/</loc></url>
   <url><loc>https://rapat.my/penyedia/gold-force-sdn-bhd-cd96af7c/</loc></url>
+  <url><loc>https://rapat.my/penyedia/hafiz-jang-wick-36f655b9/</loc></url>
   <url><loc>https://rapat.my/penyedia/hakimie-electrical-services-4cbe6b31/</loc></url>
   <url><loc>https://rapat.my/penyedia/halita-ahmad-73de7c4b/</loc></url>
   <url><loc>https://rapat.my/penyedia/hana-shari-60702ae2/</loc></url>
@@ -2335,7 +2345,6 @@
   <url><loc>https://rapat.my/penyedia/hr-freelance-384b9fb8/</loc></url>
   <url><loc>https://rapat.my/penyedia/huda-rodzi-e690d6c6/</loc></url>
   <url><loc>https://rapat.my/penyedia/hy-production-8989b802/</loc></url>
-  <url><loc>https://rapat.my/penyedia/hydesigngrafix-f1d21105/</loc></url>
   <url><loc>https://rapat.my/penyedia/hyezedd-my-5c8bd73d/</loc></url>
   <url><loc>https://rapat.my/penyedia/hysc-raydan-enterprise-143e89b7/</loc></url>
   <url><loc>https://rapat.my/penyedia/ibnu-barber-50297d12/</loc></url>
@@ -2404,6 +2413,7 @@
   <url><loc>https://rapat.my/penyedia/mat-pronext-a94abfe7/</loc></url>
   <url><loc>https://rapat.my/penyedia/mata-by-optometrist-bb047801/</loc></url>
   <url><loc>https://rapat.my/penyedia/mayafood-services-enterprise-02d0b5ec/</loc></url>
+  <url><loc>https://rapat.my/penyedia/mazzy-74db8699/</loc></url>
   <url><loc>https://rapat.my/penyedia/mbn-face-and-body-art-3a738621/</loc></url>
   <url><loc>https://rapat.my/penyedia/meatmadness-smashed-burger-0316d776/</loc></url>
   <url><loc>https://rapat.my/penyedia/meerda-studio-d2ace5f4/</loc></url>
@@ -2422,6 +2432,7 @@
   <url><loc>https://rapat.my/penyedia/mog-autowork-25988455/</loc></url>
   <url><loc>https://rapat.my/penyedia/mohamed-azmir-abdullah-6351482e/</loc></url>
   <url><loc>https://rapat.my/penyedia/mohd-aidi-bin-osman-0f48d024/</loc></url>
+  <url><loc>https://rapat.my/penyedia/moshi-paws-1cb76910/</loc></url>
   <url><loc>https://rapat.my/penyedia/motionbylaw-e9bc511f/</loc></url>
   <url><loc>https://rapat.my/penyedia/mrm-multi-services-e73f8704/</loc></url>
   <url><loc>https://rapat.my/penyedia/mrp-apparel-31e55255/</loc></url>
@@ -2465,6 +2476,7 @@
   <url><loc>https://rapat.my/penyedia/oreo-dan-snowy-services-5c3f044f/</loc></url>
   <url><loc>https://rapat.my/penyedia/os-creative-marketing-6ab34f6e/</loc></url>
   <url><loc>https://rapat.my/penyedia/ovvl-5758f753/</loc></url>
+  <url><loc>https://rapat.my/penyedia/paklongzam-5df2d347/</loc></url>
   <url><loc>https://rapat.my/penyedia/pembangun-custom-sistem-869d5c11/</loc></url>
   <url><loc>https://rapat.my/penyedia/perfect-seven-construction-47802f88/</loc></url>
   <url><loc>https://rapat.my/penyedia/photo-by-shukri-dba8fc46/</loc></url>
