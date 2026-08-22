@@ -8,6 +8,7 @@ on:
     paths:
       - 'scripts/generate-seo-pages.mjs'
       - 'scripts/generate-provider-seo-pages.mjs'
+      - 'scripts/generate-category-seo-pages.mjs'
       - 'scripts/seo-hardening.mjs'
       - 'gig-config.js'
       - '.github/workflows/generate-seo-pages.yml'
@@ -16,7 +17,8 @@ permissions:
   contents: write
 
 # Taxonomy changes live in Supabase, so this workflow is also the canonical
-# static SEO refresh path for /servis, /penyedia and sitemap.xml.
+# static SEO refresh path for /kategori, /servis, /penyedia and sitemap.xml.
+# Canonical provider mappings are reflected on the next refresh run.
 jobs:
   generate:
     runs-on: ubuntu-latest
@@ -35,17 +37,20 @@ jobs:
       - name: Generate provider SEO profiles
         run: node scripts/generate-provider-seo-pages.mjs
 
+      - name: Generate category SEO landing pages
+        run: node scripts/generate-category-seo-pages.mjs
+
       - name: Harden generated SEO output
         run: node scripts/seo-hardening.mjs
 
       - name: Commit generated pages
         run: |
-          if [ -z "$(git status --porcelain -- servis penyedia sitemap.xml)" ]; then
+          if [ -z "$(git status --porcelain -- kategori servis penyedia sitemap.xml)" ]; then
             echo "No SEO page changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add servis penyedia sitemap.xml
+          git add kategori servis penyedia sitemap.xml
           git commit -m "refresh RAPAT SEO pages"
           git push
