@@ -234,6 +234,9 @@
   <url><loc>https://rapat.my/servis/wifi/</loc></url>
   <url><loc>https://rapat.my/servis/banner-bunting-risalah/</loc></url>
   <url><loc>https://rapat.my/servis/tablet-ipad-repair/</loc></url>
+  <url><loc>https://rapat.my/servis/fasilitator/</loc></url>
+  <url><loc>https://rapat.my/servis/kelas-seni-dan-kreatif/</loc></url>
+  <url><loc>https://rapat.my/servis/pengucapan-awam-public-speaking/</loc></url>
   <url><loc>https://rapat.my/servis/clinic-os/</loc></url>
   <url><loc>https://rapat.my/servis/edu-web-app/</loc></url>
   <url><loc>https://rapat.my/servis/pembangunan-aplikasi-web-mudah-alih/</loc></url>
@@ -257,7 +260,6 @@
   <url><loc>https://rapat.my/servis/servis-printing/</loc></url>
   <url><loc>https://rapat.my/servis/dry-needling/</loc></url>
   <url><loc>https://rapat.my/servis/facilitator/</loc></url>
-  <url><loc>https://rapat.my/servis/fasilitator/</loc></url>
   <url><loc>https://rapat.my/servis/game-console-repair/</loc></url>
   <url><loc>https://rapat.my/servis/voice-over/</loc></url>
   <url><loc>https://rapat.my/servis/konsultansi-pertanian-tepat/</loc></url>
@@ -281,7 +283,6 @@
   <url><loc>https://rapat.my/servis/payroll-processing/</loc></url>
   <url><loc>https://rapat.my/servis/perkhidmatan-sumber-manusia/</loc></url>
   <url><loc>https://rapat.my/servis/taxation/</loc></url>
-  <url><loc>https://rapat.my/servis/pengucapan-awam-public-speaking/</loc></url>
   <url><loc>https://rapat.my/servis/public-speaking-tutor/</loc></url>
   <url><loc>https://rapat.my/servis/paid-promotion-on-threads-rm50-per-post/</loc></url>
   <url><loc>https://rapat.my/servis/penyelesaian-ai-dan-automasi/</loc></url>
@@ -321,7 +322,6 @@
   <url><loc>https://rapat.my/servis/printing-kad-kahwin/</loc></url>
   <url><loc>https://rapat.my/servis/run-iklan-facebook-tiktok-instagram-serta-urus-akaun-syarikat/</loc></url>
   <url><loc>https://rapat.my/servis/co-working-desk-office-space/</loc></url>
-  <url><loc>https://rapat.my/servis/kelas-seni-dan-kreatif/</loc></url>
   <url><loc>https://rapat.my/servis/kelas-seni-dan-al-quran/</loc></url>
   <url><loc>https://rapat.my/servis/review-travel-package/</loc></url>
   <url><loc>https://rapat.my/servis/baiki-forklift/</loc></url>
@@ -1139,6 +1139,14 @@
   <url><loc>https://rapat.my/servis/runner-personal-shopper/batu-gajah/</loc></url>
   <url><loc>https://rapat.my/servis/tablet-ipad-repair/batu-gajah/</loc></url>
   <url><loc>https://rapat.my/servis/tyre-service/batu-gajah/</loc></url>
+  <url><loc>https://rapat.my/servis/career-coaching/hilir-perak/</loc></url>
+  <url><loc>https://rapat.my/servis/emcee-event-host/hilir-perak/</loc></url>
+  <url><loc>https://rapat.my/servis/fasilitator/hilir-perak/</loc></url>
+  <url><loc>https://rapat.my/servis/jurulatih-coach/hilir-perak/</loc></url>
+  <url><loc>https://rapat.my/servis/kelas-seni-dan-kreatif/hilir-perak/</loc></url>
+  <url><loc>https://rapat.my/servis/kursus-kemahiran-tvet/hilir-perak/</loc></url>
+  <url><loc>https://rapat.my/servis/latihan-korporat-training/hilir-perak/</loc></url>
+  <url><loc>https://rapat.my/servis/pengucapan-awam-public-speaking/hilir-perak/</loc></url>
   <url><loc>https://rapat.my/servis/catering/ipoh/</loc></url>
   <url><loc>https://rapat.my/servis/clinic-os/ipoh/</loc></url>
   <url><loc>https://rapat.my/servis/computer-pc-repair/ipoh/</loc></url>
@@ -1745,6 +1753,7 @@
   <url><loc>https://rapat.my/servis/cuci-sofa-tilam/klang/</loc></url>
   <url><loc>https://rapat.my/servis/deep-cleaning/klang/</loc></url>
   <url><loc>https://rapat.my/servis/door-access-and-network/klang/</loc></url>
+  <url><loc>https://rapat.my/servis/handyman/klang/</loc></url>
   <url><loc>https://rapat.my/servis/home-wifi-router-setup/klang/</loc></url>
   <url><loc>https://rapat.my/servis/installation-alarm-system/klang/</loc></url>
   <url><loc>https://rapat.my/servis/intercom/klang/</loc></url>
@@ -1760,6 +1769,7 @@
   <url><loc>https://rapat.my/servis/penjagaan-bayi/klang/</loc></url>
   <url><loc>https://rapat.my/servis/pepijat-bed-bug/klang/</loc></url>
   <url><loc>https://rapat.my/servis/pest-control-umum/klang/</loc></url>
+  <url><loc>https://rapat.my/servis/plumbing-paip/klang/</loc></url>
   <url><loc>https://rapat.my/servis/printer-photostat-installation-dan-setup/klang/</loc></url>
   <url><loc>https://rapat.my/servis/runner-personal-shopper/klang/</loc></url>
   <url><loc>https://rapat.my/servis/sistem-penggera/klang/</loc></url>
@@ -2215,6 +2225,7 @@
   <url><loc>https://rapat.my/servis/banner-bunting-risalah/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/battery-jump-start/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/bekam-cupping/kuala-lumpur/</loc></url>
+  <url><loc>https://rapat.my/servis/bertungku-bengkung/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/buang-barang-besar/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/bunting/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/business-market-research/kuala-lumpur/</loc></url>
@@ -2231,6 +2242,7 @@
   <url><loc>https://rapat.my/servis/cetakan-kad-perniagaan/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/company-secretary/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/computer-pc-repair/kuala-lumpur/</loc></url>
+  <url><loc>https://rapat.my/servis/confinement-lady-penjaga-pantang/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/content-writing/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/cover-letter-writing/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/cuci-kawasan-luar/kuala-lumpur/</loc></url>
@@ -2277,6 +2289,7 @@
   <url><loc>https://rapat.my/servis/music-education/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/nanny/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/pa-system/kuala-lumpur/</loc></url>
+  <url><loc>https://rapat.my/servis/pakej-berpantang-postnatal-care/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/pasang-dash-cam-kereta/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/pengasuh-sementara/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/pengawal-peribadi-perlindungan-rapat/kuala-lumpur/</loc></url>
@@ -2314,6 +2327,8 @@
   <url><loc>https://rapat.my/servis/smart-meter-for-splitting-electricity-bills-of-rental-properties/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/social-media/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/software-windows-installation/kuala-lumpur/</loc></url>
+  <url><loc>https://rapat.my/servis/sokongan-penyusuan-lactation-support/kuala-lumpur/</loc></url>
+  <url><loc>https://rapat.my/servis/spa-muslimah-women-only/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/suntingan-video-video-ai/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/tablet-ipad-repair/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/takaful-insurance-agent/kuala-lumpur/</loc></url>
@@ -2331,6 +2346,7 @@
   <url><loc>https://rapat.my/servis/tyre-service/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/uniform-tempahan-berkumpulan/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/urutan-massage/kuala-lumpur/</loc></url>
+  <url><loc>https://rapat.my/servis/urutan-selepas-bersalin/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/videographer/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/virtual-assistant-admin-support/kuala-lumpur/</loc></url>
   <url><loc>https://rapat.my/servis/website/kuala-lumpur/</loc></url>
@@ -2508,6 +2524,7 @@
   <url><loc>https://rapat.my/penyedia/cat-sitter-pekan-4d4986e3/</loc></url>
   <url><loc>https://rapat.my/penyedia/cctv-electrical-dan-security-solution-kelantan-supplier-dan-installer-fdaeb7f9/</loc></url>
   <url><loc>https://rapat.my/penyedia/cik-fatihah-0f9f32fa/</loc></url>
+  <url><loc>https://rapat.my/penyedia/cikgu-shahril-azli-pro-bercakap-e00871df/</loc></url>
   <url><loc>https://rapat.my/penyedia/cikgu-shu-48234127/</loc></url>
   <url><loc>https://rapat.my/penyedia/cikidapetsittercikiut-20fd7928/</loc></url>
   <url><loc>https://rapat.my/penyedia/cineview-droneworks-67bb0c2d/</loc></url>
@@ -2559,6 +2576,7 @@
   <url><loc>https://rapat.my/penyedia/fida-sabihim-perfumer-8038d7b4/</loc></url>
   <url><loc>https://rapat.my/penyedia/fitrie-solutions-9f3f7d4f/</loc></url>
   <url><loc>https://rapat.my/penyedia/fixsmart-phone-ffdc6370/</loc></url>
+  <url><loc>https://rapat.my/penyedia/fixyourhome-services-8812d7ee/</loc></url>
   <url><loc>https://rapat.my/penyedia/fk-hub-servis-4b012131/</loc></url>
   <url><loc>https://rapat.my/penyedia/fz-dan-co-725c2765/</loc></url>
   <url><loc>https://rapat.my/penyedia/get2fix-gadget-repair-specialist-3397423e/</loc></url>
@@ -2706,6 +2724,7 @@
   <url><loc>https://rapat.my/penyedia/nnzrich-trading-82a0978f/</loc></url>
   <url><loc>https://rapat.my/penyedia/noor-fadhliah-8ee84c83/</loc></url>
   <url><loc>https://rapat.my/penyedia/nor-atikah-binti-salleh-hudin-554c1c8c/</loc></url>
+  <url><loc>https://rapat.my/penyedia/norfa-massage-therapy-f2835fb9/</loc></url>
   <url><loc>https://rapat.my/penyedia/norshstudio-78affe62/</loc></url>
   <url><loc>https://rapat.my/penyedia/nss-printing-service-45d75ee2/</loc></url>
   <url><loc>https://rapat.my/penyedia/nur-aleina-binti-mohd-helmy-a89d1a71/</loc></url>
