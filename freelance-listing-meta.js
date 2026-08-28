@@ -59,9 +59,42 @@ async function decorateCards() {
   }
 }
 
+function improveEmptyState() {
+  const listEl = $('providerList');
+  const keyword = String($('keywordFilter')?.value || '').trim();
+  const visibleProviders = Array.isArray(window.__rapatVisibleProviders) ? window.__rapatVisibleProviders : null;
+  if (!listEl || !keyword || !visibleProviders || visibleProviders.length) return;
+
+  const postcode = String($('postcodeFilter')?.value || '').trim();
+  const state = String($('stateFilter')?.value || '').trim();
+  const district = String($('districtFilter')?.value || '').trim();
+  const hasLocation = Boolean(postcode || state || district);
+  const location = district && state ? `${district}, ${state}` : state || (postcode ? `poskod ${postcode}` : '');
+
+  listEl.innerHTML = `<div class="empty">
+    Belum ada penyedia <b>${escapeHtml(keyword)}</b>${location ? ` yang sepadan di <b>${escapeHtml(location)}</b>` : ' yang benar-benar sepadan'}.
+    <div style="margin-top:8px">RAPAT tidak akan paparkan servis lain yang tidak berkaitan hanya untuk memenuhi hasil carian.</div>
+    ${hasLocation ? '<div style="margin-top:14px"><button class="btn light small" id="expandServiceSearch">Cari seluruh Malaysia</button></div>' : ''}
+  </div>`;
+
+  const expandButton = $('expandServiceSearch');
+  if (expandButton) {
+    expandButton.onclick = () => {
+      $('postcodeFilter').value = '';
+      $('postcodeHint').textContent = '';
+      $('stateFilter').value = '';
+      $('stateFilter').dispatchEvent(new Event('change'));
+      $('searchBtn').click();
+    };
+  }
+}
+
 function queueDecorate() {
   clearTimeout(queued);
-  queued = setTimeout(decorateCards, 40);
+  queued = setTimeout(() => {
+    decorateCards();
+    improveEmptyState();
+  }, 40);
 }
 
 const observer = new MutationObserver(queueDecorate);
