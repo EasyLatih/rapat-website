@@ -18,7 +18,7 @@ begin
     select 1
     from public.sessions s
     join public.superadmins a on a.id = s.subject_id
-    where s.token = p_session_token
+    where s.token::text = p_session_token
       and s.role = 'superadmin'
       and s.expires_at > now()
       and a.active = true
