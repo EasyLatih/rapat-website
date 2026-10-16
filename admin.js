@@ -7,7 +7,7 @@ function msg(id,text,good=false){$(id).innerHTML=text?`<div class="alert ${good?
 async function adminApi(data){const r=await fetch(ADMIN_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});let j={};try{j=await r.json()}catch{}if(!r.ok||!j.ok)throw new Error(j.error||'Request failed');return j}
 async function authApi(action,data={}){return adminApi({action,sessionToken:adminToken,...data})}
 
-async function adminLogin(){try{const j=await adminApi({action:'login',email:$('adminEmail').value,pin:$('adminPin').value});adminToken=j.session.token;localStorage.setItem('rapatSuperadmin',adminToken);$('adminProfile').textContent=`${j.profile.name} · ${j.profile.email}`;$('adminLogin').classList.add('hidden');$('adminApp').classList.remove('hidden');await loadDashboard()}catch(e){msg('adminLoginMsg',e.message)}}
+async function adminLogin(){try{const j=await adminApi({action:'login',email:$('adminEmail').value,pin:$('adminPin').value});adminToken=j.session.token;localStorage.setItem('rapatSuperadmin',adminToken);$('adminProfile').textContent=`${j.profile.name} · ${j.profile.email}`;$('adminLogin').classList.add('hidden');$('adminApp').classList.remove('hidden');showServiceDirectory()}catch(e){msg('adminLoginMsg',e.message)}}
 function adminLogout(){localStorage.removeItem('rapatSuperadmin');adminToken='';location.reload()}
 function adminTab(name,b){document.querySelectorAll('.admin-nav .tab').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.querySelectorAll('.admin-view').forEach(x=>x.classList.remove('on'));$(`view-${name}`).classList.add('on');if(name==='dashboard')loadDashboard();if(name==='organizations')loadOrganizations();if(name==='events')loadEvents();if(name==='candidates')loadCandidates();if(name==='audit')loadAudit()}
 
@@ -29,4 +29,21 @@ function closeCandidateDetail(){$('candidateDetailModal').classList.add('hidden'
 
 async function loadAudit(){try{const j=await authApi('audit_log');$('auditList').innerHTML=j.logs.length?`<div style="overflow:auto;max-height:68vh"><table class="admin-table"><thead><tr><th>Time</th><th>Admin</th><th>Action</th><th>Entity</th><th>Metadata</th></tr></thead><tbody>${j.logs.map(l=>{const a=evOf(l.superadmins);return `<tr><td>${new Date(l.created_at).toLocaleString('en-MY')}</td><td>${esc(a?.name||'-')}</td><td>${esc(nice(l.action))}</td><td>${esc([l.entity_type,l.entity_id].filter(Boolean).join(' · '))}</td><td><code>${esc(JSON.stringify(l.metadata||{}))}</code></td></tr>`}).join('')}</tbody></table></div>`:'<div class="empty">No audit activity yet.</div>'}catch(e){$('auditList').innerHTML=`<div class="alert">${esc(e.message)}</div>`}}
 
-(async()=>{if(adminToken){try{$('adminLogin').classList.add('hidden');$('adminApp').classList.remove('hidden');await loadDashboard()}catch{adminLogout()}}})();
+
+// Cari Servis is the default admin dashboard. Other modules mount its tab.
+// Defer auto-login navigation until all scripts, including the impact module, are ready.
+function showServiceDirectory(){
+  const serviceTab=document.getElementById('gigAdminTab');
+  if(serviceTab){serviceTab.click();return;}
+  // Fallback if service-directory script fails to load.
+  const careerTab=document.querySelector('.admin-nav .tab');
+  if(careerTab)adminTab('dashboard',careerTab);
+}
+
+(function initAdminSession(){
+  if(!adminToken)return;
+  $('adminLogin').classList.add('hidden');
+  $('adminApp').classList.remove('hidden');
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',showServiceDirectory,{once:true});
+  else showServiceDirectory();
+})();

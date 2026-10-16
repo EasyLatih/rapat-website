@@ -27,7 +27,7 @@ function impactTrend(data, days) {
   return typeof gigLineChart==='function' ? gigLineChart(points) : '';
 }
 function mountImpact(){
-  const before=document.querySelector('#view-gig .gig-manage-head');
+  const before=document.querySelector('#view-gig .gig-dashboard-main');
   if (!before || $impact('gigImpact')) return;
   const section=document.createElement('section');
   section.id='gigImpact';

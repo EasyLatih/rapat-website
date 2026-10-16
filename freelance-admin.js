@@ -6,12 +6,12 @@ function gigMountAdminUI(){
   }
   const nav=document.querySelector('.admin-nav');
   if(nav&&!document.getElementById('gigAdminTab')){
-    const b=document.createElement('button');b.id='gigAdminTab';b.className='tab';b.textContent='Service Directory';b.onclick=()=>adminTab('gig',b);
-    const audit=[...nav.querySelectorAll('button')].find(x=>x.textContent.trim()==='Audit Log');nav.insertBefore(b,audit||nav.lastElementChild);
+    const b=document.createElement('button');b.id='gigAdminTab';b.className='tab on';b.textContent='Dashboard Servis';b.onclick=()=>adminTab('gig',b);
+    nav.prepend(b);
   }
   const app=document.getElementById('adminApp');
   if(app&&!document.getElementById('view-gig')){
-    const s=document.createElement('section');s.id='view-gig';s.className='admin-view';s.innerHTML=`
+    const s=document.createElement('section');s.id='view-gig';s.className='admin-view on';s.innerHTML=`
       <div id="gigAdminMsg"></div>
       <div class="gig-dash-head">
         <div><div class="eyebrow">RAPAT Service Directory</div><h2>Ringkasan Penyedia Servis</h2><p class="muted">Data live daripada pendaftaran penyedia servis RAPAT.</p></div>
