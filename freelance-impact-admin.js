@@ -40,7 +40,7 @@ function mountImpact(){
     '<div class="impact-split"><div><h3>Trend Klik WhatsApp (hingga 30 hari)</h3><div id="impactTrend"></div></div>'+
     '<div><h3>Negeri Paling Banyak Klik</h3><div id="impactStates"></div></div></div>'+
     '<div class="impact-split"><div><h3>Top 10 Penyedia Diklik</h3><div id="impactProviders"></div></div>'+
-    '<div><h3>Kategori Servis Utama Dik klik</h3><div id="impactCategories"></div></div></div>'+
+    '<div><h3>Kategori Paling Banyak Diklik</h3><div id="impactCategories"></div></div></div>'+
     '<p class="muted2 impact-note">Anggaran pelayar unik bukan bilangan manusia. Statistik ini hanya meliputi interaksi yang direkod melalui RAPAT; tempahan dan hasil kerja belum disahkan.</p>';
   before.before(section);
   $impact('impactPeriod').onchange=loadImpact;
