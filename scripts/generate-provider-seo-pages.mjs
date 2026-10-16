@@ -198,7 +198,7 @@ function providerPageHtml(provider, serviceLookup, relatedProviders) {
 </style>
 <script type="application/ld+json">${providerJsonLd(provider, services)}</script>
 </head>
-<body data-generated-daily="true">
+<body data-generated-daily="true" data-rapat-provider-id="${escapeHtml(provider.provider_id)}">
 <header class="gig-header"><div class="gig-nav"><a class="gig-brand" href="/">RA<span class="r">P</span><span class="y">A</span>T</a><nav class="gig-links"><a href="/">Home</a><a href="/freelance.html">Cari Servis</a><a href="/servis/">Servis Ikut Lokasi</a><a href="/penyedia/" class="active">Penyedia</a></nav></div></header>
 <main class="provider-main">
   <div class="breadcrumbs"><a href="/">RAPAT</a> › <a href="/penyedia/">Penyedia Servis</a> › ${escapeHtml(provider.display_name)}</div>
@@ -212,7 +212,7 @@ function providerPageHtml(provider, serviceLookup, relatedProviders) {
       <h2>Servis ditawarkan</h2>
       <div class="service-list">${serviceLinks || '<span>Servis akan dikemas kini.</span>'}</div>
       <div class="actions">
-        ${wa ? `<a class="btn primary" href="${escapeHtml(wa)}" rel="nofollow noopener" target="_blank">WhatsApp Penyedia →</a>` : ''}
+        ${wa ? `<a class="btn primary" href="${escapeHtml(wa)}" data-rapat-whatsapp-provider="${escapeHtml(provider.provider_id)}" rel="nofollow noopener" target="_blank">WhatsApp Penyedia →</a>` : ''}
         <a class="btn light" href="${escapeHtml(liveUrl)}">Lihat carian RAPAT</a>
         ${social ? `<a class="btn light" href="${escapeHtml(social)}" rel="nofollow noopener" target="_blank">Laman / Sosial</a>` : ''}
       </div>
@@ -221,6 +221,7 @@ function providerPageHtml(provider, serviceLookup, relatedProviders) {
   </article>
   ${related ? `<section class="related"><h2>Penyedia lain berdekatan</h2><div class="related-grid">${related}</div></section>` : ''}
 </main>
+<script type="module" src="/gig-seo-track.js?v=1"></script>
 </body>
 </html>`;
 }
