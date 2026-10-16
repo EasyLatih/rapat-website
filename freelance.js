@@ -294,7 +294,7 @@ async function rateProvider(rating) {
 async function openWhatsApp(providerId) {
   const p = providerPool.find(x => x.provider_id === providerId) || providers.find(x => x.provider_id === providerId);
   if (!p) return;
-  await recordInteraction(providerId, 'whatsapp');
+  void recordInteraction(providerId, 'whatsapp');
   const num = whatsappNumber(p.whatsapp);
   const text = encodeURIComponent('Hi, saya jumpa servis anda melalui RAPAT.');
   window.open(`https://wa.me/${num}?text=${text}`, '_blank', 'noopener');
